@@ -9,7 +9,7 @@
 import React from 'react';
 import {View, Text, TextInput, Button, StyleSheet} from 'react-native';
 
-const Login = () => {
+const Login = ({navigation}) => {
   const [id, onChangeID] = React.useState('User Name');
   const [password, onChangePassword] = React.useState('password');
 
@@ -36,8 +36,8 @@ const Login = () => {
           padding={8}></TextInput>
       </View>
       <View style={styles.buttonView}>
-        <Button title="Register" />
-        <Button title="Login" />
+        <Button title="Join" onPress={() => navigation.navigate('Join')}/>
+        <Button title="Login" onPress={() => navigation.navigate('MainTab')}/>
       </View>
     </View>
   );
