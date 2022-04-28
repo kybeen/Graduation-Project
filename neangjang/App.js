@@ -9,11 +9,13 @@
 import React from 'react';
 import {View, Text, TextInput, Button, StyleSheet} from 'react-native';
 import Login from './src/login';
+import Main from './src/main';
 
 const App = () => {
   return (
     <View style={{flex: 1, justifyContent: 'center', alignItems: 'stretch'}}>
-      <Login />
+      {/* <Login /> */}
+      <Main />
     </View>
   );
 };
