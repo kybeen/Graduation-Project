@@ -6,3 +6,10 @@ v0.0.0
 
 v0.0.1
 - Login UI 구성
+
+v0.0.2
+- Home UI prototype 작성
+
+v0.1.0
+- 화면 네비게이션 구조 구성
+
