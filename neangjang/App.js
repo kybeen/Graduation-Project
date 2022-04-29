@@ -12,6 +12,7 @@ import {NavigationContainer} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import {createDrawerNavigator} from '@react-navigation/drawer';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
+import Ionicon from 'react-native-vector-icons/Ionicons';
 
 import Login from './src/login';
 
@@ -46,8 +47,30 @@ function JoinScreen({navigation}) {
 
 function MainTabScreen({navigation}) {
   return (
-    <Tab.Navigator>
-      <Tab.Screen name="Main" component={MainScreen} />
+    <Tab.Navigator
+      screenOptions={({route}) => ({
+        tabBarIcon: ({focused, color, size}) => {
+          let iconName;
+
+          if (route.name === 'Home') {
+            iconName = focused ? 'ios-home' : 'ios-home-outline';
+          } else if (route.name === 'List') {
+            iconName = focused ? 'ios-list' : 'ios-list-outline';
+          } else if (route.name === 'Recipe') {
+            iconName = focused ? 'ios-book' : 'ios-book-outline';
+          } else if (route.name === 'Calendar') {
+            iconName = focused ? 'ios-calendar' : 'ios-calendar-outline';
+          } else if (route.name === 'Settings') {
+            iconName = focused ? 'ios-settings' : 'ios-settings-outline';
+          }
+
+          // You can return any component that you like here!
+          return <Ionicon name={iconName} size={size} color={color} />;
+        },
+        tabBarActiveTintColor: 'tomato',
+        tabBarInactiveTintColor: 'gray',
+      })}>
+      <Tab.Screen name="Home" component={MainScreen} />
       <Tab.Screen name="List" component={ListScreen} />
       <Tab.Screen name="Recipe" component={RecipeScreen} />
       <Tab.Screen name="Calendar" component={CalendarScreen} />
