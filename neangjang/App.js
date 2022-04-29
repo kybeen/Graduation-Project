@@ -15,6 +15,7 @@ import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import Ionicon from 'react-native-vector-icons/Ionicons';
 
 import Login from './src/login';
+import Main from './src/main';
 
 const Stack = createNativeStackNavigator();
 const Drawer = createDrawerNavigator();
@@ -46,78 +47,9 @@ function JoinScreen({navigation}) {
 }
 
 function MainTabScreen({navigation}) {
-  return (
-    <Tab.Navigator
-      screenOptions={({route}) => ({
-        tabBarIcon: ({focused, color, size}) => {
-          let iconName;
-
-          if (route.name === 'Home') {
-            iconName = focused ? 'ios-home' : 'ios-home-outline';
-          } else if (route.name === 'List') {
-            iconName = focused ? 'ios-list' : 'ios-list-outline';
-          } else if (route.name === 'Recipe') {
-            iconName = focused ? 'ios-book' : 'ios-book-outline';
-          } else if (route.name === 'Calendar') {
-            iconName = focused ? 'ios-calendar' : 'ios-calendar-outline';
-          } else if (route.name === 'Settings') {
-            iconName = focused ? 'ios-settings' : 'ios-settings-outline';
-          }
-
-          // You can return any component that you like here!
-          return <Ionicon name={iconName} size={size} color={color} />;
-        },
-        tabBarActiveTintColor: 'tomato',
-        tabBarInactiveTintColor: 'gray',
-      })}>
-      <Tab.Screen name="Home" component={MainScreen} />
-      <Tab.Screen name="List" component={ListScreen} />
-      <Tab.Screen name="Recipe" component={RecipeScreen} />
-      <Tab.Screen name="Calendar" component={CalendarScreen} />
-      <Tab.Screen name="Settings" component={SettingScreen} />
-    </Tab.Navigator>
-  );
+  return <Main />;
 }
 
-function MainScreen() {
-  return (
-    <View>
-      <Text>Main Screen</Text>
-    </View>
-  );
-}
-
-function ListScreen() {
-  return (
-    <View>
-      <Text>List Screen</Text>
-    </View>
-  );
-}
-
-function RecipeScreen() {
-  return (
-    <View>
-      <Text>Recipe Screen</Text>
-    </View>
-  );
-}
-
-function CalendarScreen() {
-  return (
-    <View>
-      <Text>Calendar Screen</Text>
-    </View>
-  );
-}
-
-function SettingScreen() {
-  return (
-    <View>
-      <Text>Settings Screen</Text>
-    </View>
-  );
-}
 const App = () => {
   return (
     <NavigationContainer>
