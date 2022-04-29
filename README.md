@@ -18,3 +18,6 @@ v0.1.1
 
 v0.1.2
 - React Native Ionicons를 이용하여 Tab Bar icons 추가
+
+v0.1.3
+- App.js 파일 화면별로 js파일 분리 및 Home화면 UI 일부 변경
