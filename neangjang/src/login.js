@@ -36,8 +36,8 @@ const Login = ({navigation}) => {
           padding={8}></TextInput>
       </View>
       <View style={styles.buttonView}>
-        <Button title="Join" onPress={() => navigation.navigate('Join')}/>
-        <Button title="Login" onPress={() => navigation.navigate('MainTab')}/>
+        <Button title="Join" onPress={() => navigation.navigate('Join')} />
+        <Button title="Login" onPress={() => navigation.navigate('MainTab')} />
       </View>
     </View>
   );

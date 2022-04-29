@@ -16,57 +16,47 @@ import {
   SectionList,
   SafeAreaView,
 } from 'react-native';
+import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
+import Ionicon from 'react-native-vector-icons/Ionicons';
+import Home from './home';
+import List from './list';
+import Recipe from './recipe';
+import Calendar from './calendar';
+import Setting from './setting';
 
-const ExpDATA = [
-  {
-    title: 'Expiration Soon',
-    data: ['Milk', 'Cucumber', 'Potato'],
-  },
-];
-
-const ResDATA = [
-  {
-    title: 'Recommend Recipe',
-    data: ['Mashed Potato', 'Oconomiyaki', 'Pasta', 'Soap'],
-  },
-];
-
-const Item = ({title}) => (
-  <View style={styles.item}>
-    <Text style={styles.title}>{title}</Text>
-  </View>
-);
+const Tab = createBottomTabNavigator();
 
 const Main = () => {
   return (
-    <SafeAreaView
-      style={{flex: 1, justifyContent: 'center', alignItems: 'stretch'}}>
-      <View style={styles.titleView}>
-        <Text style={styles.titleText}>YeongBin's NaengJang</Text>
-      </View>
-      <View style={styles.mainView}>
-        <SectionList
-          style={{alignContent: 'center'}}
-          backgroundColor="blue"
-          sections={ExpDATA}
-          keyExtractor={(item, index) => item + index}
-          renderItem={({item}) => <Item title={item} />}
-          renderSectionHeader={({section: {title}}) => (
-            <Text style={styles.header}>{title}</Text>
-          )}
-        />
-        <SectionList
-          backgroundColor="blue"
-          sections={ResDATA}
-          keyExtractor={(item, index) => item + index}
-          renderItem={({item}) => <Item title={item} />}
-          renderSectionHeader={({section: {title}}) => (
-            <Text style={styles.header}>{title}</Text>
-          )}
-        />
-      </View>
-      <View style={styles.bottomBar}></View>
-    </SafeAreaView>
+    <Tab.Navigator
+      screenOptions={({route}) => ({
+        tabBarIcon: ({focused, color, size}) => {
+          let iconName;
+
+          if (route.name === 'Home') {
+            iconName = focused ? 'ios-home' : 'ios-home-outline';
+          } else if (route.name === 'List') {
+            iconName = focused ? 'ios-list' : 'ios-list-outline';
+          } else if (route.name === 'Recipe') {
+            iconName = focused ? 'ios-book' : 'ios-book-outline';
+          } else if (route.name === 'Calendar') {
+            iconName = focused ? 'ios-calendar' : 'ios-calendar-outline';
+          } else if (route.name === 'Settings') {
+            iconName = focused ? 'ios-settings' : 'ios-settings-outline';
+          }
+
+          // You can return any component that you like here!
+          return <Ionicon name={iconName} size={size} color={color} />;
+        },
+        tabBarActiveTintColor: 'tomato',
+        tabBarInactiveTintColor: 'gray',
+      })}>
+      <Tab.Screen name="Home" component={Home} />
+      <Tab.Screen name="List" component={List} />
+      <Tab.Screen name="Recipe" component={Recipe} />
+      <Tab.Screen name="Calendar" component={Calendar} />
+      <Tab.Screen name="Settings" component={Setting} />
+    </Tab.Navigator>
   );
 };
 
