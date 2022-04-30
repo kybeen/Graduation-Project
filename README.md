@@ -21,3 +21,7 @@ v0.1.2
 
 v0.1.3
 - App.js 파일 화면별로 js파일 분리 및 Home화면 UI 일부 변경
+
+v0.1.4
+- 메인화면(Tab스크린) 구성 js파일 mainTabScreen으로 분리 및 회원가입 화면 기본 UI 구성
+
