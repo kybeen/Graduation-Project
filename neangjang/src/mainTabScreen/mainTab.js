@@ -26,7 +26,7 @@ import Setting from './setting';
 
 const Tab = createBottomTabNavigator();
 
-const Main = () => {
+const Main = ({navigation}) => {
   return (
     <Tab.Navigator
       screenOptions={({route}) => ({

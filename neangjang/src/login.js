@@ -10,8 +10,8 @@ import React from 'react';
 import {View, Text, TextInput, Button, StyleSheet} from 'react-native';
 
 const Login = ({navigation}) => {
-  const [id, onChangeID] = React.useState('User Name');
-  const [password, onChangePassword] = React.useState('password');
+  const [id, onChangeID] = React.useState('');
+  const [password, onChangePassword] = React.useState('');
 
   return (
     <View style={{flex: 1, justifyContent: 'center', alignItems: 'stretch'}}>
@@ -25,7 +25,8 @@ const Login = ({navigation}) => {
           autoCapitalize={'none'}
           onChangeText={text => onChangeID(text)}
           value={id}
-          padding={8}></TextInput>
+          padding={8}
+          placeholder='ID'></TextInput>
         <TextInput
           style={styles.inputbutton}
           fontSize={20}
@@ -33,7 +34,8 @@ const Login = ({navigation}) => {
           autoCapitalize={'none'}
           onChangeText={text => onChangePassword(text)}
           value={password}
-          padding={8}></TextInput>
+          padding={8}
+          placeholder='Password'></TextInput>
       </View>
       <View style={styles.buttonView}>
         <Button title="Join" onPress={() => navigation.navigate('Join')} />

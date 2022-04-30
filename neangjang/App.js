@@ -15,7 +15,8 @@ import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import Ionicon from 'react-native-vector-icons/Ionicons';
 
 import Login from './src/login';
-import Main from './src/main';
+import Join from './src/join';
+import Main from './src/mainTabScreen/mainTab';
 
 const Stack = createNativeStackNavigator();
 const Drawer = createDrawerNavigator();
@@ -38,17 +39,13 @@ function TitleScreen({navigation}) {
 //   )
 // }
 
-function JoinScreen({navigation}) {
-  return (
-    <View>
-      <Text>Join Screen</Text>
-    </View>
-  );
-}
-
-function MainTabScreen({navigation}) {
-  return <Main />;
-}
+// function JoinScreen({navigation}) {
+//   return (
+//     <View>
+//       <Text>Join Screen</Text>
+//     </View>
+//   );
+// }
 
 const App = () => {
   return (
@@ -60,10 +57,10 @@ const App = () => {
           options={{headerShown: false}}
         />
         <Stack.Screen name="Login" component={Login} />
-        <Stack.Screen name="Join" component={JoinScreen} />
+        <Stack.Screen name="Join" component={Join} />
         <Stack.Screen
           name="MainTab"
-          component={MainTabScreen}
+          component={Main}
           options={{headerShown: false}}
         />
       </Stack.Navigator>

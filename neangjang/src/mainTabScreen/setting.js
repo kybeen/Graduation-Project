@@ -44,7 +44,7 @@ const Setting = () => {
     <SafeAreaView
       style={{flex: 1, justifyContent: 'center', alignItems: 'stretch'}}>
       <View style={styles.titleView}>
-        <Text style={styles.titleText}>YeongBin's NaengJang</Text>
+        <Text style={styles.titleText}>설정</Text>
       </View>
       <View style={styles.mainView}>
         <SectionList
