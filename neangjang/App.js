@@ -25,7 +25,7 @@ const Tab = createBottomTabNavigator();
 function TitleScreen({navigation}) {
   return (
     <View style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
-      <Text style={{fontSize: 40}}>Main Title!!!!</Text>
+      <Text style={{fontSize: 40}}>냉장냉장</Text>
       <Button title="To Login" onPress={() => navigation.navigate('Login')} />
     </View>
   );

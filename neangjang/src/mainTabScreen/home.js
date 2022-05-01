@@ -21,14 +21,21 @@ import Ionicon from 'react-native-vector-icons/Ionicons';
 
 const ExpDATA = [
   {
-    title: 'Expiration Soon',
-    data: ['Milk', 'Cucumber', 'Potato'],
+    title: '유통기한 임박',
+    data: [
+      [
+        <Text style={{justifyContent: 'flex-start'}}>우유</Text>,
+        <Text style={{justifyContent: 'flex-end'}}>3일 남음</Text>,
+      ],
+      'Cucumber',
+      'Potato',
+    ],
   },
 ];
 
 const ResDATA = [
   {
-    title: 'Recommend Recipe',
+    title: '추천 레시피',
     data: ['Mashed Potato', 'Oconomiyaki', 'Pasta', 'Soap'],
   },
 ];
@@ -44,7 +51,7 @@ const Home = () => {
     <SafeAreaView
       style={{flex: 1, justifyContent: 'center', alignItems: 'stretch'}}>
       <View style={styles.titleView}>
-        <Text style={styles.titleText}>YeongBin's NaengJang</Text>
+        <Text style={styles.titleText}>OO의 냉장냉장</Text>
       </View>
       <View style={styles.mainView}>
         <SectionList
@@ -102,6 +109,9 @@ const styles = StyleSheet.create({
   },
   title: {
     fontSize: 24,
+  },
+  expstyle: {
+    alignContent: 'center',
   },
 });
 

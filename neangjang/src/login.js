@@ -16,7 +16,7 @@ const Login = ({navigation}) => {
   return (
     <View style={{flex: 1, justifyContent: 'center', alignItems: 'stretch'}}>
       <View style={styles.title}>
-        <Text style={styles.titleText}>naengjang</Text>
+        <Text style={styles.titleText}>냉장냉장</Text>
       </View>
       <View style={styles.loginView}>
         <TextInput
@@ -38,8 +38,8 @@ const Login = ({navigation}) => {
           placeholder='Password'></TextInput>
       </View>
       <View style={styles.buttonView}>
-        <Button title="Join" onPress={() => navigation.navigate('Join')} />
-        <Button title="Login" onPress={() => navigation.navigate('MainTab')} />
+        <Button title="회원가입" onPress={() => navigation.navigate('Join')} />
+        <Button title="로그인" onPress={() => navigation.navigate('MainTab')} />
       </View>
     </View>
   );
