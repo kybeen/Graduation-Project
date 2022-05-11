@@ -6,12 +6,12 @@
  * @flow strict-local
  */
 
-import React from 'react';
+ import React, { useState } from 'react';
 import {View, Text, TextInput, Button, StyleSheet} from 'react-native';
 
 const Login = ({navigation}) => {
-  const [id, onChangeID] = React.useState('');
-  const [password, onChangePassword] = React.useState('');
+  const [inputID, setInputID] = useState('');
+  const [inputPW, setInputPW] = useState('');
 
   return (
     <View style={{flex: 1, justifyContent: 'center', alignItems: 'stretch'}}>
@@ -23,8 +23,8 @@ const Login = ({navigation}) => {
           style={styles.inputbutton}
           fontSize={20}
           autoCapitalize={'none'}
-          onChangeText={text => onChangeID(text)}
-          value={id}
+          onChangeText={text => setInputID(text)}
+          value={inputID}
           padding={8}
           placeholder='ID'></TextInput>
         <TextInput
@@ -32,8 +32,8 @@ const Login = ({navigation}) => {
           fontSize={20}
           secureTextEntry={true}
           autoCapitalize={'none'}
-          onChangeText={text => onChangePassword(text)}
-          value={password}
+          onChangeText={text => setInputPW(text)}
+          value={inputPW}
           padding={8}
           placeholder='Password'></TextInput>
       </View>

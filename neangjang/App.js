@@ -14,38 +14,14 @@ import {createDrawerNavigator} from '@react-navigation/drawer';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import Ionicon from 'react-native-vector-icons/Ionicons';
 
-import Login from './src/login';
-import Join from './src/join';
-import Main from './src/mainTabScreen/mainTab';
+import TitleScreen from './src/startScreens/title'
+import LoginScreen from './src/startScreens/login';
+import JoinScreen from './src/startScreens/join';
+
+import MainTabScreen from './src/mainTabScreen/mainTab';
 
 const Stack = createNativeStackNavigator();
-const Drawer = createDrawerNavigator();
 const Tab = createBottomTabNavigator();
-
-function TitleScreen({navigation}) {
-  return (
-    <View style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
-      <Text style={{fontSize: 40}}>냉장냉장</Text>
-      <Button title="To Login" onPress={() => navigation.navigate('Login')} />
-    </View>
-  );
-}
-
-// function LoginScreen({navigation}) {
-//   return (
-//     <View style={{flex: 1, justifyContent: 'center', alignItems: 'stretch'}}>
-//       <Login />
-//     </View>
-//   )
-// }
-
-// function JoinScreen({navigation}) {
-//   return (
-//     <View>
-//       <Text>Join Screen</Text>
-//     </View>
-//   );
-// }
 
 const App = () => {
   return (
@@ -56,11 +32,18 @@ const App = () => {
           component={TitleScreen}
           options={{headerShown: false}}
         />
-        <Stack.Screen name="Login" component={Login} />
-        <Stack.Screen name="Join" component={Join} />
+        <Stack.Screen
+          name="Login"
+          component={LoginScreen}
+          options={{headerBackTitle: "Back"}}
+        />
+        <Stack.Screen
+          name="Join"
+          component={JoinScreen}
+        />
         <Stack.Screen
           name="MainTab"
-          component={Main}
+          component={MainTabScreen}
           options={{headerShown: false}}
         />
       </Stack.Navigator>
