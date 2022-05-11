@@ -28,3 +28,9 @@ v0.1.4
 v0.1.5
 - 회원가입 화면 password 일치 여부 출력하는 함수 작성중
 - Home 화면 잔여 날짜 출력하는 내용 추가중
+
+v0.1.6
+- MyTextInput : 커스텀 TextInput 컴포넌트 생성
+- MyButton :  커스텀 MyButton 컴포넌트 생성
+- 회원가입 화면 MyTextInput, MyButton 컴포넌트 사용해서 간소화 및 디자인 수정
+- 패스워드 일치여부 useEffect 사용해서 구현 완료
