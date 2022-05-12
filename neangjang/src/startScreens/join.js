@@ -13,12 +13,13 @@ import MyButton from '../MyButton'
 import MyTextInput from '../MyTextInput';
 
 const Join = ({navigation}) => {
-  const [userName, setUserName] = useState('');
-  const [userID, setUserID] = useState('');
-  const [userPW, setUserPW] = useState('');
-  const [userCheckPW, setUserCheckPW] = useState('');
-  const [checkingPW, setCheckingPW] = useState('');
+  const [userName, setUserName] = useState(''); // 회원가입 유저 닉네임
+  const [userID, setUserID] = useState(''); // 회원가입 ID
+  const [userPW, setUserPW] = useState(''); // 회원가입 PW
+  const [userCheckPW, setUserCheckPW] = useState(''); // 재확인용 PW
+  const [checkingPW, setCheckingPW] = useState(''); // PW 일치여부 확인 문구
 
+  // 앱이 렌더링될때마다 PW일치여부 확인 후 일치하지 않을 경우 문구 출력
   useEffect(() => {
     if (userPW === userCheckPW) {
       setCheckingPW('');
@@ -91,6 +92,7 @@ const styles = StyleSheet.create({
     fontWeight: '400',
     width: '83%',
     paddingBottom: 5,
+    marginTop: -5,
   },
   check: {
     color: 'red',
