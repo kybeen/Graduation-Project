@@ -35,11 +35,12 @@ const App = () => {
         <Stack.Screen
           name="Login"
           component={LoginScreen}
-          options={{headerBackTitle: "Back"}}
+          options={{headerBackTitleVisible: false}}
         />
         <Stack.Screen
           name="Join"
           component={JoinScreen}
+          options={{headerBackTitleVisible: false}}
         />
         <Stack.Screen
           name="MainTab"

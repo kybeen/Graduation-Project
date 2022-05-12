@@ -1,7 +1,7 @@
 import React from 'react';
 import { TextInput, StyleSheet } from "react-native"
 
-const MyTextInput = ({value, onChangeText, maxLength, autoCapitalize, secureTextEntry, placeholder}) => {
+const MyTextInput = ({value, onChangeText, maxLength, autoCapitalize, secureTextEntry, placeholder }) => {
     return (
         <TextInput
             value={value}
