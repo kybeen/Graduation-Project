@@ -210,7 +210,7 @@ export default Join;
 //     marginLeft: 10,
 //   },
 //   description: {
-//     fontSize: 20,
+//     fontSize: 20,ㄴ
 //     fontWeight: '500',
 //   },
 //   button: {
