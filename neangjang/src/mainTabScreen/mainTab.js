@@ -60,7 +60,6 @@ const Main = ({navigation}) => {
   );
 };
 
-
 const styles = StyleSheet.create({
   titleView: {
     flex: 2,
