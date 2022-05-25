@@ -9,8 +9,8 @@
  import React, { useState } from 'react';
  import { View, Text, TextInput, Button, StyleSheet } from 'react-native';
  
- import MyButton from '../MyButton'
- import MyTextInput from '../MyTextInput';
+ import MyButton from '../component/MyButton'
+ import MyTextInput from '../component/MyTextInput';
  
  const Login = ({navigation}) => {
    const [inputID, setInputID] = useState(''); // ID
@@ -23,7 +23,7 @@
        <MyTextInput
          value={inputID}
          onChangeText={setInputID}
-         placeholder="ID를 생성해주세요."
+         placeholder="ID를 입력해주세요."
          maxLength={20}
          autoCapitalize={'none'}
        />
@@ -34,7 +34,7 @@
          maxLength={20}
          autoCapitalize={'none'}
          secureTextEntry={true}
-         placeholder="PW를 생성해주세요."
+         placeholder="PW를 입력해주세요."
        />
        <View style={styles.buttonView}>
          <View style={{flex: 1}}>

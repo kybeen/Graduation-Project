@@ -6,7 +6,7 @@
  * @flow strict-local
  */
 
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   View,
   Text,
@@ -47,11 +47,18 @@ const Item = ({title}) => (
 );
 
 const Home = () => {
+  const [food, setFood] = useState('')
+  useEffect(() => {
+    fetch('https://jsonplaceholder.typicode.com/users')
+        .then((response) => response.json())
+        .then((data) => setFood(data[0].id))
+  })
   return (
     <SafeAreaView
       style={{flex: 1, justifyContent: 'center', alignItems: 'stretch'}}>
       <View style={styles.titleView}>
         <Text style={styles.titleText}>OO의 냉장냉장</Text>
+        <Text>{food}</Text>
       </View>
       <View style={styles.mainView}>
         <SectionList
