@@ -9,8 +9,8 @@
 import React, { useState, useEffect } from 'react';
 import { View, Text, TextInput, Button, StyleSheet } from 'react-native';
 
-import MyButton from '../MyButton'
-import MyTextInput from '../MyTextInput';
+import MyButton from '../component/MyButton'
+import MyTextInput from '../component/MyTextInput';
 
 const Join = ({navigation}) => {
   const [userName, setUserName] = useState(''); // 회원가입 유저 닉네임

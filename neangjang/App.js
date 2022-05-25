@@ -13,7 +13,6 @@ import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import {createDrawerNavigator} from '@react-navigation/drawer';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import Ionicon from 'react-native-vector-icons/Ionicons';
-import axios from 'axios';
 
 import TitleScreen from './src/startScreens/title';
 import LoginScreen from './src/startScreens/login';
@@ -25,13 +24,6 @@ const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
 
 const App = () => {
-  useEffect(() => {
-    axios
-      .get('/api/test')
-      .then(res => console.log(res))
-      .catch();
-  });
-
   return (
     <NavigationContainer>
       <Stack.Navigator initialRouteName="Title">
