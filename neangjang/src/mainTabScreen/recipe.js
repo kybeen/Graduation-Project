@@ -6,7 +6,7 @@
  * @flow strict-local
  */
 
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   View,
   Text,
@@ -15,96 +15,129 @@ import {
   StyleSheet,
   SectionList,
   SafeAreaView,
+  ScrollView,
+  FlatList,
+  Alert,
+  ActivityIndicator,
 } from 'react-native';
+import MyRecipeList from '../component/MyRecipeList';
 
-import Ionicon from 'react-native-vector-icons/Ionicons';
+const renderItem = ({item}) => {
+  return (
+    <View style={styles.listView}>
+      <View style={styles.pictureView}>
+      </View>
+      <View style={styles.textView}>
+        <View style={{
+        marginBottom:3
+        }}>
+          <Text style={{
+            fontSize: 20,
+            fontWeight: 'bold',
+          }}>
+            {item.recipeName}
+          </Text>
+        </View>
+        <View style={{
+          marginBottom:3
+        }}>
+          <Text>소요시간 : {item.makeTime}</Text>
+        </View>
+        <View>
+          <Text>가진 식재료 : {item.foodHave}</Text>
+        </View>
+      </View>
+    </View>
+  )
+}
 
-const ExpDATA = [
-  {
-    title: 'Expiration Soon',
-    data: ['Milk', 'Cucumber', 'Potato'],
-  },
-];
-
-const ResDATA = [
-  {
-    title: 'Recommend Recipe',
-    data: ['Mashed Potato', 'Oconomiyaki', 'Pasta', 'Soap'],
-  },
-];
-
-const Item = ({title}) => (
-  <View style={styles.item}>
-    <Text style={styles.title}>{title}</Text>
-  </View>
-);
+const LIMIT = 7;
 
 const Recipe = () => {
+  const [recipeData, setRecipeData] = useState([]);
+  const [loading, setLoading] = useState(false);
+
+  const getRecipeData = () => {
+    setLoading(true);
+    fetch('https://www.bigthingiscoming.shop/app/recipes/1') 
+      .then((res) => res.json())
+      .then((res) => setRecipeData(res.result))
+      .then(() => {
+        setLoading(false);
+      })
+      .catch((error) => {
+        setLoading(false);
+        Alert.alert("Error");
+      });
+  };
+
+  useEffect(() => {
+    getRecipeData();  
+  }, []);
+
+  const onEndReached = () => {
+    if (loading) {
+      return;
+    } else {
+      getRecipeData();
+    }
+  };
+
   return (
-    <SafeAreaView
-      style={{flex: 1, justifyContent: 'center', alignItems: 'stretch'}}>
+    <SafeAreaView style={{flexDirection: 'column', flex: 1}}>
       <View style={styles.titleView}>
-        <Text style={styles.titleText}>YeongBin's NaengJang</Text>
+        <Text style={styles.titleText}>레시피</Text>
       </View>
       <View style={styles.mainView}>
-        <SectionList
-          style={{alignContent: 'center'}}
-          backgroundColor="blue"
-          sections={ExpDATA}
-          keyExtractor={(item, index) => item + index}
-          renderItem={({item}) => <Item title={item} />}
-          renderSectionHeader={({section: {title}}) => (
-            <Text style={styles.header}>{title}</Text>
-          )}
-        />
-        <SectionList
-          backgroundColor="blue"
-          sections={ResDATA}
-          keyExtractor={(item, index) => item + index}
-          renderItem={({item}) => <Item title={item} />}
-          renderSectionHeader={({section: {title}}) => (
-            <Text style={styles.header}>{title}</Text>
-          )}
+        <FlatList
+          data={recipeData}
+          renderItem={renderItem}
+          keyExtractor={(item) => item.idx}
+          onEndReached={onEndReached}
+          onEndReachedThreshold={0.8}
         />
       </View>
-      <View style={styles.bottomBar}></View>
     </SafeAreaView>
   );
 };
 
 const styles = StyleSheet.create({
   titleView: {
-    flex: 2,
-    backgroundColor: 'red',
+    flex: 1,
+    alignSelf: 'center',
     justifyContent: 'center',
+    width: '95%',
   },
   mainView: {
     flex: 10,
-    backgroundColor: 'green',
-    alignContent: 'center',
+    alignSelf: 'center',
     justifyContent: 'center',
-  },
-  bottomBar: {
-    flex: 1,
-    backgroundColor: 'white',
+    width: '95%'
   },
   titleText: {
     fontSize: 25,
     fontWeight: 'bold',
+    width: '90%',
   },
-  item: {
-    backgroundColor: '#f9c2ff',
-    padding: 10,
-    marginVertical: 0,
-    width: '95%',
+  listView: {
+    borderWidth: 2,
+    borderRadius: 5,
+    marginBottom: -2,
+    height: 90,
+    justifyContent: 'center',
+    flexDirection: 'row',
   },
-  header: {
-    fontSize: 32,
-    backgroundColor: '#fff',
-  },
-  title: {
-    fontSize: 24,
-  },
+  pictureView: {
+    flex: 1,
+    borderWidth: 1,
+    borderRadius: 10,
+    marginHorizontal: 10,
+    marginVertical: 10,
+    },
+    textView: {
+      flex:4,
+      marginTop: 10,
+    }
 });
 
 export default Recipe;
