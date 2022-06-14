@@ -7,7 +7,7 @@
  */
 
 import React, { useState, useEffect } from 'react';
-import { View, Text, TextInput, Button, StyleSheet } from 'react-native';
+import { View, Text, TextInput, Button, StyleSheet, Alert, RefreshControlBase } from 'react-native';
 
 import MyButton from '../component/MyButton';
 import MyTextInput from '../component/MyTextInput';
@@ -57,14 +57,28 @@ const Join = ({navigation}) => {
         autoCapitalize={'none'}
       />
       <Text style={styles.description}>ID</Text>
-      <MyTextInput
-        value={userID}
-        onChangeText={setUserID}
-        placeholder="ID를 생성해주세요."
-        maxLength={20}
-        autoCapitalize={'none'}
-      />
-      <MySmallButton text='중복확인' onPress={()=>alert('중복')}/>
+      <View style={
+          {
+            flexDirection: 'row', 
+            width: '83%', 
+            justifyContent: 'center',
+            alignItems: 'center',
+          }
+        }>
+        <MyTextInput
+          value={userID}
+          onChangeText={setUserID}
+          placeholder="ID를 생성해주세요."
+          maxLength={20}
+          autoCapitalize={'none'}
+          style='id'
+        />
+        <MyButton 
+          onPress={()=>alert("중복확인")}
+          text="중복확인"
+          style='id'
+        />
+      </View>
       <Text style={styles.description}>Password</Text>
       <MyTextInput
         value={userPW}
@@ -85,7 +99,7 @@ const Join = ({navigation}) => {
       />
       <Text style={styles.check}>{checkingPW}</Text>
       <MyButton
-        onPress={()=>PressSignUp}
+        onPress={()=>Alert.alert("확인", "회원가입이 완료되었습니다.",[{text: 'OK', onPress : ()=>navigation.navigate('Login')}])}
         text="Sign up"
       />
     </View>
