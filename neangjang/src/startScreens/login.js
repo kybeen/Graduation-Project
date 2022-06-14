@@ -7,7 +7,7 @@
  */
 
  import React, { useState } from 'react';
- import { View, Text, TextInput, Button, StyleSheet } from 'react-native';
+ import { View, Text, TextInput, Button, StyleSheet, Alert } from 'react-native';
  
  import MyButton from '../component/MyButton'
  import MyTextInput from '../component/MyTextInput';
@@ -16,6 +16,38 @@
    const [inputID, setInputID] = useState(''); // ID
    const [inputPW, setInputPW] = useState(''); // PW
  
+   const pressLogin = () => { // 로그인 버튼 눌렀을 때, 로그인 정보 POST
+    fetch("https://www.bigthingiscoming.shop/app/users/logIn", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        "userId": inputID,
+        "userPw": inputPW,
+      }),
+    })
+    .then(response => response.json())
+    .then(response => {
+      switch(response.code){
+        case 1000:
+          Alert.alert("로그인 성공", response.result.userName + '님 환영합니다.', [{text: 'OK', onPress: ()=>{navigation.navigate('MainTab')}}]);
+          console.log(response.code);
+          break;
+        case 2010:
+          Alert.alert("일치하는 ID가 없습니다.", 'ID를 다시 입력해주새요.', [{text: 'OK'}]);
+          console.log(response.code);
+          break;
+        case 2011:
+          Alert.alert("PW가 일치하지 않습니다.", 'PW를 다시 확인해주새요.', [{text: 'OK'}]);
+          console.log(response.code);
+          break;
+      }
+    })
+    // .then(response => {{console.log(response);}})
+    .catch(error => {console.log('Fetch Error', error);})
+  }
+
    return (
      <View style={styles.main}>
        <Text style={styles.title}>로그인</Text>
@@ -39,7 +71,7 @@
        <View style={styles.buttonView}>
          <View style={{flex: 1}}>
           <MyButton
-            onPress={() => navigation.navigate('MainTab')}
+            onPress={() => pressLogin()}
             text="로그인"
           />
          </View>

@@ -49,7 +49,8 @@ const Join = ({navigation}) => {
     });
 
   const pressSignUp = () => { // 회원가입 버튼 눌렀을 때, 회원가입 정보 POST
-    fetch("http://localhost:9000/app/users", {
+//    fetch("http://localhost:9000/app/users", {
+    fetch("https://www.bigthingiscoming.shop/app/users", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
