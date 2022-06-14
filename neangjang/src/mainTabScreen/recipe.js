@@ -6,7 +6,7 @@
  * @flow strict-local
  */
 
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   View,
   Text,
@@ -15,95 +15,101 @@ import {
   StyleSheet,
   SectionList,
   SafeAreaView,
+  ScrollView,
+  FlatList,
+  Alert,
+  ActivityIndicator,
 } from 'react-native';
 
 import Ionicon from 'react-native-vector-icons/Ionicons';
 
-const ExpDATA = [
-  {
-    title: 'Expiration Soon',
-    data: ['Milk', 'Cucumber', 'Potato'],
-  },
-];
+const renderItem = ({item}) => {
+  return (
+    <View>
+      <View>
+        <Text>idx: {item.idx}</Text>
+      </View>
+      <View>
+        <Text>foodName: {item.foodName}</Text>
+      </View>
+      <View>
+        <Text>amount: {item.amount}</Text>
+      </View>
+      <View>
+        <Text>storageType: {item.storageType}</Text>
+      </View>
+      <View>
+        <Text>expirationDate: {item.expirationDate}</Text>
+      </View>
+    </View>
+  )
+}
 
-const ResDATA = [
-  {
-    title: 'Recommend Recipe',
-    data: ['Mashed Potato', 'Oconomiyaki', 'Pasta', 'Soap'],
-  },
-];
-
-const Item = ({title}) => (
-  <View style={styles.item}>
-    <Text style={styles.title}>{title}</Text>
-  </View>
-);
+const LIMIT = 7;
 
 const Recipe = () => {
+  const [recipeData, setRecipeData] = useState([]);
+  const [loading, setLoading] = useState(false);
+
+  const getRecipeData = () => {
+    setLoading(true);
+    fetch('https://www.bigthingiscoming.shop/app/foods/1') 
+      .then((res) => res.json())
+      .then((res) => setRecipeData(res.result))
+      .then(() => {
+        setLoading(false);
+      })
+      .catch((error) => {
+        setLoading(false);
+        Alert.alert("Error");
+      });
+  };
+
+  useEffect(() => {
+    getRecipeData();  
+  }, []);
+
+  const onEndReached = () => {
+    if (loading) {
+      return;
+    } else {
+      getRecipeData();
+    }
+  };
+
   return (
-    <SafeAreaView
-      style={{flex: 1, justifyContent: 'center', alignItems: 'stretch'}}>
-      <View style={styles.titleView}>
-        <Text style={styles.titleText}>YeongBin's NaengJang</Text>
-      </View>
-      <View style={styles.mainView}>
-        <SectionList
-          style={{alignContent: 'center'}}
-          backgroundColor="blue"
-          sections={ExpDATA}
-          keyExtractor={(item, index) => item + index}
-          renderItem={({item}) => <Item title={item} />}
-          renderSectionHeader={({section: {title}}) => (
-            <Text style={styles.header}>{title}</Text>
-          )}
-        />
-        <SectionList
-          backgroundColor="blue"
-          sections={ResDATA}
-          keyExtractor={(item, index) => item + index}
-          renderItem={({item}) => <Item title={item} />}
-          renderSectionHeader={({section: {title}}) => (
-            <Text style={styles.header}>{title}</Text>
-          )}
-        />
-      </View>
-      <View style={styles.bottomBar}></View>
+    <SafeAreaView>
+      <Text>{recipeData.result}</Text>
+      <FlatList
+        data={recipeData}
+        renderItem={renderItem}
+        keyExtractor={(item) => String(item.idx)}
+        onEndReached={onEndReached}
+        onEndReachedThreshold={0.8}
+        ListFooterComponent={loading && <ActivityIndicator />}
+      />
     </SafeAreaView>
   );
 };
 
 const styles = StyleSheet.create({
   titleView: {
-    flex: 2,
+    flex: 1,
     backgroundColor: 'red',
+    width: '90%',
+    alignContent: 'center',
     justifyContent: 'center',
   },
   mainView: {
     flex: 10,
     backgroundColor: 'green',
+    width: '90%',
     alignContent: 'center',
     justifyContent: 'center',
-  },
-  bottomBar: {
-    flex: 1,
-    backgroundColor: 'white',
   },
   titleText: {
     fontSize: 25,
     fontWeight: 'bold',
-  },
-  item: {
-    backgroundColor: '#f9c2ff',
-    padding: 10,
-    marginVertical: 0,
-    width: '95%',
-  },
-  header: {
-    fontSize: 32,
-    backgroundColor: '#fff',
-  },
-  title: {
-    fontSize: 24,
   },
 });
 
