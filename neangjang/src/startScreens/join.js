@@ -9,8 +9,24 @@
 import React, { useState, useEffect } from 'react';
 import { View, Text, TextInput, Button, StyleSheet } from 'react-native';
 
-import MyButton from '../component/MyButton'
+import MyButton from '../component/MyButton';
 import MyTextInput from '../component/MyTextInput';
+import MySmallButton from '../component/MySmallButton';
+
+const PressSignUp = () => { // 회원가입 버튼 눌렀을 때, 회원가입 정보 POST
+  fetch('http://localhost:9000/app/users', {
+    method: 'post',
+    body: JSON.stringify({
+      userName: userName,
+      userId: userID,
+      userPw_1: userPW,
+      userPw_2: userCheckPW
+    })
+  })
+        .then(response => response.json())
+        .then(data => console.log(data.message, data.result))
+        .catch(error => {console.log('Fetch Error', error);})
+}
 
 const Join = ({navigation}) => {
   const [userName, setUserName] = useState(''); // 회원가입 유저 닉네임
@@ -48,6 +64,7 @@ const Join = ({navigation}) => {
         maxLength={20}
         autoCapitalize={'none'}
       />
+      <MySmallButton text='중복확인' onPress={()=>alert('중복')}/>
       <Text style={styles.description}>Password</Text>
       <MyTextInput
         value={userPW}
@@ -68,7 +85,7 @@ const Join = ({navigation}) => {
       />
       <Text style={styles.check}>{checkingPW}</Text>
       <MyButton
-        onPress={()=>alert('회원가입이 완료되었습니다.')}
+        onPress={()=>PressSignUp}
         text="Sign up"
       />
     </View>
