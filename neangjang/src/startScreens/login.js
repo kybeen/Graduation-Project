@@ -31,7 +31,16 @@
     .then(response => {
       switch(response.code){
         case 1000:
-          Alert.alert("로그인 성공", response.result.userName + '님 환영합니다.', [{text: 'OK', onPress: ()=>{navigation.navigate('MainTab')}}]);
+          Alert.alert(
+            "로그인 성공", response.result.userName + '님 환영합니다.', 
+            [{ text: 'OK', 
+              onPress: () => {
+                navigation.navigate('MainTab', {
+                  id: response.result.idx,
+                  name: response.result.userName,
+                });
+              }
+            }]);
           console.log(response.code);
           break;
         case 2010:

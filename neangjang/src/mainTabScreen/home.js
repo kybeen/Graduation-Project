@@ -6,7 +6,7 @@
  * @flow strict-local
  */
 
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import {
   View,
   Text,
@@ -18,6 +18,7 @@ import {
 } from 'react-native';
 
 import Ionicon from 'react-native-vector-icons/Ionicons';
+import { MainTabContext } from './mainTab';
 
 const ExpDATA = [
   {
@@ -47,18 +48,22 @@ const Item = ({title}) => (
 );
 
 const Home = () => {
-  const [food, setFood] = useState('')
+  const [food, setFood] = useState('');
+  const { id, name } = useContext(MainTabContext);
+  console.log(id, name);
+
   useEffect(() => {
     //fetch('https://jsonplaceholder.typicode.com/users')
     fetch('https://www.bigthingiscoming.shop/app/foods/1')
         .then((response) => response.json())
         .then((data) => setFood(data['result'][0]['foodName']))
   })
+
   return (
     <SafeAreaView
       style={{flex: 1, justifyContent: 'center', alignItems: 'stretch'}}>
       <View style={styles.titleView}>
-        <Text style={styles.titleText}>OO의 냉장냉장</Text>
+        <Text style={styles.titleText}>{name}의 냉장냉장</Text>
       </View>
       <View style={styles.mainView}>
         <SectionList

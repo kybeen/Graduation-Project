@@ -64,11 +64,23 @@ const Join = ({navigation}) => {
     })
     .then(response => response.json())
     .then(response => {
-      {
-        console.log(response);
-        response.code === 1000 ?
-        Alert.alert("성공", "회원가입에 성공하였습니다", [{text: "OK", onPress: ()=>{navigation.navigate('Login')}}]) :
-        Alert.alert("실패", response.message)
+      switch(response.code){
+        case 1000:
+          Alert.alert("회원가입 성공", '회원가입에 성공하였습니다.', [{text: 'OK', onPress: ()=>{navigation.navigate('Login')}}]);
+          console.log(response.code);
+          break;
+        case 2011:
+          Alert.alert("중복된 ID가 존재합니다.", '다른 ID를 입력해주세요.', [{text: 'OK'}]);
+          console.log(response.code);
+          break;
+        case 2012:
+          Alert.alert("PW가 일치하지 않습니다.", 'PW를 다시 확인해주세요.', [{text: 'OK'}]);
+          console.log(response.code);
+          break;
+        case 2013:
+          Alert.alert("이름을 입력하지 않았습니다.", '이름을 입력해주세요.', [{text: 'OK'}]);
+          console.log(response.code);
+          break;
       }
     })
     .catch(error => {console.log("Fetch Error", error);})
