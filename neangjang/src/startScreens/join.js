@@ -13,21 +13,6 @@ import MyButton from '../component/MyButton';
 import MyTextInput from '../component/MyTextInput';
 import MySmallButton from '../component/MySmallButton';
 
-const PressSignUp = () => { // 회원가입 버튼 눌렀을 때, 회원가입 정보 POST
-  fetch('http://localhost:9000/app/users', {
-    method: 'post',
-    body: JSON.stringify({
-      userName: userName,
-      userId: userID,
-      userPw_1: userPW,
-      userPw_2: userCheckPW
-    })
-  })
-        .then(response => response.json())
-        .then(data => console.log(data.message, data.result))
-        .catch(error => {console.log('Fetch Error', error);})
-}
-
 const Join = ({navigation}) => {
   const [userName, setUserName] = useState(''); // 회원가입 유저 닉네임
   const [userID, setUserID] = useState(''); // 회원가입 ID
@@ -35,15 +20,34 @@ const Join = ({navigation}) => {
   const [userCheckPW, setUserCheckPW] = useState(''); // 재확인용 PW
   const [checkingPW, setCheckingPW] = useState(''); // PW 일치여부 확인 문구
 
-  // 앱이 렌더링될때마다 PW일치여부 확인 후 일치하지 않을 경우 문구 출력
-  useEffect(() => {
-    if (userPW === userCheckPW) {
-      setCheckingPW('');
-    }
-    else {
-      setCheckingPW('password가 일치하지 않습니다.')
-    }
-  });
+    // 앱이 렌더링될때마다 PW일치여부 확인 후 일치하지 않을 경우 문구 출력
+    useEffect(() => {
+      if (userPW === userCheckPW) {
+        setCheckingPW('');
+      }
+      else {
+        setCheckingPW('password가 일치하지 않습니다.')
+      }
+    });
+
+  const PressSignUp = () => { // 회원가입 버튼 눌렀을 때, 회원가입 정보 POST
+    fetch("http://localhost:9000/app/users", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        "userId": userID,
+        "userPw_1": userPW,
+        "userPw_2": userCheckPW,
+        "userName": userName,
+      }),
+    })
+    .then(response => response.json())
+    .then(response => {{console.log(response);}})
+    .then(Alert.alert("확인", "회원가입이 완료되었습니다.", [{text: 'OK', onPress: ()=>{navigation.navigate('Login')}}]))
+    .catch(error => {console.log('Fetch Error', error);})
+  }
 
   return (
     <View style={styles.main}>
@@ -99,7 +103,7 @@ const Join = ({navigation}) => {
       />
       <Text style={styles.check}>{checkingPW}</Text>
       <MyButton
-        onPress={()=>Alert.alert("확인", "회원가입이 완료되었습니다.",[{text: 'OK', onPress : ()=>navigation.navigate('Login')}])}
+        onPress={()=>PressSignUp()}
         text="Sign up"
       />
     </View>
