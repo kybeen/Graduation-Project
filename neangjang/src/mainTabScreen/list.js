@@ -6,7 +6,7 @@
  * @flow strict-local
  */
 
-import React from 'react';
+import React, {useContext, useEffect, useState} from 'react';
 import {
   View,
   Text,
@@ -15,95 +15,90 @@ import {
   StyleSheet,
   SectionList,
   SafeAreaView,
+  ScrollView,
 } from 'react-native';
-
 import Ionicon from 'react-native-vector-icons/Ionicons';
 
-const ExpDATA = [
-  {
-    title: 'Expiration Soon',
-    data: ['Milk', 'Cucumber', 'Potato'],
-  },
-];
+import { MainTabContext } from './mainTab';
+import MyTextInput from '../component/MyTextInput';
 
-const ResDATA = [
-  {
-    title: 'Recommend Recipe',
-    data: ['Mashed Potato', 'Oconomiyaki', 'Pasta', 'Soap'],
-  },
-];
+const ListHeader = (props) => {
+  return (
+    <Text style={styles.listHeader}>{props.name}의 음식</Text>
+  );
+};
 
-const Item = ({title}) => (
-  <View style={styles.item}>
-    <Text style={styles.title}>{title}</Text>
-  </View>
-);
+const FoodList = () => {
+  return (
+    <ScrollView style={styles.foodList}>
+      <FoodItem/>
+      <FoodItem/>
+    </ScrollView>
+  );
+};
+
+const FoodItem = () => {
+  return (
+    <View style={styles.foodItem}>
+      <Text>음식이름</Text>
+      <Text>수량</Text>
+      <Text>유통기한</Text>
+      <Text>남은기간</Text>
+    </View>
+  );
+};
 
 const List = () => {
+  const { id, name } = useContext(MainTabContext);  // 로그인 시 받아온 사용자의 idx, userName을 Login->MainTab 통해서 전달
+
+  const [foodName, setFoodName] = useState(''); // 음식이름
+  //const []  // 음식사진 - url로 받아옴
+  const [amount, setAmount] = useState(''); // 수량
+  const [storageType, setStorageType] = useState(''); // 보관방법
+  const [expDate, setExpDate] = useState(''); // 유통기한
+  const [leftDay, setLeftDay] = useState(''); // 남은기간
+  const [searchText, setSearchText] = useState(''); // 검색 텍스트
+
+  useEffect(() => {
+    fetch("https://www.bigthingiscoming.shop/app/foods/"+id)
+    .then(response => response.json())
+    .then(response => {
+      setFoodName(response.result.foodName);
+      setAmount(response.result.amount);
+      setStorageType(response.result.storageType);
+      setExpDate(response.result.expirationDate);
+      setLeftDay(response.result.ed_Left);
+    })
+    .catch(error => {console.log('Fetch Error', error);})
+  }, []); // [] : 첫 렌더링 시에만 useEffect 호출
+
   return (
-    <SafeAreaView
-      style={{flex: 1, justifyContent: 'center', alignItems: 'stretch'}}>
-      <View style={styles.titleView}>
-        <Text style={styles.titleText}>YeongBin's NaengJang</Text>
-      </View>
-      <View style={styles.mainView}>
-        <SectionList
-          style={{alignContent: 'center'}}
-          backgroundColor="blue"
-          sections={ExpDATA}
-          keyExtractor={(item, index) => item + index}
-          renderItem={({item}) => <Item title={item} />}
-          renderSectionHeader={({section: {title}}) => (
-            <Text style={styles.header}>{title}</Text>
-          )}
-        />
-        <SectionList
-          backgroundColor="blue"
-          sections={ResDATA}
-          keyExtractor={(item, index) => item + index}
-          renderItem={({item}) => <Item title={item} />}
-          renderSectionHeader={({section: {title}}) => (
-            <Text style={styles.header}>{title}</Text>
-          )}
-        />
-      </View>
-      <View style={styles.bottomBar}></View>
-    </SafeAreaView>
+    <View style={{ flex: 1 }}>
+      <ListHeader name={name}/>
+      <MyTextInput
+        value={searchText}
+        onChangeText={setSearchText}
+        placeholder="식재료 검색"
+        autoCapitalize={'none'}
+      />
+      <FoodList/>
+    </View>
   );
 };
 
 const styles = StyleSheet.create({
-  titleView: {
-    flex: 2,
-    backgroundColor: 'red',
-    justifyContent: 'center',
+  listHeader: {
+    backgroundColor: 'pink',
+    fontSize: 40
   },
-  mainView: {
-    flex: 10,
-    backgroundColor: 'green',
-    alignContent: 'center',
-    justifyContent: 'center',
+  searchBox: {
   },
-  bottomBar: {
-    flex: 1,
-    backgroundColor: 'white',
+  FoodList: {
+    backgroundColor: 'lightblue'
   },
-  titleText: {
-    fontSize: 25,
-    fontWeight: 'bold',
-  },
-  item: {
-    backgroundColor: '#f9c2ff',
-    padding: 10,
-    marginVertical: 0,
-    width: '95%',
-  },
-  header: {
-    fontSize: 32,
-    backgroundColor: '#fff',
-  },
-  title: {
-    fontSize: 24,
+  foodItem: {
+    backgroundColor: 'yellow',
+    marginBottom: 5,
   },
 });
 
