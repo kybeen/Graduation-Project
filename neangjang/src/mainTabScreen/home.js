@@ -50,7 +50,7 @@ const Home = () => {
   const [food, setFood] = useState('')
   useEffect(() => {
     //fetch('https://jsonplaceholder.typicode.com/users')
-    fetch('http://localhost:9000/app/foods/1')
+    fetch('https://www.bigthingiscoming.shop/app/foods/1')
         .then((response) => response.json())
         .then((data) => setFood(data['result'][0]['foodName']))
   })

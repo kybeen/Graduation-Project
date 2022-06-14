@@ -11,14 +11,14 @@ import { View, Text, TextInput, Button, StyleSheet, Alert, RefreshControlBase } 
 
 import MyButton from '../component/MyButton';
 import MyTextInput from '../component/MyTextInput';
-import MySmallButton from '../component/MySmallButton';
 
 const Join = ({navigation}) => {
   const [userName, setUserName] = useState(''); // 회원가입 유저 닉네임
   const [userID, setUserID] = useState(''); // 회원가입 ID
+  const [checkingID, setCheckingID] = useState(' ');
   const [userPW, setUserPW] = useState(''); // 회원가입 PW
   const [userCheckPW, setUserCheckPW] = useState(''); // 재확인용 PW
-  const [checkingPW, setCheckingPW] = useState(''); // PW 일치여부 확인 문구
+  const [checkingPW, setCheckingPW] = useState(' '); // PW 일치여부 확인 문구
 
     // 앱이 렌더링될때마다 PW일치여부 확인 후 일치하지 않을 경우 문구 출력
     useEffect(() => {
@@ -27,10 +27,28 @@ const Join = ({navigation}) => {
       }
       else {
         setCheckingPW('password가 일치하지 않습니다.')
+      };
+      fetch("http://localhost:9000/app/users/checkId", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(
+        userID
+      ),
+    })
+    .then(response => response.json())
+    .then(response => {
+      {
+        console.log(response);
+        response.result === "생성 불가능한 아이디" ?
+        setCheckingID("생성 불가능한 아이디입니다.") :
+        setCheckingID("")
       }
     });
+    });
 
-  const PressSignUp = () => { // 회원가입 버튼 눌렀을 때, 회원가입 정보 POST
+  const pressSignUp = () => { // 회원가입 버튼 눌렀을 때, 회원가입 정보 POST
     fetch("http://localhost:9000/app/users", {
       method: "POST",
       headers: {
@@ -44,9 +62,37 @@ const Join = ({navigation}) => {
       }),
     })
     .then(response => response.json())
-    .then(response => {{console.log(response);}})
-    .then(Alert.alert("확인", "회원가입이 완료되었습니다.", [{text: 'OK', onPress: ()=>{navigation.navigate('Login')}}]))
-    .catch(error => {console.log('Fetch Error', error);})
+    .then(response => {
+      {
+        console.log(response);
+        response.code === 1000 ?
+        Alert.alert("성공", "회원가입에 성공하였습니다", [{text: "OK", onPress: ()=>{navigation.navigate('Login')}}]) :
+        Alert.alert("실패", response.message)
+      }
+    })
+    .catch(error => {console.log("Fetch Error", error);})
+  }
+
+  const pressCheckID = () => { // 회원가입 버튼 눌렀을 때, 회원가입 정보 POST
+    fetch("http://localhost:9000/app/users/checkId", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(
+        userID
+      ),
+    })
+    .then(response => response.json())
+    .then(response => {
+      {
+        console.log(response);
+        response.result === "생성 가능한 아이디" ?
+        Alert.alert("성공", "생성 가능한 아이디입니다.") :
+        Alert.alert("실패", "생성 불가능한 아이디입니다.")
+      }
+    })
+    .catch(error => {console.log("Fetch Error", error);})
   }
 
   return (
@@ -61,28 +107,14 @@ const Join = ({navigation}) => {
         autoCapitalize={'none'}
       />
       <Text style={styles.description}>ID</Text>
-      <View style={
-          {
-            flexDirection: 'row', 
-            width: '83%', 
-            justifyContent: 'center',
-            alignItems: 'center',
-          }
-        }>
         <MyTextInput
           value={userID}
           onChangeText={setUserID}
           placeholder="ID를 생성해주세요."
           maxLength={20}
           autoCapitalize={'none'}
-          style='id'
         />
-        <MyButton 
-          onPress={()=>alert("중복확인")}
-          text="중복확인"
-          style='id'
-        />
-      </View>
+      <Text style={styles.check}>{checkingID}</Text>
       <Text style={styles.description}>Password</Text>
       <MyTextInput
         value={userPW}
@@ -103,7 +135,8 @@ const Join = ({navigation}) => {
       />
       <Text style={styles.check}>{checkingPW}</Text>
       <MyButton
-        onPress={()=>PressSignUp()}
+        onPress={()=>pressSignUp()}
+        disabled={checkingID === "" ? false : true}
         text="Sign up"
       />
     </View>
@@ -130,10 +163,12 @@ const styles = StyleSheet.create({
     marginTop: -5,
   },
   check: {
+    fontSize: 11.5,
     color: 'red',
-    width: '80%',
+    width: '83%',
     marginTop: -15,
-    paddingBottom: 15
+    paddingBottom: 15,
+    textAlign: 'left'
   }
 });
 
