@@ -9,11 +9,11 @@
  import React from 'react';
  import {View, Text, Pressable, StyleSheet, TouchableOpacity } from 'react-native';
  
- const callFetch = () => {
-    fetch('https://jsonplaceholder.typicode.com/users')
-        .then((response) => response.json())
-        .then((data) => console.log(data[0].id))
-}
+//  const callFetch = () => {
+//     fetch('https://jsonplaceholder.typicode.com/users')
+//         .then((response) => response.json())
+//         .then((data) => console.log(data[0].id))
+// }
  
  const TitleScreen = ({navigation}) => {
      return(
@@ -25,9 +25,9 @@
                 <TouchableOpacity onPress={() => navigation.navigate('Login')}>
                     <Text style={styles.start}>화면을 터치하여 시작</Text>
                 </TouchableOpacity>
-                <TouchableOpacity onPress={callFetch}>
+                {/* <TouchableOpacity onPress={callFetch}>
                     <Text>fetch</Text>
-                </TouchableOpacity>
+                </TouchableOpacity> */}
              </View>
          </View>
      );
