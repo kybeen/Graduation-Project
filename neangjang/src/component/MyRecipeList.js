@@ -9,19 +9,34 @@ import {
   SafeAreaView,
 } from 'react-native';
 
-const MyFoodList = () => {
-  <View>
-
-  </View>
+const MyRecipeList = (props) => {
+  <View style={styles.textView}>
+    <View style={styles.contentView}>
+      <Text style={styles.titleText}>
+        {props.recipeName}
+      </Text>
+    </View>
+    <View style={styles.contentView}>
+      <Text>소요시간 : {props.makeTime}</Text>
+    </View>
+    <View>
+      <Text>가진 식재료 : {props.foodHave}</Text>
+    </View>
+</View>
 };
 
 const styles = StyleSheet.create({
-  imageView: {
-
+  titleView: {
+    marginBottom:3,
+  },
+  titleText: {
+    fontSize: 20,
+      fontWeight: 'bold',
   },
   textView: {
-
+    flex:4,
+    marginTop: 10,
   }
 });
 
-export default MyFoodList;
+export default MyRecipeList;
