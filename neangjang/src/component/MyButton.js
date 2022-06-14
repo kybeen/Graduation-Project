@@ -6,7 +6,7 @@ const MyButton = (props) => {
         <TouchableOpacity
             disabled = {props.disabled}
             onPress={props.onPress}
-            style={props.disabled === true ? styles.falseButton : styles.button}
+            style={props.disabled === true ? styles.disabledButton : styles.button}
         >
             <Text style={styles.buttonText}>{props.text}</Text>
         </TouchableOpacity>
@@ -24,7 +24,7 @@ const styles = StyleSheet.create({
         borderRAdius: 5,
         backgroundColor: '#E5EBFF',
     },
-    falseButton: {
+    disabledButton: {
         width: '83%',
         height: 45,
         alignItems: 'center',
