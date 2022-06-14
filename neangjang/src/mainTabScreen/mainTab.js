@@ -33,7 +33,8 @@ const Main = ({navigation, route}) => {
       <Tab.Navigator
         screenOptions={({route}) => ({
           tabBarIcon: ({focused, color, size}) => {
-            let iconName;
+            let iconName
+            
 
             if (route.name === 'Home') {
               iconName = focused ? 'ios-home' : 'ios-home-outline';
