@@ -11,7 +11,6 @@ import { View, Text, TextInput, Button, StyleSheet, Alert, RefreshControlBase } 
 
 import MyButton from '../component/MyButton';
 import MyTextInput from '../component/MyTextInput';
-import MySmallButton from '../component/MySmallButton';
 
 const Join = ({navigation}) => {
   const [userName, setUserName] = useState(''); // 회원가입 유저 닉네임
@@ -30,8 +29,8 @@ const Join = ({navigation}) => {
       }
     });
 
-  const PressSignUp = () => { // 회원가입 버튼 눌렀을 때, 회원가입 정보 POST
-    fetch("http://localhost:9000/app/users", {
+  const pressSignUp = () => { // 회원가입 버튼 눌렀을 때, 회원가입 정보 POST
+    fetch("https://www.bigthingiscoming.shop/app/users", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -103,7 +102,7 @@ const Join = ({navigation}) => {
       />
       <Text style={styles.check}>{checkingPW}</Text>
       <MyButton
-        onPress={()=>PressSignUp()}
+        onPress={()=>pressSignUp()}
         text="Sign up"
       />
     </View>
