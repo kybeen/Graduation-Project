@@ -6,7 +6,7 @@
  * @flow strict-local
  */
 
-import React from 'react';
+import React, { createContext } from 'react';
 import {
   View,
   Text,
@@ -25,38 +25,41 @@ import Calendar from './calendar';
 import Setting from './setting';
 
 const Tab = createBottomTabNavigator();
+export const MainTabContext = createContext();
 
-const Main = ({navigation}) => {
+const Main = ({navigation, route}) => {
   return (
-    <Tab.Navigator
-      screenOptions={({route}) => ({
-        tabBarIcon: ({focused, color, size}) => {
-          let iconName;
+    <MainTabContext.Provider value={{id: route.params.id, name: route.params.name}}>
+      <Tab.Navigator
+        screenOptions={({route}) => ({
+          tabBarIcon: ({focused, color, size}) => {
+            let iconName;
 
-          if (route.name === 'Home') {
-            iconName = focused ? 'ios-home' : 'ios-home-outline';
-          } else if (route.name === 'List') {
-            iconName = focused ? 'ios-list' : 'ios-list-outline';
-          } else if (route.name === 'Recipe') {
-            iconName = focused ? 'ios-book' : 'ios-book-outline';
-          } else if (route.name === 'Calendar') {
-            iconName = focused ? 'ios-calendar' : 'ios-calendar-outline';
-          } else if (route.name === 'Settings') {
-            iconName = focused ? 'ios-settings' : 'ios-settings-outline';
-          }
+            if (route.name === 'Home') {
+              iconName = focused ? 'ios-home' : 'ios-home-outline';
+            } else if (route.name === 'List') {
+              iconName = focused ? 'ios-list' : 'ios-list-outline';
+            } else if (route.name === 'Recipe') {
+              iconName = focused ? 'ios-book' : 'ios-book-outline';
+            } else if (route.name === 'Calendar') {
+              iconName = focused ? 'ios-calendar' : 'ios-calendar-outline';
+            } else if (route.name === 'Settings') {
+              iconName = focused ? 'ios-settings' : 'ios-settings-outline';
+            }
 
-          // You can return any component that you like here!
-          return <Ionicon name={iconName} size={size} color={color} />;
-        },
-        tabBarActiveTintColor: 'tomato',
-        tabBarInactiveTintColor: 'gray',
-      })}>
-      <Tab.Screen name="Home" component={Home} />
-      <Tab.Screen name="List" component={List} />
-      <Tab.Screen name="Recipe" component={Recipe} />
-      <Tab.Screen name="Calendar" component={Calendar} />
-      <Tab.Screen name="Settings" component={Setting} />
-    </Tab.Navigator>
+            // You can return any component that you like here!
+            return <Ionicon name={iconName} size={size} color={color} />;
+          },
+          tabBarActiveTintColor: 'tomato',
+          tabBarInactiveTintColor: 'gray',
+        })}>
+        <Tab.Screen name="Home" component={Home} />
+        <Tab.Screen name="List" component={List} />
+        <Tab.Screen name="Recipe" component={Recipe} />
+        <Tab.Screen name="Calendar" component={Calendar} />
+        <Tab.Screen name="Settings" component={Setting} />
+      </Tab.Navigator>
+    </MainTabContext.Provider>
   );
 };
 
