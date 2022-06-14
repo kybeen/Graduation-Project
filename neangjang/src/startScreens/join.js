@@ -15,10 +15,10 @@ import MyTextInput from '../component/MyTextInput';
 const Join = ({navigation}) => {
   const [userName, setUserName] = useState(''); // 회원가입 유저 닉네임
   const [userID, setUserID] = useState(''); // 회원가입 ID
-  const [checkingID, setCheckingID] = useState(' ');
+  const [checkingID, setCheckingID] = useState('');
   const [userPW, setUserPW] = useState(''); // 회원가입 PW
   const [userCheckPW, setUserCheckPW] = useState(''); // 재확인용 PW
-  const [checkingPW, setCheckingPW] = useState(' '); // PW 일치여부 확인 문구
+  const [checkingPW, setCheckingPW] = useState(''); // PW 일치여부 확인 문구
 
     // 앱이 렌더링될때마다 PW일치여부 확인 후 일치하지 않을 경우 문구 출력
     useEffect(() => {
@@ -28,7 +28,7 @@ const Join = ({navigation}) => {
       else {
         setCheckingPW('password가 일치하지 않습니다.')
       };
-      fetch("http://localhost:9000/app/users/checkId", {
+      fetch("https://www.bigthingiscoming.shop/app/users/checkId", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -43,7 +43,7 @@ const Join = ({navigation}) => {
         console.log(response);
         response.result === "생성 불가능한 아이디" ?
         setCheckingID("생성 불가능한 아이디입니다.") :
-        setCheckingID("")
+        setCheckingID('')
       }
     });
     });
@@ -69,28 +69,6 @@ const Join = ({navigation}) => {
         response.code === 1000 ?
         Alert.alert("성공", "회원가입에 성공하였습니다", [{text: "OK", onPress: ()=>{navigation.navigate('Login')}}]) :
         Alert.alert("실패", response.message)
-      }
-    })
-    .catch(error => {console.log("Fetch Error", error);})
-  }
-
-  const pressCheckID = () => { // 회원가입 버튼 눌렀을 때, 회원가입 정보 POST
-    fetch("http://localhost:9000/app/users/checkId", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(
-        userID
-      ),
-    })
-    .then(response => response.json())
-    .then(response => {
-      {
-        console.log(response);
-        response.result === "생성 가능한 아이디" ?
-        Alert.alert("성공", "생성 가능한 아이디입니다.") :
-        Alert.alert("실패", "생성 불가능한 아이디입니다.")
       }
     })
     .catch(error => {console.log("Fetch Error", error);})
@@ -137,7 +115,7 @@ const Join = ({navigation}) => {
       <Text style={styles.check}>{checkingPW}</Text>
       <MyButton
         onPress={()=>pressSignUp()}
-        disabled={checkingID === "" ? false : true}
+        disabled={checkingID === '' ? false : true}
         text="Sign up"
       />
     </View>
