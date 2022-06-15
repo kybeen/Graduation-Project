@@ -7,12 +7,17 @@ import {
   StyleSheet,
   SectionList,
   SafeAreaView,
+  Image,
 } from 'react-native';
 
 const MyRecipeList = (props) => {
   return (
     <View style={styles.listView}>
       <View style={styles.pictureView}>
+        <Image 
+          style={styles.tinyLogo}
+          source={{url : props.photoUrl}}
+        />
       </View>
       <View style={styles.textView}>
         <View style={{
@@ -65,6 +70,11 @@ const styles = StyleSheet.create({
     marginHorizontal: 10,
     marginVertical: 10,
     },
+    tinyLogo: {
+      width: 69,
+      height: 64,
+      borderRadius: 10,
+    }
 });
 
 export default MyRecipeList;
