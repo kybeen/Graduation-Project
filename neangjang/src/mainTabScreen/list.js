@@ -19,47 +19,29 @@
    Alert,
    ActivityIndicator,
  } from 'react-native';
- import MyRecipeList from '../component/MyRecipeList';
+ import MyFoodList from '../component/MyFoodList';
+
 
  import { MainTabContext } from './mainTab';
  import MyTextInput from '../component/MyTextInput';
  
  const renderItem = ({item}) => {
    return (
-     <View style={styles.listView}>
-       <View style={styles.pictureView}>
-       </View>
-       <View style={styles.textView}>
-         <View style={{
-         marginBottom:3
-         }}>
-           <Text style={{
-             fontSize: 20,
-             fontWeight: 'bold',
-           }}>
-             {item.foodName}
-           </Text>
-         </View>
-         <View style={{
-           marginBottom:3
-         }}>
-           <Text>수량 : {item.amount}</Text>
-         </View>
-         <View>
-           <Text>유통기한: {item.expirationDate}</Text>
-         </View>
-       </View>
-       <View style={styles.pictureView}>
-         <Text>{item.ed_Left}</Text>
-       </View>
-     </View>
-   )
- }
+    <MyFoodList 
+      foodPhoto={item.foodPhoto}
+      foodName={item.foodName}
+      amount={item.amount}
+      expirationDate={item.expirationDate}
+      ed_Left={item.ed_Left}
+    />
+  )
+}
  
  const List = () => {
    const { id, name } = useContext(MainTabContext);  // 로그인 시 받아온 사용자의 idx, userName을 Login->MainTab 통해서 전달
    const [foodData, setFoodData] = useState([]);
    const [searchText, setSearchText] = useState(''); // 검색 텍스트
+
    useEffect(() => {
     fetch("https://www.bigthingiscoming.shop/app/foods/"+id)
     .then(response => response.json())
@@ -67,8 +49,7 @@
       setFoodData(response.result);
     })
     .catch(error => {console.log('Fetch Error', error);})
-   }, [],
-   console.log(foodData)); // [] : 첫 렌더링 시에만 useEffect 호출
+   }, []); // [] : 첫 렌더링 시에만 useEffect 호출
 
    return (
      <SafeAreaView style={{flexDirection: 'column', flex: 1}}>
@@ -108,7 +89,7 @@
      width: '95%'
    },
    titleText: {
-     fontSize: 25,
+     fontSize: 30,
      fontWeight: 'bold',
      width: '90%',
    },
