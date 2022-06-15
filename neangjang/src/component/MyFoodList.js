@@ -87,6 +87,7 @@ const styles = StyleSheet.create({
     tinyLogo: {
       width: 55,
       height: 55,
+      borderRadius: 10,
     },
 });
 

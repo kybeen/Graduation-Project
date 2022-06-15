@@ -32,6 +32,7 @@ const ListHeader = (props) => {
 const renderItem = ({item}) => {
   return (
     <MyRecipeList 
+      photoUrl={item.photoUrl}
       recipeName={item.recipeName}
       makeTime={item.makeTime}
       foodHave={item.foodHave}

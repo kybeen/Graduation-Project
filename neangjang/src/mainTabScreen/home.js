@@ -24,8 +24,9 @@ import MyRecipeList from '../component/MyRecipeList';
 import MyFoodList from '../component/MyFoodList';
 
 const renderRecipeItem = ({item, index}) => {
-  if (index < 4) return (   // 4개까지만 출력하도록 조건문 설정
+  if (index < 3) return (   // 4개까지만 출력하도록 조건문 설정
     <MyRecipeList 
+      photoUrl={item.photoUrl}
       recipeName={item.recipeName}
       makeTime={item.makeTime}
       foodHave={item.foodHave}
