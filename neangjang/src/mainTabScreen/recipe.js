@@ -6,7 +6,7 @@
  * @flow strict-local
  */
 
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import {
   View,
   Text,
@@ -20,53 +20,34 @@ import {
   Alert,
   ActivityIndicator,
 } from 'react-native';
+import { MainTabContext } from './mainTab';
 import MyRecipeList from '../component/MyRecipeList';
+
+const ListHeader = (props) => {
+  return (
+    <Text style={styles.titleText}>{props.name}의 레시피</Text>
+  );
+};
 
 const renderItem = ({item}) => {
   return (
-    <View style={styles.listView}>
-      <View style={styles.pictureView}>
-      </View>
-      <View style={styles.textView}>
-        <View style={{
-        marginBottom:3
-        }}>
-          <Text style={{
-            fontSize: 20,
-            fontWeight: 'bold',
-          }}>
-            {item.recipeName}
-          </Text>
-        </View>
-        <View style={{
-          marginBottom:3
-        }}>
-          <Text>소요시간 : {item.makeTime}</Text>
-        </View>
-        <View>
-          <Text>가진 식재료 : {item.foodHave}</Text>
-        </View>
-      </View>
-    </View>
+    <MyRecipeList 
+      recipeName={item.recipeName}
+      makeTime={item.makeTime}
+      foodHave={item.foodHave}
+    />
   )
 }
 
-const LIMIT = 7;
-
 const Recipe = () => {
+  const { id, name } = useContext(MainTabContext);
   const [recipeData, setRecipeData] = useState([]);
-  const [loading, setLoading] = useState(false);
 
   const getRecipeData = () => {
-    setLoading(true);
-    fetch('https://www.bigthingiscoming.shop/app/recipes/1') 
+    fetch('https://www.bigthingiscoming.shop/app/recipes/'+id) 
       .then((res) => res.json())
       .then((res) => setRecipeData(res.result))
-      .then(() => {
-        setLoading(false);
-      })
       .catch((error) => {
-        setLoading(false);
         Alert.alert("Error");
       });
   };
@@ -75,26 +56,16 @@ const Recipe = () => {
     getRecipeData();  
   }, []);
 
-  const onEndReached = () => {
-    if (loading) {
-      return;
-    } else {
-      getRecipeData();
-    }
-  };
-
   return (
     <SafeAreaView style={{flexDirection: 'column', flex: 1}}>
       <View style={styles.titleView}>
-        <Text style={styles.titleText}>레시피</Text>
+        <ListHeader name={name}/>
       </View>
       <View style={styles.mainView}>
         <FlatList
           data={recipeData}
           renderItem={renderItem}
           keyExtractor={(item) => item.idx}
-          onEndReached={onEndReached}
-          onEndReachedThreshold={0.8}
         />
       </View>
     </SafeAreaView>
@@ -115,7 +86,7 @@ const styles = StyleSheet.create({
     width: '95%'
   },
   titleText: {
-    fontSize: 25,
+    fontSize: 30,
     fontWeight: 'bold',
     width: '90%',
   },

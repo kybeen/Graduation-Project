@@ -15,49 +15,63 @@ import {
   StyleSheet,
   SectionList,
   SafeAreaView,
+  FlatList,
 } from 'react-native';
 
 import Ionicon from 'react-native-vector-icons/Ionicons';
 import { MainTabContext } from './mainTab';
+import MyRecipeList from '../component/MyRecipeList';
+import MyFoodList from '../component/MyFoodList';
 
-const ExpDATA = [
-  {
-    title: '유통기한 임박',
-    data: [
-      [
-        <Text style={{justifyContent: 'flex-start'}}>우유</Text>,
-        <Text style={{justifyContent: 'flex-end'}}>3일 남음</Text>,
-      ],
-      'Cucumber',
-      'Potato',
-    ],
-  },
-];
+const renderRecipeItem = ({item, index}) => {
+  if (index < 4) return (   // 4개까지만 출력하도록 조건문 설정
+    <MyRecipeList 
+      recipeName={item.recipeName}
+      makeTime={item.makeTime}
+      foodHave={item.foodHave}
+    />
+  )
+}
 
-const ResDATA = [
-  {
-    title: '추천 레시피',
-    data: ['Mashed Potato', 'Oconomiyaki', 'Pasta', 'Soap'],
-  },
-];
-
-const Item = ({title}) => (
-  <View style={styles.item}>
-    <Text style={styles.title}>{title}</Text>
-  </View>
-);
+const renderFoodItem = ({item, index}) => {
+  if (index < 3) return (   // 3개까지만 출력하도록 조건문 설정
+  <MyFoodList 
+    foodPhoto={item.foodPhoto}
+    foodName={item.foodName}
+    amount={item.amount}
+    expirationDate={item.expirationDate}
+    ed_Left={item.ed_Left}
+  />
+ )
+}
 
 const Home = () => {
-  const [food, setFood] = useState('');
   const { id, name } = useContext(MainTabContext);
-  console.log(id, name);
+  const [recipeData, setRecipeData] = useState([]);
+  const [foodData, setFoodData] = useState([]);
+
+  const getRecipeData = () => {
+    fetch('https://www.bigthingiscoming.shop/app/recipes/'+id) 
+      .then((res) => res.json())
+      .then((res) => setRecipeData(res.result))
+      .catch((error) => {
+        Alert.alert("Error");
+      });
+  };
+
+  const getFoodData = () => {
+    fetch("https://www.bigthingiscoming.shop/app/foods/"+id)
+    .then(response => response.json())
+    .then(response => {
+      setFoodData(response.result);
+    })
+    .catch(error => {console.log('Fetch Error', error);})
+  }
 
   useEffect(() => {
-    //fetch('https://jsonplaceholder.typicode.com/users')
-    fetch('https://www.bigthingiscoming.shop/app/foods/1')
-        .then((response) => response.json())
-        .then((data) => setFood(data['result'][0]['foodName']))
-  })
+    getRecipeData(); 
+    getFoodData();
+  }, []); // [] : 첫 렌더링 시에만 useEffect 호출
 
   return (
     <SafeAreaView
@@ -65,24 +79,22 @@ const Home = () => {
       <View style={styles.titleView}>
         <Text style={styles.titleText}>{name}의 냉장냉장</Text>
       </View>
-      <View style={styles.mainView}>
-        <SectionList
-          style={{width: '95%'}}
-          sections={ExpDATA}
-          keyExtractor={(item, index) => item + index}
-          renderItem={({item}) => <Item title={item} />}
-          renderSectionHeader={({section: {title}}) => (
-            <Text style={styles.header}>{title}</Text>
-          )}
+      <View style={styles.listView}>
+        <Text style={styles.subTitleText}>유통기한 임박상품</Text>
+        <FlatList
+          scrollEnabled={false}
+          data={foodData}
+          renderItem={renderFoodItem}
+          keyExtractor={(item) => item.idx}
         />
-        <SectionList
-          style={{width: '95%'}}
-          sections={ResDATA}
-          keyExtractor={(item, index) => item + index}
-          renderItem={({item}) => <Item title={item} />}
-          renderSectionHeader={({section: {title}}) => (
-            <Text style={styles.header}>{title}</Text>
-          )}
+        </View>
+        <View style={styles.recipeView}>
+        <Text style={styles.subTitleText}>추천 레시피</Text>
+        <FlatList
+          scrollEnabled={false}
+          data={recipeData}
+          renderItem={renderRecipeItem}
+          keyExtractor={(item) => item.idx}
         />
       </View>
     </SafeAreaView>
@@ -96,15 +108,26 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     width: '95%',
   },
-  mainView: {
-    flex: 10,
-    alignItems: 'center',
-    justifyContent: 'center',
+  listView: {
+    flex: 4.5,
+    width: '95%',
+    alignSelf: 'center',
+  },
+  recipeView: {
+    flex: 5,
+    width: '95%',
+    alignSelf: 'center',
   },
   titleText: {
-    fontSize: 25,
+    fontSize: 30,
     fontWeight: 'bold',
     width: '90%',
+  },
+  subTitleText: {
+    fontSize: 20,
+    fontWeight: 'bold',
+    width: '90%',
+    paddingBottom: 10
   },
   item: {
     alignSelf: 'center',
