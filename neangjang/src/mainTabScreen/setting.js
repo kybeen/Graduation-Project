@@ -19,26 +19,6 @@ import {
 
 import Ionicon from 'react-native-vector-icons/Ionicons';
 
-const ExpDATA = [
-  {
-    title: 'Expiration Soon',
-    data: ['Milk', 'Cucumber', 'Potato'],
-  },
-];
-
-const ResDATA = [
-  {
-    title: 'Recommend Recipe',
-    data: ['Mashed Potato', 'Oconomiyaki', 'Pasta', 'Soap'],
-  },
-];
-
-const Item = ({title}) => (
-  <View style={styles.item}>
-    <Text style={styles.title}>{title}</Text>
-  </View>
-);
-
 const Setting = () => {
   return (
     <SafeAreaView
@@ -46,28 +26,6 @@ const Setting = () => {
       <View style={styles.titleView}>
         <Text style={styles.titleText}>설정</Text>
       </View>
-      <View style={styles.mainView}>
-        <SectionList
-          style={{alignContent: 'center'}}
-          backgroundColor="blue"
-          sections={ExpDATA}
-          keyExtractor={(item, index) => item + index}
-          renderItem={({item}) => <Item title={item} />}
-          renderSectionHeader={({section: {title}}) => (
-            <Text style={styles.header}>{title}</Text>
-          )}
-        />
-        <SectionList
-          backgroundColor="blue"
-          sections={ResDATA}
-          keyExtractor={(item, index) => item + index}
-          renderItem={({item}) => <Item title={item} />}
-          renderSectionHeader={({section: {title}}) => (
-            <Text style={styles.header}>{title}</Text>
-          )}
-        />
-      </View>
-      <View style={styles.bottomBar}></View>
     </SafeAreaView>
   );
 };
