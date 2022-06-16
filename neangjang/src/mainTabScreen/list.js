@@ -18,13 +18,13 @@
    FlatList,
    Alert,
    ActivityIndicator,
+   TouchableOpacity,
  } from 'react-native';
  import MyFoodList from '../component/MyFoodList';
  import Icon from 'react-native-vector-icons/dist/Ionicons';
 
  import { MainTabContext } from './mainTab';
  import MyTextInput from '../component/MyTextInput';
-import { TouchableOpacity } from 'react-native-gesture-handler';
  
 //  const renderItem = ({item}) => {
 //    return (
