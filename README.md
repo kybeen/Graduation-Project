@@ -66,3 +66,6 @@ v0.2.5
 - RecipeList, FoodList Custom_Component로 제작
 - home 화면 DB에서 불러오도록 수정
 - Recipe화면, List화면 사진 출력 및 UI 일부 수정
+
+v0.2.6
+- 식재료 리스트 검색 기능 추가
