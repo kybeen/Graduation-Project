@@ -51,27 +51,31 @@ const Home = () => {
   const [recipeData, setRecipeData] = useState([]);
   const [foodData, setFoodData] = useState([]);
 
-  const getRecipeData = () => {
-    fetch('https://www.bigthingiscoming.shop/app/recipes/'+id) 
-      .then((res) => res.json())
-      .then((res) => setRecipeData(res.result))
-      .catch((error) => {
-        Alert.alert("Error");
-      });
-  };
+  // const getRecipeData = () => {
+  //   fetch('https://www.bigthingiscoming.shop/app/home/'+id) 
+  //     .then((res) => res.json())
+  //     .then((res) => )
+  //     .catch((error) => {
+  //       Alert.alert("Error");
+  //     });
+  // };
 
-  const getFoodData = () => {
-    fetch("https://www.bigthingiscoming.shop/app/foods/"+id)
+  const getData = () => {
+    fetch("https://www.bigthingiscoming.shop/app/home/"+id)
     .then(response => response.json())
     .then(response => {
-      setFoodData(response.result);
+      setRecipeData(response.result[0]);
+      setFoodData(response.result[1]);
+      console.log(response.result[0]);
+      console.log(response.result[1]);
     })
     .catch(error => {console.log('Fetch Error', error);})
   }
 
   useEffect(() => {
-    getRecipeData(); 
-    getFoodData();
+    getData(); 
+    console.log(recipeData);
+    console.log(foodData);
   }, []); // [] : 첫 렌더링 시에만 useEffect 호출
 
   return (

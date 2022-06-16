@@ -55,6 +55,7 @@ const Recipe = () => {
 
   useEffect(() => {
     getRecipeData();  
+    console.log(recipeData);
   }, []);
 
   return (
