@@ -32,7 +32,7 @@ const CalendarView = () => {
         showScrollIndicator={true}
       />
       <View style={styles.about}>
-        <Text>해당 날짜 식품정보</Text>
+        <Text>해당 날짜 식품정보 </Text>
       </View>
     </View>
   );
