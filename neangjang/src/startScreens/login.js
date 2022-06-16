@@ -52,6 +52,7 @@
           console.log(response.code);
           break;
       }
+      console.log(response);
     })
     // .then(response => {{console.log(response);}})
     .catch(error => {console.log('Fetch Error', error);})
