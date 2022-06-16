@@ -5,26 +5,25 @@
  * @format
  * @flow strict-local
  */
- import React, { useContext, useEffect, useState } from 'react';
+ import React, { useContext, useEffect, useState, createContext } from 'react';
  import {
    View,
    Text,
-   TextInput,
-   Button,
    StyleSheet,
-   SectionList,
    SafeAreaView,
-   ScrollView,
    FlatList,
-   Alert,
-   ActivityIndicator,
    TouchableOpacity,
+   Modal,
+   Alert,
+   TextInput,
  } from 'react-native';
  import MyFoodList from '../component/MyFoodList';
  import Icon from 'react-native-vector-icons/dist/Ionicons';
+ import ActionButton from 'react-native-action-button';
 
  import { MainTabContext } from './mainTab';
  import MyTextInput from '../component/MyTextInput';
+ //import MyFoodAddPopUp from '../component/MyFoodAddPopUp';
  
 //  const renderItem = ({item}) => {
 //    return (
@@ -37,11 +36,12 @@
 //     />
 //   )
 // }
- 
+
  const List = () => {
    const { id, name } = useContext(MainTabContext);  // 로그인 시 받아온 사용자의 idx, userName을 Login->MainTab 통해서 전달
    const [foodData, setFoodData] = useState([]);  // 받아올 음식들의 정보
    const [searchText, setSearchText] = useState(''); // 검색 텍스트
+   const [foodPopUp, setFoodPopUp] = useState(false); // 음식 추가 팝업
 
    useEffect(() => {
     fetch("https://www.bigthingiscoming.shop/app/foods/"+id)
@@ -52,7 +52,7 @@
     .catch(error => {console.log('Fetch Error', error);})
    }, []); // [] : 첫 렌더링 시에만 useEffect 호출
 
-   // 검색 텍스트에 따라 해당하는 식새료만 렌더링
+   // 검색 텍스트에 따라 해당하는 식재료만 렌더링
    const renderItem = ({item}) => {
     if (searchText === '') {  // 아무것도 입력하지 않았을 떄
       return (
@@ -78,34 +78,76 @@
         )
       }
     }
-
    }
+
    return (
-     <SafeAreaView style={{flexDirection: 'column', flex: 1}}>
-       <View style={styles.titleView}>
-         <Text style={styles.titleText}>{name}의 식재료</Text>
-       </View>
-       <View style={styles.searchView}>
-        <Icon name='ios-search' size={25}/>
-        <MyTextInput
-          value={searchText}
-          onChangeText={setSearchText}
-          placeholder="식재료 검색"
-          autoCapitalize={'none'}
+    <SafeAreaView style={{flexDirection: 'column', flex: 1, backgroundColor: foodPopUp ? 'rgba(0, 0, 0, 0.5)' : 'rgba(255,255,255,1)'}}>
+      <View style={styles.titleView}>
+        <Text style={styles.titleText}>{name}의 식재료</Text>
+      </View>
+      <View style={styles.searchView}>
+      <Icon name='ios-search' size={25}/>
+      <MyTextInput
+        value={searchText}
+        onChangeText={setSearchText}
+        placeholder="식재료 검색"
+        autoCapitalize={'none'}
+      />
+      {/* <Icon name='close-sharp' size={30} onPress={()=>{alert('')}}/> */}
+      <TouchableOpacity onPress={() => setSearchText('')}>
+        <Text style={styles.cancelButton}>취소</Text>
+      </TouchableOpacity>
+      </View>
+      <View style={styles.mainView}>
+        <FlatList
+          data={foodData}
+          renderItem={renderItem}
+          keyExtractor={(item) => item.idx}
         />
-        {/* <Icon name='close-sharp' size={30} onPress={()=>{alert('')}}/> */}
-        <TouchableOpacity onPress={() => setSearchText('')}>
-          <Text style={styles.cancelButton}>취소</Text>
-        </TouchableOpacity>
-       </View>
-       <View style={styles.mainView}>
-         <FlatList
-           data={foodData}
-           renderItem={renderItem}
-           keyExtractor={(item) => item.idx}
-         />
-       </View>
-     </SafeAreaView>
+      </View>
+      <ActionButton
+        buttonColor="rgba(30,100,230,1)"
+        onPress={() => setFoodPopUp(true)}
+      />
+      <Modal
+        animationType='slide'
+        transparent={true}
+        visible={foodPopUp}
+      >
+        <View style={styles.centerdView}>
+          <View style={styles.popUpView}>
+            <Text style={styles.popUpTitle}>음식을 추가해주세요</Text>
+            <View style={styles.popUpInputs}>
+              <View style={styles.popUpInput}>
+                <Text style={styles.inputTitle}>이름</Text>
+                <TextInput style={styles.input}/>
+              </View>
+              <View style={styles.popUpInput}>
+                <Text style={styles.inputTitle}>사진</Text>
+              </View>
+              <View style={styles.popUpInput}>
+                <Text style={styles.inputTitle}>카테고리</Text>
+              </View>
+              <View style={styles.popUpInput}>
+                <Text style={styles.inputTitle}>수량</Text>
+              </View>
+              <View style={styles.popUpInput}>
+                <Text style={styles.inputTitle}>저장방식</Text>
+              </View>
+              <View style={styles.popUpInput}>
+                <Text style={styles.inputTitle}t>유통기한</Text>
+              </View>
+            </View>
+            <TouchableOpacity
+              style={styles.closeButton}
+              onPress={() => setFoodPopUp(!foodPopUp)}
+            >
+              <Text style={styles.textStyle}>Close</Text>
+            </TouchableOpacity>
+          </View>
+        </View>
+      </Modal>
+    </SafeAreaView>
    );
  };
  
@@ -158,6 +200,59 @@
    cancelButton: {
     fontSize: 15,
     fontWeight: '700',
+   },
+   centerdView: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginTop: 22,
+   },
+   popUpView: { 
+    margin: 20,
+    backgroundColor: "white",
+    borderRadius: 20,
+    padding: 25,
+    alignItems: "center",
+    shadowColor: "#000",
+    width: '80%',
+    height: '50%',
+    shadowOffset: {
+    width: 0,
+    height: 2
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 4,
+    elevation: 5
+   },
+   popUpTitle: {
+    textAlign: "center",
+    fontSize: 25,
+    fontWeight: '700'
+   },
+   popUpInputs: {
+    marginVertical: 30,
+   },
+   popUpInput: {
+    marginVertical: 5,
+    flexDirection: 'row',
+   },
+   inputTitle: {
+    fontSize: 20,
+    fontWeight: '500',
+   },
+   input: {
+    backgroundColor: 'lightgray'
+   },
+   closeButton: {
+    borderRadius: 20,
+    padding: 7,
+    elevation: 2,
+    backgroundColor: "#2196F3",
+   },
+   textStyle: {
+    color: "white",
+    fontWeight: "bold",
+    textAlign: "center"
    },
  });
  
