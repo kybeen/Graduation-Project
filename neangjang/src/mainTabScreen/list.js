@@ -20,26 +20,27 @@
    ActivityIndicator,
  } from 'react-native';
  import MyFoodList from '../component/MyFoodList';
-
+ import Icon from 'react-native-vector-icons/dist/Ionicons';
 
  import { MainTabContext } from './mainTab';
  import MyTextInput from '../component/MyTextInput';
+import { TouchableOpacity } from 'react-native-gesture-handler';
  
- const renderItem = ({item}) => {
-   return (
-    <MyFoodList 
-      foodPhoto={item.foodPhoto}
-      foodName={item.foodName}
-      amount={item.amount}
-      expirationDate={item.expirationDate}
-      ed_Left={item.ed_Left}
-    />
-  )
-}
+//  const renderItem = ({item}) => {
+//    return (
+//     <MyFoodList 
+//       foodPhoto={item.foodPhoto}
+//       foodName={item.foodName}
+//       amount={item.amount}
+//       expirationDate={item.expirationDate}
+//       ed_Left={item.ed_Left}
+//     />
+//   )
+// }
  
  const List = () => {
    const { id, name } = useContext(MainTabContext);  // 로그인 시 받아온 사용자의 idx, userName을 Login->MainTab 통해서 전달
-   const [foodData, setFoodData] = useState([]);
+   const [foodData, setFoodData] = useState([]);  // 받아올 음식들의 정보
    const [searchText, setSearchText] = useState(''); // 검색 텍스트
 
    useEffect(() => {
@@ -51,18 +52,51 @@
     .catch(error => {console.log('Fetch Error', error);})
    }, []); // [] : 첫 렌더링 시에만 useEffect 호출
 
+   // 검색 텍스트에 따라 해당하는 식새료만 렌더링
+   const renderItem = ({item}) => {
+    if (searchText === '') {  // 아무것도 입력하지 않았을 떄
+      return (
+        <MyFoodList 
+          foodPhoto={item.foodPhoto}
+          foodName={item.foodName}
+          amount={item.amount}
+          expirationDate={item.expirationDate}
+          ed_Left={item.ed_Left}
+        />
+      )
+    }
+    else {  // 검색어를 입력했을 때 해당 검색어가 이름에 포함되는 식재료만 렌더링
+      if (item.foodName.includes(searchText)){
+        return (
+          <MyFoodList 
+            foodPhoto={item.foodPhoto}
+            foodName={item.foodName}
+            amount={item.amount}
+            expirationDate={item.expirationDate}
+            ed_Left={item.ed_Left}
+          />
+        )
+      }
+    }
+
+   }
    return (
      <SafeAreaView style={{flexDirection: 'column', flex: 1}}>
        <View style={styles.titleView}>
          <Text style={styles.titleText}>{name}의 식재료</Text>
        </View>
-       <View style={{flex: 1, justifyContent: 'center', alignContent: 'flex-start'}}>
+       <View style={styles.searchView}>
+        <Icon name='ios-search' size={25}/>
         <MyTextInput
           value={searchText}
           onChangeText={setSearchText}
           placeholder="식재료 검색"
           autoCapitalize={'none'}
         />
+        {/* <Icon name='close-sharp' size={30} onPress={()=>{alert('')}}/> */}
+        <TouchableOpacity onPress={() => setSearchText('')}>
+          <Text style={styles.cancelButton}>취소</Text>
+        </TouchableOpacity>
        </View>
        <View style={styles.mainView}>
          <FlatList
@@ -81,6 +115,15 @@
      alignSelf: 'center',
      justifyContent: 'center',
      width: '95%',
+     //backgroundColor: 'yellow',
+   },
+   searchView: {
+    flex: 1,
+    justifyContent: 'center',
+    alignContent: 'center',
+    flexDirection: 'row',
+    width: '95%',
+    //backgroundColor: 'red',
    },
    mainView: {
      flex: 10,
@@ -111,7 +154,11 @@
    textView: {
      flex:4,
      marginTop: 10,
-   }
+   },
+   cancelButton: {
+    fontSize: 15,
+    fontWeight: '700',
+   },
  });
  
  export default List;
