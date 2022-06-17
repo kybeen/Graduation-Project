@@ -16,6 +16,7 @@
    Modal,
    Alert,
    TextInput,
+   
  } from 'react-native';
  import MyFoodList from '../component/MyFoodList';
  import Icon from 'react-native-vector-icons/dist/Ionicons';
@@ -37,14 +38,79 @@
 //   )
 // }
 
+ // ---- [ 음식 추가 팝업 ] ----
+ const AddFood = (props) => {
+    if (props.inputType === 'name') {
+      return (
+        <View style={styles.popUpInput}>
+          <Text style={styles.inputTitle}>{props.title}</Text>
+          <TextInput style={styles.input}/>
+        </View>
+      )
+    }
+    else if (props.inputType === 'image') {
+      return (
+        <View style={styles.popUpInput}>
+          <Text style={styles.inputTitle}>{props.title}</Text>
+          <TouchableOpacity onPress={()=>alert('사진 추가 미구현')}>
+            <Text>사진 추가하기</Text>
+          </TouchableOpacity>
+        </View>
+      )
+    }
+    else if (props.inputType === 'category') {
+      return (
+        <View style={styles.popUpInput}>
+          <Text style={styles.inputTitle}>{props.title}</Text>
+          <TextInput style={styles.input}/>
+        </View>
+      )
+    }
+    else if (props.inputType === 'amount') {
+      return (
+        <View style={styles.popUpInput}>
+          <Text style={styles.inputTitle}>{props.title}</Text>
+          <TextInput style={styles.input}/>
+        </View>
+      )
+      
+    }
+    else if (props.inputType === 'storage') {
+      return (
+        <View style={[styles.popUpInput]}>
+          <Text style={styles.inputTitle}>{props.title}</Text>
+          <TouchableOpacity style={{ backgroundColor: 'lightgray', borderRadius: 10, marginHorizontal: 5, height: '100%', }}>
+            <Text style={{ marginTop: 5, marginHorizontal: 5, }}>냉장보관</Text>
+          </TouchableOpacity>
+          <TouchableOpacity style={{ backgroundColor: 'lightgray', borderRadius: 10, marginHorizontal: 5, height: '100%', }}>
+            <Text style={{ marginTop: 5, marginHorizontal: 5, }}>냉동보관</Text>
+          </TouchableOpacity>
+          <TouchableOpacity style={{ backgroundColor: 'lightgray', borderRadius: 10, marginHorizontal: 5, height: '100%', }}>
+            <Text style={{ marginTop: 5, marginHorizontal: 5, }}>실온보관</Text>
+          </TouchableOpacity>
+        </View>
+      )
+      
+    }
+    else if (props.inputType === 'expiration') {
+      return (
+        <View style={styles.popUpInput}>
+          <Text style={styles.inputTitle}>{props.title}</Text>
+          <TextInput style={styles.input}/>
+        </View>
+      )
+      
+    }
+ }
+
  const List = () => {
-   const { id, name } = useContext(MainTabContext);  // 로그인 시 받아온 사용자의 idx, userName을 Login->MainTab 통해서 전달
+   const { usrId, usrName } = useContext(MainTabContext);  // 로그인 시 DB로부터 받아온 사용자의 idx, userName을 Login->MainTab 통해서 전달 받음
    const [foodData, setFoodData] = useState([]);  // 받아올 음식들의 정보
    const [searchText, setSearchText] = useState(''); // 검색 텍스트
    const [foodPopUp, setFoodPopUp] = useState(false); // 음식 추가 팝업
 
    useEffect(() => {
-    fetch("https://www.bigthingiscoming.shop/app/foods/"+id)
+    fetch("https://www.bigthingiscoming.shop/app/foods/"+usrId)
     .then(response => response.json())
     .then(response => {
       setFoodData(response.result);
@@ -83,7 +149,7 @@
    return (
     <SafeAreaView style={{flexDirection: 'column', flex: 1, backgroundColor: foodPopUp ? 'rgba(0, 0, 0, 0.5)' : 'rgba(255,255,255,1)'}}>
       <View style={styles.titleView}>
-        <Text style={styles.titleText}>{name}의 식재료</Text>
+        <Text style={styles.titleText}>{usrName}의 식재료</Text>
       </View>
       <View style={styles.searchView}>
       <Icon name='ios-search' size={25}/>
@@ -118,25 +184,12 @@
           <View style={styles.popUpView}>
             <Text style={styles.popUpTitle}>음식을 추가해주세요</Text>
             <View style={styles.popUpInputs}>
-              <View style={styles.popUpInput}>
-                <Text style={styles.inputTitle}>이름</Text>
-                <TextInput style={styles.input}/>
-              </View>
-              <View style={styles.popUpInput}>
-                <Text style={styles.inputTitle}>사진</Text>
-              </View>
-              <View style={styles.popUpInput}>
-                <Text style={styles.inputTitle}>카테고리</Text>
-              </View>
-              <View style={styles.popUpInput}>
-                <Text style={styles.inputTitle}>수량</Text>
-              </View>
-              <View style={styles.popUpInput}>
-                <Text style={styles.inputTitle}>저장방식</Text>
-              </View>
-              <View style={styles.popUpInput}>
-                <Text style={styles.inputTitle}t>유통기한</Text>
-              </View>
+              <AddFood title='이름 : ' inputType='name'/>
+              <AddFood title='사진 : ' inputType='image'/>
+              <AddFood title='카테고리 : ' inputType='category'/>
+              <AddFood title='수량 : ' inputType='amount'/>
+              <AddFood title='저장방식 : ' inputType='storage'/>
+              <AddFood title='유통기한 : ' inputType='expiration'/>
             </View>
             <TouchableOpacity
               style={styles.closeButton}
@@ -214,8 +267,8 @@
     padding: 25,
     alignItems: "center",
     shadowColor: "#000",
-    width: '80%',
-    height: '50%',
+    width: '90%',
+    height: '55%',
     shadowOffset: {
     width: 0,
     height: 2
@@ -231,17 +284,28 @@
    },
    popUpInputs: {
     marginVertical: 30,
+    justifyContent: 'center',
    },
    popUpInput: {
-    marginVertical: 5,
+    marginVertical: 8,
     flexDirection: 'row',
+    alignItems: 'center',
    },
    inputTitle: {
     fontSize: 20,
     fontWeight: '500',
+    width: '30%',
+    //backgroundColor: 'skyblue',
    },
    input: {
-    backgroundColor: 'lightgray'
+    backgroundColor: 'lightgray',
+    width: '60%',
+    height: '100%',
+    paddingVertical: 8,
+    paddingHorizontal: 10,
+    borderRadius: 10,
+    fontSize: 15,
+    //ackgroundColor: 'pink',
    },
    closeButton: {
     borderRadius: 20,
