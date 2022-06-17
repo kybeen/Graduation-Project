@@ -23,17 +23,6 @@ import { MainTabContext } from './mainTab';
 import MyRecipeList from '../component/MyRecipeList';
 import MyFoodList from '../component/MyFoodList';
 
-const renderRecipeItem = ({item, index}) => {
-  if (index < 3) return (   // 4개까지만 출력하도록 조건문 설정
-    <MyRecipeList 
-      photoUrl={item.photoUrl}
-      recipeName={item.recipeName}
-      makeTime={item.makeTime}
-      foodHave={item.foodHave}
-    />
-  )
-}
-
 const renderFoodItem = ({item, index}) => {
   if (index < 3) return (   // 3개까지만 출력하도록 조건문 설정
   <MyFoodList 
@@ -46,8 +35,19 @@ const renderFoodItem = ({item, index}) => {
  )
 }
 
+const renderRecipeItem = ({item, index}) => {
+  if (index < 3) return (   // 3개까지만 출력하도록 조건문 설정
+    <MyRecipeList 
+      photoUrl={item.photoUrl}
+      recipeName={item.recipeName}
+      makeTime={item.makeTime}
+      foodHave={item.foodHave}
+    />
+  )
+}
+
 const Home = () => {
-  const { id, name } = useContext(MainTabContext);
+  const { usrId, usrName } = useContext(MainTabContext);
   const [recipeData, setRecipeData] = useState([]);
   const [foodData, setFoodData] = useState([]);
 
@@ -61,13 +61,13 @@ const Home = () => {
   // };
 
   const getData = () => {
-    fetch("https://www.bigthingiscoming.shop/app/home/"+id)
+    fetch("https://www.bigthingiscoming.shop/app/home/"+usrId)
     .then(response => response.json())
     .then(response => {
-      setRecipeData(response.result[0]);
-      setFoodData(response.result[1]);
-      console.log(response.result[0]);
-      console.log(response.result[1]);
+      setFoodData(response.result[0]);
+      setRecipeData(response.result[1]);
+      //console.log(response.result[0]);
+      //console.log(response.result[1]);
     })
     .catch(error => {console.log('Fetch Error', error);})
   }
@@ -82,7 +82,7 @@ const Home = () => {
     <SafeAreaView
       style={{flex: 1, justifyContent: 'center', alignItems: 'stretch'}}>
       <View style={styles.titleView}>
-        <Text style={styles.titleText}>{name}의 냉장냉장</Text>
+        <Text style={styles.titleText}>{usrName}의 냉장냉장</Text>
       </View>
       <View style={styles.listView}>
         <Text style={styles.subTitleText}>유통기한 임박상품</Text>

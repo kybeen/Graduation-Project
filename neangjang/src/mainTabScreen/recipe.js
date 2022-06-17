@@ -41,11 +41,11 @@ const renderItem = ({item}) => {
 }
 
 const Recipe = () => {
-  const { id, name } = useContext(MainTabContext);
+  const { usrId, usrName } = useContext(MainTabContext);
   const [recipeData, setRecipeData] = useState([]);
 
   const getRecipeData = () => {
-    fetch('https://www.bigthingiscoming.shop/app/recipes/'+id) 
+    fetch('https://www.bigthingiscoming.shop/app/recipes/'+usrId) 
       .then((res) => res.json())
       .then((res) => setRecipeData(res.result))
       .catch((error) => {
@@ -61,7 +61,7 @@ const Recipe = () => {
   return (
     <SafeAreaView style={{flexDirection: 'column', flex: 1}}>
       <View style={styles.titleView}>
-        <ListHeader name={name}/>
+        <ListHeader name={usrName}/>
       </View>
       <View style={styles.mainView}>
         <FlatList
