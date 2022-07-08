@@ -1,10 +1,4 @@
-/**
- * Sample React Native App
- * https://github.com/facebook/react-native
- *
- * @format
- * @flow strict-local
- */
+// [ 메인 Tab Navigator ]
 
 import React, { createContext } from 'react';
 import {
@@ -54,11 +48,11 @@ const Main = ({navigation, route}) => {
           tabBarActiveTintColor: 'tomato',
           tabBarInactiveTintColor: 'gray',
         })}>
-        <Tab.Screen name="Home" component={Home} />
-        <Tab.Screen name="List" component={List} />
-        <Tab.Screen name="Recipe" component={Recipe} />
+        <Tab.Screen name="Home" component={Home} options={{headerShown: false}}/>
+        <Tab.Screen name="List" component={List} options={{headerShown: false}}/>
+        <Tab.Screen name="Recipe" component={Recipe} options={{headerShown: false}}/>
         <Tab.Screen name="Calendar" component={Calendar} />
-        <Tab.Screen name="Settings" component={Setting} />
+        <Tab.Screen name="Settings" component={Setting} options={{headerShown: false}}/>
       </Tab.Navigator>
     </MainTabContext.Provider>
   );

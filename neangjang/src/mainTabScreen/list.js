@@ -1,10 +1,4 @@
-/**
- * Sample React Native App
- * https://github.com/facebook/react-native
- *
- * @format
- * @flow strict-local
- */
+// [ 식재료 리스트 화면 ]
  import React, { useContext, useEffect, useState, createContext } from 'react';
  import {
    View,
@@ -110,7 +104,8 @@
    const [foodPopUp, setFoodPopUp] = useState(false); // 음식 추가 팝업
 
    useEffect(() => {
-    fetch("https://www.bigthingiscoming.shop/app/foods/"+usrId)
+    fetch("http://localhost:9000/app/foods/"+usrId)
+    //fetch("https://www.bigthingiscoming.shop/app/foods/"+usrId)
     .then(response => response.json())
     .then(response => {
       setFoodData(response.result);

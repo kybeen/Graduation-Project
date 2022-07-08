@@ -1,10 +1,4 @@
-/**
- * Sample React Native App
- * https://github.com/facebook/react-native
- *
- * @format
- * @flow strict-local
- */
+// [ 홈 화면 ]
 
 import React, { useContext, useEffect, useState } from 'react';
 import {
@@ -61,7 +55,8 @@ const Home = () => {
   // };
 
   const getData = () => {
-    fetch("https://www.bigthingiscoming.shop/app/home/"+usrId)
+    fetch("http://localhost:9000/app/home/"+usrId)
+    //fetch("https://www.bigthingiscoming.shop/app/home/"+usrId)
     .then(response => response.json())
     .then(response => {
       setFoodData(response.result[0]);

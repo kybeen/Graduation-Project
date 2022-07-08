@@ -1,3 +1,4 @@
+// [ 커스텀 컴포넌트 - 텍스트입력 칸 ]
 import React from 'react';
 import { TextInput, StyleSheet } from "react-native"
 
