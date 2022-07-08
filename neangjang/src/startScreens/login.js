@@ -1,10 +1,4 @@
-/**
- * Sample React Native App
- * https://github.com/facebook/react-native
- *
- * @format
- * @flow strict-local
- */
+// [ 로그인 화면 ]
 
  import React, { useState } from 'react';
  import { View, Text, TextInput, Button, StyleSheet, Alert } from 'react-native';
@@ -17,7 +11,8 @@
    const [inputPW, setInputPW] = useState(''); // PW
  
    const pressLogin = () => { // 로그인 버튼 눌렀을 때, 로그인 정보 POST
-    fetch("https://www.bigthingiscoming.shop/app/users/logIn", {
+    fetch("http://localhost:9000/app/users/logIn", {
+    //fetch("https://www.bigthingiscoming.shop/app/users/logIn", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

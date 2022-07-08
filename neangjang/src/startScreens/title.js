@@ -1,10 +1,4 @@
-/**
- * Sample React Native App
- * https://github.com/facebook/react-native
- *
- * @format
- * @flow strict-local
- */
+// [ 타이틀 화면 ]
 
  import React from 'react';
  import {View, Text, Pressable, StyleSheet, TouchableOpacity } from 'react-native';

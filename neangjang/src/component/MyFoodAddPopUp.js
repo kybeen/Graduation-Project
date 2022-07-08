@@ -1,3 +1,4 @@
+// [ 커스텀 컴포넌트 - 음식추가 팝업창 ]
 // state 전달 문제 + View 안맞아서 커스텀 컴포넌트로 아직 분리 못함
 
 import React, {useState, useEffect, useContext} from 'react';

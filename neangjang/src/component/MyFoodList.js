@@ -1,3 +1,4 @@
+// [ 커스텀 컴포넌트 - 식재료 리스트 ]
 import React, { useEffect } from "react";
 import {
   View,

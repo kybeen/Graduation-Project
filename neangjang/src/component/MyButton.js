@@ -1,3 +1,4 @@
+// [ 커스텀 컴포넌트 - 버튼 ]
 import React from 'react';
 import {Text, Pressable, StyleSheet, TouchableOpacity} from 'react-native';
 

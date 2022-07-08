@@ -23,7 +23,7 @@ const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
 
 const App = () => {
-  console.disableYellowBox = true; 
+  console.disableYellowBox = true;  // 경고 숨기기
   return (
     <NavigationContainer>
       <Stack.Navigator initialRouteName="Title">

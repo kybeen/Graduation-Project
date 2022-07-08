@@ -1,10 +1,4 @@
-/**
- * Sample React Native App
- * https://github.com/facebook/react-native
- *
- * @format
- * @flow strict-local
- */
+// [ 회원가입 화면 ]
 
 import React, { useState, useEffect } from 'react';
 import { View, Text, TextInput, Button, StyleSheet, Alert, RefreshControlBase } from 'react-native';
@@ -28,7 +22,8 @@ const Join = ({navigation}) => {
       else {
         setCheckingPW('password가 일치하지 않습니다.')
       };
-      fetch("https://www.bigthingiscoming.shop/app/users/checkId", {
+      fetch("http://localhost:9000/app/users/checkId", {
+      //fetch("https://www.bigthingiscoming.shop/app/users/checkId", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -49,8 +44,8 @@ const Join = ({navigation}) => {
     });
 
   const pressSignUp = () => { // 회원가입 버튼 눌렀을 때, 회원가입 정보 POST
-//    fetch("http://localhost:9000/app/users", {
-    fetch("https://www.bigthingiscoming.shop/app/users", {
+    fetch("http://localhost:9000/app/users", {
+    //fetch("https://www.bigthingiscoming.shop/app/users", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
