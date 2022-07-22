@@ -18,6 +18,7 @@ import LoginScreen from './src/startScreens/login';
 import JoinScreen from './src/startScreens/join';
 
 import MainTabScreen from './src/mainTabScreen/mainTab';
+import MainSetting from './src/mainTabScreen/settingScreens/mainSetting';
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -26,7 +27,7 @@ const App = () => {
   console.disableYellowBox = true;  // 경고 숨기기
   return (
     <NavigationContainer>
-      <Stack.Navigator initialRouteName="Title">
+      <Stack.Navigator initialRouteName="test">
         <Stack.Screen
           name="Title"
           component={TitleScreen}
@@ -47,6 +48,12 @@ const App = () => {
           component={MainTabScreen}
           options={{headerShown: false}}
         />
+        {/* 테스트용
+        <Stack.Screen
+          name="test"
+          component={MainSetting}
+          options={{headerShown: false}}
+        /> */}
       </Stack.Navigator>
     </NavigationContainer>
   );
