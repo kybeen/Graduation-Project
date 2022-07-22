@@ -1,7 +1,7 @@
 // [ 세팅화면 - 메인 ]
 import React, { useState } from 'react';
 import { View, Text, TextInput, Button, StyleSheet, Alert, TouchableOpacity } from 'react-native';
-
+import Ionicon from 'react-native-vector-icons/Ionicons';
 
 const MainSetting = ({navigation}) => {
   return (
@@ -15,13 +15,27 @@ const MainSetting = ({navigation}) => {
                 onPress={()=>navigation.navigate('UserSetting')}
             >
                 <Text style={styles.contentTitle}>사용자 정보 설정</Text>
+                <Ionicon name='chevron-forward' size={30} style={styles.contentIcon}/>
             </TouchableOpacity>
-            <View style={styles.content}>
+            <TouchableOpacity
+                style={styles.content}
+                onPress={()=>navigation.navigate('NoticeSetting')}
+            >
                 <Text style={styles.contentTitle}>알림 설정</Text>
-            </View>
-            <View style={styles.content}>
-                <Text style={styles.contentTitle}>화면설정</Text>
-            </View>
+                <Ionicon name='chevron-forward' size={30} style={styles.contentIcon}/>
+            </TouchableOpacity>
+            <TouchableOpacity
+                style={styles.content}
+                onPress={()=>navigation.navigate('DisplaySetting')}
+            >
+                <Text style={styles.contentTitle}>디스플레이 설정</Text>
+                <Ionicon name='chevron-forward' size={30} style={styles.contentIcon}/>
+            </TouchableOpacity>
+            <TouchableOpacity
+                style={styles.content}
+            >
+                <Text style={[styles.contentTitle, {color: 'red'}]}>로그아웃</Text>
+            </TouchableOpacity>
         </View>
     </View>
   );
@@ -33,23 +47,37 @@ const styles = StyleSheet.create({
     },
     title: {
         flex: 1,
-        backgroundColor: 'yellow',
-        justifyContent: 'center'
+        //backgroundColor: 'yellow',
+        justifyContent: 'center',
+        marginHorizontal: 20,
+        marginVertical: 20,
     },
     titleText: {
-        fontSize: 50,
+        fontSize: 40,
         fontWeight: '600',
+        paddingTop: 30,
     },
     content: {
-        backgroundColor: 'skyblue',
+        //backgroundColor: 'skyblue',
+        borderWidth: 1,
+        borderRadius: 10,
+        borderColor: 'grey',
         height: '10%',
         width: '90%',
-        justifyContent: 'center',
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+        marginBottom: 10,
     },
     contentTitle: {
+        //backgroundColor: 'yellow',
         paddingLeft: 20,
         fontSize: 18,
         fontWeight: '600'
+    },
+    contentIcon: {
+        //backgroundColor: 'green',
+        marginRight: 10,
     },
 });
 

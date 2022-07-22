@@ -6,6 +6,8 @@ import Ionicon from 'react-native-vector-icons/Ionicons';
 
 import UserSetting from './settingScreens/userSetting';
 import MainSetting from './settingScreens/mainSetting';
+import NoticeSetting from './settingScreens/noticeSetting';
+import DisplaySetting from './settingScreens/diaplaySetting';
 
 const Stack = createNativeStackNavigator();
 
@@ -20,6 +22,16 @@ const Settings = () => {
       <Stack.Screen
         name="UserSetting"
         component={UserSetting}
+        //options={{headerShown: false}}
+      />
+      <Stack.Screen
+        name="NoticeSetting"
+        component={NoticeSetting}
+        //options={{headerShown: false}}
+      />
+      <Stack.Screen
+        name="DisplaySetting"
+        component={DisplaySetting}
         //options={{headerShown: false}}
       />
     </Stack.Navigator>
