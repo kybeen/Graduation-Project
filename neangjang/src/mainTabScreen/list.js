@@ -18,19 +18,6 @@
 
  import { MainTabContext } from './mainTab';
  import MyTextInput from '../component/MyTextInput';
- //import MyFoodAddPopUp from '../component/MyFoodAddPopUp';
- 
-//  const renderItem = ({item}) => {
-//    return (
-//     <MyFoodList 
-//       foodPhoto={item.foodPhoto}
-//       foodName={item.foodName}
-//       amount={item.amount}
-//       expirationDate={item.expirationDate}
-//       ed_Left={item.ed_Left}
-//     />
-//   )
-// }
 
  // ---- [ 음식 추가 팝업 ] ----
  const AddFood = (props) => {
