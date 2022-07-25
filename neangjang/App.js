@@ -27,7 +27,7 @@ const App = () => {
   console.disableYellowBox = true;  // 경고 숨기기
   return (
     <NavigationContainer>
-      <Stack.Navigator initialRouteName="test">
+      <Stack.Navigator initialRouteName="Title">
         <Stack.Screen
           name="Title"
           component={TitleScreen}
