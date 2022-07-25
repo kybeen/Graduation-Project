@@ -33,6 +33,15 @@ const MainSetting = ({navigation}) => {
             </TouchableOpacity>
             <TouchableOpacity
                 style={styles.content}
+                //onPress={()=>navigation.navigate('Login')}
+                onPress={() => Alert.alert(
+                    '로그아웃',
+                    '정말 로그아웃 하시겠습니까?',
+                    [
+                        {text: '취소', onPress: () => {}, style: 'cancel'},
+                        {text: '확인', onPress: () => {navigation.navigate('Login')}, style: 'destructive'}
+                    ]
+                )}
             >
                 <Text style={[styles.contentTitle, {color: 'red'}]}>로그아웃</Text>
             </TouchableOpacity>

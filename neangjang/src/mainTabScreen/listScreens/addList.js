@@ -1,18 +1,19 @@
 // [ 식재료 리스트 화면 - 식재료 추가 화면 ]
 import React, { useState } from 'react';
 import { View, Text, TextInput, Button, StyleSheet, Alert, TouchableOpacity } from 'react-native';
+
 import Ionicons from 'react-native-vector-icons/dist/Ionicons';
 import Fontiso from 'react-native-vector-icons/dist/Fontisto';
 import MaterialCommunityIcons from 'react-native-vector-icons/dist/MaterialCommunityIcons';
 
-import MyButton from '../../component/MyButton';
-
 const AddList = ({navigation}) => {
-    const [addName, setAddName] = useState('');
-    const [addPicture, setAddPicture] = useState('');
-    const [addCategory, setAddCategory] = useState('');
-    const [addStorageMethod, setAddStorageMethod] = useState('');
-    const [addExpiration, setAddExpiration] = useState('');
+    // 추가할 식재료 정보 state
+    const [addName, setAddName] = useState('');                     // 이름
+    const [addPicture, setAddPicture] = useState('');               // 사진
+    const [addCategory, setAddCategory] = useState('');             // 카테고리
+    const [addAmount, setAddAmount] = useState(0);                  // 수량
+    const [addStorageMethod, setAddStorageMethod] = useState('');   // 저장방식
+    const [addExpiration, setAddExpiration] = useState('');         // 유통기한
 
   return (
     <View style={styles.container}>
@@ -65,9 +66,10 @@ const AddList = ({navigation}) => {
                     <View style={{flex: 3}}>
                         <TextInput
                             style={[styles.addContentInput, {width: '60%'}]}
-                            value={addName}
-                            onChangeText={setAddName}
+                            value={addAmount}
+                            onChangeText={setAddAmount}
                             placeholder={'수량을 입력해주세요.'}
+                            keyboardType={'decimal-pad'}
                         />
                     </View>
                 </View>
@@ -85,11 +87,13 @@ const AddList = ({navigation}) => {
                 </View>
             </View>
             <View style={styles.buttonArea}>
-                <TouchableOpacity>
-                    <Text>바코드로 등록</Text>
+                <TouchableOpacity style={[styles.button2, {width: '55%'}]}>
+                    <MaterialCommunityIcons name={'barcode-scan'} size={40} color={'#545454'}/>
+                    <Text style={{fontSize: 20, fontWeight: '600', color: '#545454'}}>바코드로 등록</Text>
                 </TouchableOpacity>
-                <TouchableOpacity>
-                    <Text>저장</Text>
+                <TouchableOpacity style={[styles.button2, {width: '35%'}]}>
+                    <MaterialCommunityIcons name={'content-save-check'} size={40} color={'#545454'}/>
+                    <Text style={{fontSize: 20, fontWeight: '600', color: '#545454'}}>저장</Text>
                 </TouchableOpacity>
             </View>
         </View>
@@ -108,6 +112,7 @@ const styles = StyleSheet.create({
         paddingLeft: 10,
         paddingTop: 10,
         marginTop: 20,
+        marginBottom: -10,
     },
     titleText: {
         fontSize: 30,
@@ -186,12 +191,22 @@ const styles = StyleSheet.create({
         flex: 3,
     },
     buttonArea: {
-        backgroundColor: 'lightgreen',
+        //backgroundColor: 'lightgreen',
         flex: 1,
         flexDirection: 'row',
-        justifyContent: 'space-between',
+        justifyContent: 'center',
         alignItems: 'center',
-    }
+    },
+    button2: {
+        backgroundColor: '#E5EBFF',
+        borderRadius: 10,
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'space-between',
+        paddingHorizontal: 15,
+        height: '100%',
+        marginHorizontal: 10,
+    },
 });
 
 export default AddList;
