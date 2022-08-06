@@ -1,6 +1,8 @@
 // [ 식재료 리스트 화면 - 식재료 추가 화면 ]
 import React, { useState } from 'react';
-import { View, Text, TextInput, Button, StyleSheet, Alert, TouchableOpacity } from 'react-native';
+import { View, Text, TextInput, Button, StyleSheet, Alert, TouchableOpacity, Image } from 'react-native';
+import { launchCamera, launchImageLibrary } from 'react-native-image-picker';
+import { Picker } from '@react-native-picker/picker'
 
 import Ionicons from 'react-native-vector-icons/dist/Ionicons';
 import Fontiso from 'react-native-vector-icons/dist/Fontisto';
@@ -9,7 +11,7 @@ import MaterialCommunityIcons from 'react-native-vector-icons/dist/MaterialCommu
 const AddList = ({navigation}) => {
     // 추가할 식재료 정보 state
     const [addName, setAddName] = useState('');                     // 이름
-    const [addPicture, setAddPicture] = useState('');               // 사진
+    const [addPicture, setAddPicture] = useState('/Users/kim-youngbin/Desktop/BTIC/Application/neangjang/assets/icons/list_fill.png');               // 사진
     const [addCategory, setAddCategory] = useState('');             // 카테고리
     const [addAmount, setAddAmount] = useState(0);                  // 수량
     const [addStorageMethod, setAddStorageMethod] = useState('');   // 저장방식
@@ -37,17 +39,32 @@ const AddList = ({navigation}) => {
                     <Text style={styles.addContentName}>사진 :</Text>
                     <View style={styles.addPictureInput}>
                         <View style={styles.picture}>
-                            <Text>사진</Text>
+                            <Image
+                                source={{uri : addPicture}}
+                                style={{width:'100%',height:'100%'}}
+                            />
+                            {/* <Text>사진</Text> */}
                         </View>
                         <View style={styles.pictureButton}>
                             <TouchableOpacity
                                 style={styles.button}
+                                onPress={()=>{
+                                    // ios 시뮬레이터에서 동작X 핸드폰으로 확인해야함
+                                    launchCamera({}, response=>{
+                                        setAddPicture(response.assets[0].uri);
+                                    })
+                                }}
                             >
                                 <Ionicons name={'camera'} size={35} color={'#545454'}/>
                                 <Text style={{fontSize: 20, fontWeight: '600', color: '#545454'}}>촬영</Text>
                             </TouchableOpacity>
                             <TouchableOpacity
                                 style={styles.button}
+                                onPress={()=>{
+                                    launchImageLibrary({}, response=>{
+                                        setAddPicture(response.assets[0].uri);
+                                    })
+                                }}
                             >
                                 <Fontiso name={'picture'} size={25} color={'#545454'}/>
                                 <Text style={{fontSize: 20, fontWeight: '600', color: '#545454'}}>앨범</Text>
@@ -58,7 +75,10 @@ const AddList = ({navigation}) => {
                 <View style={styles.addContent}>
                     <Text style={styles.addContentName}>카테고리 :</Text>
                     <View style={styles.addPickerInput}>
-                        <Text>카테고리 선택</Text>
+                        <Picker>
+
+                        </Picker>
+                        {/* <Text>카테고리 선택</Text> */}
                     </View>
                 </View>
                 <View style={styles.addContent}>
@@ -75,9 +95,13 @@ const AddList = ({navigation}) => {
                 </View>
                 <View style={styles.addContent}>
                     <Text style={styles.addContentName}>저장방식 :</Text>
-                    <View style={styles.addPickerInput}>
+                    {/* <View style={styles.addPickerInput}>
                         <Text>저장방식 선택</Text>
-                    </View>
+                    </View> */}
+                    <Picker style={styles.addPickerInput} mode='dropdown'>
+                        <Picker.Item label="육류" value="meat"/>
+                        <Picker.Item label="야채" value="vegt"/>
+                    </Picker>
                 </View>
                 <View style={styles.addContent}>
                     <Text style={styles.addContentName}>유통기한 :</Text>

@@ -23,7 +23,7 @@ const UserSetting = ({navigation}) => {
       <MyTextInput
         value={userName}
         onChangeText={setUserName}
-        placeholder="사용할 이름을 입력해주세요."
+        placeholder="변경할 이름을 입력해주세요."
         maxLength={20}
         autoCapitalize={'none'}
       />
@@ -31,7 +31,7 @@ const UserSetting = ({navigation}) => {
         <MyTextInput
           value={userID}
           onChangeText={setUserID}
-          placeholder="ID를 생성해주세요."
+          placeholder="변경할 ID를 입력해주세요."
           maxLength={20}
           autoCapitalize={'none'}
         />
@@ -43,7 +43,7 @@ const UserSetting = ({navigation}) => {
         maxLength={20}
         autoCapitalize={'none'}
         secureTextEntry={true}
-        placeholder="PW를 생성해주세요."
+        placeholder="변경할 PW를 입력해주세요."
       />
       <Text style={styles.description}>Check Password</Text>
       <MyTextInput
