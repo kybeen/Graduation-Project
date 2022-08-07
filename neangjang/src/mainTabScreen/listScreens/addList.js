@@ -2,7 +2,7 @@
 import React, { useState } from 'react';
 import { View, Text, TextInput, Button, StyleSheet, Alert, TouchableOpacity, Image } from 'react-native';
 import { launchCamera, launchImageLibrary } from 'react-native-image-picker';
-import { Picker } from '@react-native-picker/picker'
+import DropDownPicker from 'react-native-dropdown-picker';
 
 import Ionicons from 'react-native-vector-icons/dist/Ionicons';
 import Fontiso from 'react-native-vector-icons/dist/Fontisto';
@@ -11,11 +11,24 @@ import MaterialCommunityIcons from 'react-native-vector-icons/dist/MaterialCommu
 const AddList = ({navigation}) => {
     // 추가할 식재료 정보 state
     const [addName, setAddName] = useState('');                     // 이름
-    const [addPicture, setAddPicture] = useState('/Users/kim-youngbin/Desktop/BTIC/Application/neangjang/assets/icons/list_fill.png');               // 사진
+    const [addPhoto, setAddPhoto] = useState('/Users/kim-youngbin/Desktop/BTIC/Application/neangjang/assets/icons/list_fill.png');               // 사진
     const [addCategory, setAddCategory] = useState('');             // 카테고리
     const [addAmount, setAddAmount] = useState(0);                  // 수량
-    const [addStorageMethod, setAddStorageMethod] = useState('');   // 저장방식
+    const [addStorageType, setAddStorageType] = useState('');       // 저장방식
     const [addExpiration, setAddExpiration] = useState('');         // 유통기한
+
+    // dropdown picker용 state
+    const [categoryOpen, setCategoryOpen] = useState(false);
+    const [categoryItems, setCategoryItems] = useState([ // 카테고리 종류
+        { label: "육류", value: "meat" },
+        { label: "야채", value: "vegetable" },
+    ]);
+    const [storageTypeOpen, setStorageTypeOpen] = useState(false);
+    const [storageTypeItems, setStorageTypeItems] = useState([ // 저장방식 종류
+        { label: "실온보관", value: "normal" },
+        { label: "냉동보관", value: "frozen" },
+        { label: "냉장보관", value: "refrige" },
+    ]);
 
   return (
     <View style={styles.container}>
@@ -23,7 +36,7 @@ const AddList = ({navigation}) => {
             <Text style={styles.titleText}>음식을 추가해주세요.</Text>
         </View>
         <View style={styles.body}>
-            <View style={styles.addArea}>
+            <View style={[styles.addArea, {zIndex: 2}]}>
                 <View style={styles.addContent}>
                     <Text style={styles.addContentName}>이름 :</Text>
                     <View style={{flex: 3}}>
@@ -37,10 +50,10 @@ const AddList = ({navigation}) => {
                 </View>
                 <View style={[styles.addContent, {flex: 2}]}>
                     <Text style={styles.addContentName}>사진 :</Text>
-                    <View style={styles.addPictureInput}>
+                    <View style={styles.addPhotoInput}>
                         <View style={styles.picture}>
                             <Image
-                                source={{uri : addPicture}}
+                                source={{uri : addPhoto}}
                                 style={{width:'100%',height:'100%'}}
                             />
                             {/* <Text>사진</Text> */}
@@ -51,7 +64,7 @@ const AddList = ({navigation}) => {
                                 onPress={()=>{
                                     // ios 시뮬레이터에서 동작X 핸드폰으로 확인해야함
                                     launchCamera({}, response=>{
-                                        setAddPicture(response.assets[0].uri);
+                                        setAddPhoto(response.assets[0].uri);
                                     })
                                 }}
                             >
@@ -62,7 +75,7 @@ const AddList = ({navigation}) => {
                                 style={styles.button}
                                 onPress={()=>{
                                     launchImageLibrary({}, response=>{
-                                        setAddPicture(response.assets[0].uri);
+                                        setAddPhoto(response.assets[0].uri);
                                     })
                                 }}
                             >
@@ -72,16 +85,22 @@ const AddList = ({navigation}) => {
                         </View>
                     </View>
                 </View>
-                <View style={styles.addContent}>
+                <View style={[styles.addContent, {zIndex: 3}]}>
                     <Text style={styles.addContentName}>카테고리 :</Text>
                     <View style={styles.addPickerInput}>
-                        <Picker>
-
-                        </Picker>
                         {/* <Text>카테고리 선택</Text> */}
+                        <DropDownPicker
+                            open={categoryOpen}
+                            items={categoryItems}
+                            value={addCategory}
+                            setOpen={setCategoryOpen}
+                            setValue={setAddCategory}
+                            setItems={setCategoryItems}
+                            placeholder='카테고리 선택'
+                        />
                     </View>
                 </View>
-                <View style={styles.addContent}>
+                <View style={[styles.addContent, {zIndex: 1}]}>
                     <Text style={styles.addContentName}>수량 :</Text>
                     <View style={{flex: 3}}>
                         <TextInput
@@ -93,24 +112,28 @@ const AddList = ({navigation}) => {
                         />
                     </View>
                 </View>
-                <View style={styles.addContent}>
+                <View style={[styles.addContent, {zIndex: 2}]}>
                     <Text style={styles.addContentName}>저장방식 :</Text>
-                    {/* <View style={styles.addPickerInput}>
-                        <Text>저장방식 선택</Text>
-                    </View> */}
-                    <Picker style={styles.addPickerInput} mode='dropdown'>
-                        <Picker.Item label="육류" value="meat"/>
-                        <Picker.Item label="야채" value="vegt"/>
-                    </Picker>
+                    <View style={styles.addPickerInput}>
+                        <DropDownPicker
+                            open={storageTypeOpen}
+                            items={storageTypeItems}
+                            value={addStorageType}
+                            setOpen={setStorageTypeOpen}
+                            setValue={setAddStorageType}
+                            setItems={setStorageTypeItems}
+                            placeholder='저장방식 선택'
+                        />
+                    </View>
                 </View>
-                <View style={styles.addContent}>
+                <View style={[styles.addContent, {zIndex: 1}]}>
                     <Text style={styles.addContentName}>유통기한 :</Text>
                     <View style={styles.addDayInput}>
                         <Text>유통기한 입력</Text>
                     </View>
                 </View>
             </View>
-            <View style={styles.buttonArea}>
+            <View style={[styles.buttonArea, {zIndex: 1}]}>
                 <TouchableOpacity style={[styles.button2, {width: '55%'}]}>
                     <MaterialCommunityIcons name={'barcode-scan'} size={40} color={'#545454'}/>
                     <Text style={{fontSize: 20, fontWeight: '600', color: '#545454'}}>바코드로 등록</Text>
@@ -172,7 +195,7 @@ const styles = StyleSheet.create({
         paddingLeft: 15,
         borderRadius: 10,
     },
-    addPictureInput: {  // 사진 추가 영역
+    addPhotoInput: {  // 사진 추가 영역
         //backgroundColor: 'green',
         flex: 3,
         flexDirection: 'row',
@@ -209,6 +232,7 @@ const styles = StyleSheet.create({
         paddingHorizontal: 8,
     },
     addPickerInput: {   // picker로 선택하는 스타일
+        //backgroundColor: 'pink',
         flex: 3,
     },
     addDayInput: {  // 달력으로 선택하는 스타일
