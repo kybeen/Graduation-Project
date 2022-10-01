@@ -39,8 +39,8 @@ const Recipe = () => {
   const [recipeData, setRecipeData] = useState([]);
 
   const getRecipeData = () => {
-    fetch('http://localhost:9000/app/recipes/'+usrId)
-    //fetch('https://www.bigthingiscoming.shop/app/recipes/'+usrId)
+    //fetch('http://localhost:9000/app/recipes/'+usrId)
+    fetch('https://www.bigthingiscoming.shop/app/recipes/'+usrId)
       .then((res) => res.json())
       .then((res) => setRecipeData(res.result))
       .catch((error) => {

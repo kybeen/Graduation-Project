@@ -55,8 +55,8 @@ const Home = () => {
   // };
 
   const getData = () => {
-    fetch("http://localhost:9000/app/home/"+usrId)
-    //fetch("https://www.bigthingiscoming.shop/app/home/"+usrId)
+    //fetch("http://localhost:9000/app/home/"+usrId)
+    fetch("https://www.bigthingiscoming.shop/app/home/"+usrId)
     .then(response => response.json())
     .then(response => {
       setFoodData(response.result[0]);

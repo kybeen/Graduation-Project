@@ -25,8 +25,8 @@ const MainList = ({navigation}) => {
   const [searchText, setSearchText] = useState(''); // 검색 텍스트
 
   useEffect(() => {
-   fetch("http://localhost:9000/app/foods/"+usrId)
-   //fetch("https://www.bigthingiscoming.shop/app/foods/"+usrId)
+   //fetch("http://localhost:9000/app/foods/"+usrId)
+   fetch("https://www.bigthingiscoming.shop/app/foods/"+usrId)
    .then(response => response.json())
    .then(response => {
      setFoodData(response.result);

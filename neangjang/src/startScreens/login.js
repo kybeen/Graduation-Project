@@ -11,8 +11,8 @@
    const [inputPW, setInputPW] = useState(''); // PW
  
    const pressLogin = () => { // 로그인 버튼 눌렀을 때, 로그인 정보 POST
-    fetch("http://localhost:9000/app/users/logIn", {
-    //fetch("https://www.bigthingiscoming.shop/app/users/logIn", {
+    //fetch("http://localhost:9000/app/users/logIn", {
+    fetch("https://www.bigthingiscoming.shop/app/users/logIn", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
