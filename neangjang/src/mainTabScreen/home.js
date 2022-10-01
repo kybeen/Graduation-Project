@@ -61,16 +61,12 @@ const Home = () => {
     .then(response => {
       setFoodData(response.result[0]);
       setRecipeData(response.result[1]);
-      //console.log(response.result[0]);
-      //console.log(response.result[1]);
     })
     .catch(error => {console.log('Fetch Error', error);})
   }
 
   useEffect(() => {
     getData(); 
-    console.log(recipeData);
-    console.log(foodData);
   }, []); // [] : 첫 렌더링 시에만 useEffect 호출
 
   return (
