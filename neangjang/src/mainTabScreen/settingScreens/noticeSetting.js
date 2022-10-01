@@ -6,6 +6,7 @@ import { View, Text, TextInput, Button, StyleSheet, Alert } from 'react-native';
 const NoticeSetting = ({navigation}) => {
   return (
     <View>
+      {/* QR코드 스캐너 테스트 */}
       <CameraScreen
   actions={{ rightButtonText: 'Done', leftButtonText: 'Cancel' }}
   onBottomButtonPressed={(event) => this.onBottomButtonPressed(event)}
