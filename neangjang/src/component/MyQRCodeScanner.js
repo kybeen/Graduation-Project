@@ -18,7 +18,7 @@ const QRCodeScanner = () => {
     setScaned(true);
   }, []);
 
-  const onBarCodeRead = (event: any) => {
+  const onBarCodeRead = (event) => {
     if (!scaned) return;
     setScaned(false);
     Vibration.vibrate();
