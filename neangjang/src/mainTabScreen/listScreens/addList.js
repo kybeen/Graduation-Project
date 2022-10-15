@@ -1,6 +1,6 @@
 // [ 식재료 리스트 화면 - 식재료 추가 화면 ]
 import React, { useState, useContext } from 'react';
-import { View, Text, TextInput, Button, StyleSheet, Alert, TouchableOpacity, Image, Modal } from 'react-native';
+import { View, Text, TextInput, Button, StyleSheet, Alert, TouchableOpacity, Image, Modal, TouchableWithoutFeedback, Keyboard } from 'react-native';
 import { MainTabContext } from '../mainTab';
 import { launchCamera, launchImageLibrary } from 'react-native-image-picker';
 import DropDownPicker from 'react-native-dropdown-picker';
@@ -9,6 +9,7 @@ import Ionicons from 'react-native-vector-icons/dist/Ionicons';
 import Fontiso from 'react-native-vector-icons/dist/Fontisto';
 import MaterialCommunityIcons from 'react-native-vector-icons/dist/MaterialCommunityIcons';
 import { Calendar, CalendarList } from 'react-native-calendars';
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 
 const AddList = ({navigation}) => {
     const { usrId, usrName } = useContext(MainTabContext);  // 로그인 시 DB로부터 받아온 사용자의 idx, userName을 Login->MainTab 통해서 전달 받음
@@ -39,6 +40,14 @@ const AddList = ({navigation}) => {
     ]);
     const [isCalendarVisible, setIsCalendarVisible] = useState(false); // 날짜 입력 캘린더 모달
 
+    // picker가 열리면 다른 picker가 닫히도록
+    const onCategoryOpen = () => {
+        setStorageTypeOpen(false);
+    }
+    const onStorageOpen = () => {
+        setCategoryOpen(false);
+    }
+
     const pressAdd = () => { // 저장(추가) 버튼 눌렀을 때, 추가할 식재료 정보 POST
         //fetch("http://localhost:9000/app/users/logIn", {
         fetch("https://www.bigthingiscoming.shop/app/foods/"+usrId, {
@@ -60,11 +69,13 @@ const AddList = ({navigation}) => {
           switch(response.code){
             case 1000:
                 Alert.alert(
-                    "식재료가 추가되었습니다.",
-                    [{ text: 'OK', 
-                      onPress: () => {
-                        navigation.goBack(); // 식재료 리스트 화면으로 돌아가야 되는데 안돌아가짐
-                      }
+                    "식재료 추가 완료.",
+                    '식재료가 성공적으로 추가되었습니다.',
+                    [{
+                        text: "OK", 
+                        onPress: () => {
+                            navigation.goBack(); // 식재료 리스트 화면으로 돌아가기
+                        }
                     }]);
               console.log(response.code, "Success");
               break;
@@ -77,180 +88,189 @@ const AddList = ({navigation}) => {
 
   // 렌더링 영역    
   return (
-    <View style={styles.container}>
-        <View style={styles.title}>
-            <Text style={styles.titleText}>음식을 추가해주세요.</Text>
-        </View>
-        <View style={styles.body}>
-            {/* 식재료 정보 입력 영역 */}
-            <View style={[styles.addArea, {zIndex: 2}]}>
-                {/* 이름 입력 */}
-                <View style={styles.addContent}>
-                    <Text style={styles.addContentName}>이름 :</Text>
-                    <View style={{flex: 3}}>
-                        <TextInput
-                            style={[styles.addContentInput, {width: '100%'}]}
-                            value={addName}
-                            onChangeText={setAddName}
-                            placeholder={'이름을 입력해주세요.'}
-                        />
-                    </View>
+    <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+        <KeyboardAwareScrollView contentContainerStyle={styles.scrollViewStyle}>
+            <View style={styles.container}>
+                <View style={styles.title}>
+                    <Text style={styles.titleText}>음식을 추가해주세요.</Text>
                 </View>
-                {/* 사진 입력 */}
-                <View style={[styles.addContent, {flex: 2}]}>
-                    <Text style={styles.addContentName}>사진 :</Text>
-                    <View style={styles.addPhotoInput}>
-                        <View style={styles.picture}>
-                            <Image
-                                source={{uri : addPhoto}}
-                                style={{width:'100%',height:'100%'}}
-                            />
-                            {/* <Text>사진</Text> */}
-                        </View>
-                        <View style={styles.pictureButton}>
-                            <TouchableOpacity
-                                style={styles.button}
-                                onPress={()=>{
-                                    // ios 시뮬레이터에서 동작X 핸드폰으로 확인해야함
-                                    launchCamera({}, response=>{
-                                        setAddPhoto(response.assets[0].uri);
-                                    })
-                                }}
-                            >
-                                <Ionicons name={'camera'} size={35} color={'#545454'}/>
-                                <Text style={{fontSize: 20, fontWeight: '600', color: '#545454'}}>촬영</Text>
-                            </TouchableOpacity>
-                            <TouchableOpacity
-                                style={styles.button}
-                                onPress={()=>{
-                                    launchImageLibrary({}, response=>{
-                                        setAddPhoto(response.assets[0].uri);
-                                    })
-                                }}
-                            >
-                                <Fontiso name={'picture'} size={25} color={'#545454'}/>
-                                <Text style={{fontSize: 20, fontWeight: '600', color: '#545454'}}>앨범</Text>
-                            </TouchableOpacity>
-                        </View>
-                    </View>
-                </View>
-                {/* 카테고리 입력 */}
-                <View style={[styles.addContent, {zIndex: 3}]}>
-                    <Text style={styles.addContentName}>카테고리 :</Text>
-                    <View style={styles.addPickerInput}>
-                        {/* <Text>카테고리 선택</Text> */}
-                        <DropDownPicker
-                            open={categoryOpen}
-                            items={categoryItems}
-                            value={addCategory}
-                            setOpen={setCategoryOpen}
-                            setValue={setAddCategory}
-                            setItems={setCategoryItems}
-                            placeholder='카테고리 선택'
-                        />
-                    </View>
-                </View>
-                {/* 수량 입력 */}
-                <View style={[styles.addContent, {zIndex: 1}]}>
-                    <Text style={styles.addContentName}>수량 :</Text>
-                    <View style={{flex: 3}}>
-                        <TextInput
-                            style={[styles.addContentInput, {width: '60%'}]}
-                            value={addAmount}
-                            onChangeText={setAddAmount}
-                            placeholder={'수량을 입력해주세요.'}
-                            keyboardType={'decimal-pad'}
-                        />
-                    </View>
-                </View>
-                {/* 저장방식 입력 */}
-                <View style={[styles.addContent, {zIndex: 2}]}>
-                    <Text style={styles.addContentName}>저장방식 :</Text>
-                    <View style={styles.addPickerInput}>
-                        <DropDownPicker
-                            open={storageTypeOpen}
-                            items={storageTypeItems}
-                            value={addStorageType}
-                            setOpen={setStorageTypeOpen}
-                            setValue={setAddStorageType}
-                            setItems={setStorageTypeItems}
-                            placeholder='저장방식 선택'
-                        />
-                    </View>
-                </View>
-                {/* 유통기한 입력 */}
-                <View style={[styles.addContent, {flex: 1}]}>
-                    <Modal
-                        animationType="slide"
-                        transparent={true}
-                        visible={isCalendarVisible}
-                    >
-                        <View style={{
-                            flex: 1,
-                            flexDirection: 'row',
-                            justifyContent: 'center',
-                            alignItems: 'center'}}>
-                            <View style={{
-                                flex: 0.9,
-                                borderRadius : 10,
-                                borderColor : '#cccccc',
-                                borderWidth : 1,
-                                backgroundColor : '#ffffff',
-                                padding: 5,
-                            }}>
-                                {/* <Text style={{fontSize:20}}>Modal 화면입니다.</Text> */}
-                                <Calendar
-                                    onDayPress={(day)=>{
-                                        console.log(day["dateString"], "is selected!!")
-                                        setAddExpiration(day["dateString"])
-                                    }}
-                                    pastScrollRange={50}
-                                    futureScrollRange={50}
-                                    scrollEnabled={true}
-                                    showScrollIndicator={true}
+                <View style={styles.body}>
+                    {/* 식재료 정보 입력 영역 */}
+                    <View style={[styles.addArea, {zIndex: 2}]}>
+                        {/* 이름 입력 */}
+                        <View style={styles.addContent}>
+                            <Text style={styles.addContentName}>이름 :</Text>
+                            <View style={{flex: 3}}>
+                                <TextInput
+                                    style={[styles.addContentInput, {width: '100%'}]}
+                                    value={addName}
+                                    onChangeText={setAddName}
+                                    placeholder={'이름을 입력해주세요.'}
                                 />
-                                {/* 캘린더 숨기기 */}
-                                <Button title='닫기' onPress={() => setIsCalendarVisible(false)}/>
                             </View>
                         </View>
-                    </Modal>
-                    <Text style={styles.addContentName}>유통기한 :</Text>
-                    <View style={styles.expContent}>
-                        <Text>{addExpiration}</Text>
+                        {/* 사진 입력 */}
+                        <View style={[styles.addContent, {flex: 2}]}>
+                            <Text style={styles.addContentName}>사진 :</Text>
+                            <View style={styles.addPhotoInput}>
+                                <View style={styles.picture}>
+                                    <Image
+                                        source={{uri : addPhoto}}
+                                        style={{width:'100%',height:'100%'}}
+                                    />
+                                </View>
+                                <View style={styles.pictureButton}>
+                                    <TouchableOpacity
+                                        style={styles.button}
+                                        onPress={()=>{
+                                            // ios 시뮬레이터에서 동작X 핸드폰으로 확인해야함
+                                            launchCamera({}, response=>{
+                                                setAddPhoto(response.assets[0].uri);
+                                            })
+                                        }}
+                                    >
+                                        <Ionicons name={'camera'} size={35} color={'#545454'}/>
+                                        <Text style={{fontSize: 20, fontWeight: '600', color: '#545454'}}>촬영</Text>
+                                    </TouchableOpacity>
+                                    <TouchableOpacity
+                                        style={styles.button}
+                                        onPress={()=>{
+                                            launchImageLibrary({}, response=>{
+                                                setAddPhoto(response.assets[0].uri);
+                                            })
+                                        }}
+                                    >
+                                        <Fontiso name={'picture'} size={25} color={'#545454'}/>
+                                        <Text style={{fontSize: 20, fontWeight: '600', color: '#545454'}}>앨범</Text>
+                                    </TouchableOpacity>
+                                </View>
+                            </View>
+                        </View>
+                        {/* 카테고리 입력 */}
+                        <View style={[styles.addContent, {zIndex: 3}]}>
+                            <Text style={styles.addContentName}>카테고리 :</Text>
+                            <View style={styles.addPickerInput}>
+                                {/* <Text>카테고리 선택</Text> */}
+                                <DropDownPicker
+                                    open={categoryOpen}
+                                    onOpen={onCategoryOpen}
+                                    items={categoryItems}
+                                    value={addCategory}
+                                    setOpen={setCategoryOpen}
+                                    setValue={setAddCategory}
+                                    setItems={setCategoryItems}
+                                    placeholder='카테고리 선택'
+                                />
+                            </View>
+                        </View>
+                        {/* 수량 입력 */}
+                        <View style={[styles.addContent, {zIndex: 1}]}>
+                            <Text style={styles.addContentName}>수량 :</Text>
+                            <View style={{flex: 3}}>
+                                <TextInput
+                                    style={[styles.addContentInput, {width: '60%'}]}
+                                    value={addAmount}
+                                    onChangeText={setAddAmount}
+                                    placeholder={'수량을 입력해주세요.'}
+                                    keyboardType={'decimal-pad'}
+                                />
+                            </View>
+                        </View>
+                        {/* 저장방식 입력 */}
+                        <View style={[styles.addContent, {zIndex: 2}]}>
+                            <Text style={styles.addContentName}>저장방식 :</Text>
+                            <View style={styles.addPickerInput}>
+                                <DropDownPicker
+                                    open={storageTypeOpen}
+                                    onOpen={onStorageOpen}
+                                    items={storageTypeItems}
+                                    value={addStorageType}
+                                    setOpen={setStorageTypeOpen}
+                                    setValue={setAddStorageType}
+                                    setItems={setStorageTypeItems}
+                                    placeholder='저장방식 선택'
+                                />
+                            </View>
+                        </View>
+                        {/* 유통기한 입력 */}
+                        <View style={[styles.addContent, {flex: 1}]}>
+                            <Modal
+                                animationType="slide"
+                                transparent={true}
+                                visible={isCalendarVisible}
+                            >
+                                <View style={{
+                                    flex: 1,
+                                    flexDirection: 'row',
+                                    justifyContent: 'center',
+                                    alignItems: 'center'}}>
+                                    <View style={{
+                                        flex: 0.9,
+                                        borderRadius : 10,
+                                        borderColor : '#cccccc',
+                                        borderWidth : 1,
+                                        backgroundColor : '#ffffff',
+                                        padding: 5,
+                                    }}>
+                                        {/* <Text style={{fontSize:20}}>Modal 화면입니다.</Text> */}
+                                        <Calendar
+                                            onDayPress={(day)=>{
+                                                console.log(day["dateString"], "is selected!!")
+                                                setAddExpiration(day["dateString"])
+                                            }}
+                                            pastScrollRange={50}
+                                            futureScrollRange={50}
+                                            scrollEnabled={true}
+                                            showScrollIndicator={true}
+                                        />
+                                        {/* 캘린더 숨기기 */}
+                                        <Button title='닫기' onPress={() => setIsCalendarVisible(false)}/>
+                                    </View>
+                                </View>
+                            </Modal>
+                            <Text style={styles.addContentName}>유통기한 :</Text>
+                            <View style={styles.expContent}>
+                                <Text>{addExpiration}</Text>
+                            </View>
+                            <TouchableOpacity
+                                style={styles.expButton}
+                                onPress={()=>{
+                                    setIsCalendarVisible(true)
+                                }}
+                            >
+                                <Text style={styles.expButtonText}>날짜 선택</Text>
+                            </TouchableOpacity>
+                        </View>
                     </View>
-                    <TouchableOpacity
-                        style={styles.expButton}
-                        onPress={()=>{
-                            setIsCalendarVisible(true)
-                        }}
-                    >
-                        <Text style={styles.expButtonText}>날짜 선택</Text>
-                    </TouchableOpacity>
+                    {/* 하단 바코드, 저장 버튼 */}
+                    <View style={[styles.buttonArea, {zIndex: 1}]}>
+                        <TouchableOpacity style={[styles.button2, {width: '55%'}]}>
+                            <MaterialCommunityIcons name={'barcode-scan'} size={40} color={'#545454'}/>
+                            <Text style={{fontSize: 20, fontWeight: '600', color: '#545454'}}>바코드로 등록</Text>
+                        </TouchableOpacity>
+                        <TouchableOpacity
+                            style={[styles.button2, {width: '35%'}]}
+                            onPress={()=>{
+                                console.log("HELLO",addName, addPhoto, addCategory, addAmount, addStorageType, addExpiration);
+                                pressAdd();
+                            }}
+                        >
+                            <MaterialCommunityIcons name={'content-save-check'} size={40} color={'#545454'}/>
+                            <Text style={{fontSize: 20, fontWeight: '600', color: '#545454'}}>저장</Text>
+                        </TouchableOpacity>
+                    </View>
                 </View>
             </View>
-            {/* 하단 바코드, 저장 버튼 */}
-            <View style={[styles.buttonArea, {zIndex: 1}]}>
-                <TouchableOpacity style={[styles.button2, {width: '55%'}]}>
-                    <MaterialCommunityIcons name={'barcode-scan'} size={40} color={'#545454'}/>
-                    <Text style={{fontSize: 20, fontWeight: '600', color: '#545454'}}>바코드로 등록</Text>
-                </TouchableOpacity>
-                <TouchableOpacity
-                    style={[styles.button2, {width: '35%'}]}
-                    onPress={()=>{
-                        console.log("HELLO",addName, addPhoto, addCategory, addAmount, addStorageType, addExpiration)
-                        pressAdd()
-                    }}
-                >
-                    <MaterialCommunityIcons name={'content-save-check'} size={40} color={'#545454'}/>
-                    <Text style={{fontSize: 20, fontWeight: '600', color: '#545454'}}>저장</Text>
-                </TouchableOpacity>
-            </View>
-        </View>
-    </View>
+        </KeyboardAwareScrollView>
+    </TouchableWithoutFeedback>
   );
 }
 
 const styles = StyleSheet.create({
+    scrollViewStyle: {
+        flex: 1,
+        //backgroundColor:'red'
+    },
     container: {
         flex: 1,
     },

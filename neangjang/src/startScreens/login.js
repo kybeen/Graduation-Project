@@ -1,7 +1,7 @@
 // [ 로그인 화면 ]
 
  import React, { useState } from 'react';
- import { View, Text, TextInput, Button, StyleSheet, Alert } from 'react-native';
+ import { View, Text, TextInput, Button, StyleSheet, Alert, KeyboardAvoidingView, TouchableWithoutFeedback, Keyboard } from 'react-native';
  
  import MyButton from '../component/MyButton'
  import MyTextInput from '../component/MyTextInput';
@@ -54,40 +54,42 @@
   }
 
    return (
-     <View style={styles.main}>
-       <Text style={styles.title}>로그인</Text>
-       <Text style={styles.description}>ID</Text>
-       <MyTextInput
-         value={inputID}
-         onChangeText={setInputID}
-         placeholder="ID를 입력해주세요."
-         maxLength={20}
-         autoCapitalize={'none'}
-       />
-       <Text style={styles.description}>Password</Text>
-       <MyTextInput
-         value={inputPW}
-         onChangeText={setInputPW}
-         maxLength={20}
-         autoCapitalize={'none'}
-         secureTextEntry={true}
-         placeholder="PW를 입력해주세요."
-       />
-       <View style={styles.buttonView}>
-         <View style={{flex: 1}}>
-          <MyButton
-            onPress={() => pressLogin()}
-            text="로그인"
-          />
-         </View>
-         <View style={{flex: 1}}>
-          <MyButton
-            onPress={() => navigation.navigate('Join')}
-            text="회원가입"
-          />
-         </View>
-       </View>
-     </View>
+    <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+      <KeyboardAvoidingView style={styles.main} behavior='padding' keyboardVerticalOffset={50}>
+        <Text style={styles.title}>로그인</Text>
+        <Text style={styles.description}>ID</Text>
+        <MyTextInput
+          value={inputID}
+          onChangeText={setInputID}
+          placeholder="ID를 입력해주세요."
+          maxLength={20}
+          autoCapitalize={'none'}
+        />
+        <Text style={styles.description}>Password</Text>
+        <MyTextInput
+          value={inputPW}
+          onChangeText={setInputPW}
+          maxLength={20}
+          autoCapitalize={'none'}
+          secureTextEntry={true}
+          placeholder="PW를 입력해주세요."
+        />
+        <View style={styles.buttonView}>
+          <View style={{flex: 1}}>
+            <MyButton
+              onPress={() => pressLogin()}
+              text="로그인"
+            />
+          </View>
+          <View style={{flex: 1}}>
+            <MyButton
+              onPress={() => navigation.navigate('Join')}
+              text="회원가입"
+            />
+          </View>
+        </View>
+      </KeyboardAvoidingView>
+    </TouchableWithoutFeedback>
    );
  }
  
