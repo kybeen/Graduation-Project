@@ -79,3 +79,11 @@ v0.2.7
 - 사용자 정보 수정 기본적인 UI 구성 ==> 사용자 정보 변경 관련 API 사용해서 닉네임, ID 불러오도록 하기
 - 식재료 추가 화면 스택으로 구성 + 기본UI 구성 ==> 카메라 연결, picker 사용해서 선택, 날짜입력 구현하기 (22.07.25)
 - 식재료 추가 화면 카메라 연결, dropdown picker 사용 + zIndex설정 완료 (22.08.07)
+
+v0.2.8
+(22.10.15)
+- KeyboardAvoidingView 추가해서 키보드 입력 시 입력창 가리는 현상 해결 (로그인 화면)
+- 회원가입, 식재료추가 같이 인풋이 많은 화면에는 react-native-keyboard-aware-scroll-view의 KeyboardAwareScrollView를 사용해서 키보드 입력 시 스크롤 가능하도록 해줌
+- 키보드 바깥 터치 시 키보드 사라지도록 (TouchableWithoutFeedback 사용)
+- picker 하나만 열리게 함
+- 식재료 추가하면 바로 식재료 화면으로 넘어가서 렌더링되도록 수정

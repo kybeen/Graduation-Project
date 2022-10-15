@@ -1,7 +1,8 @@
 // [ 회원가입 화면 ]
 
 import React, { useState, useEffect } from 'react';
-import { View, Text, TextInput, Button, StyleSheet, Alert, RefreshControlBase } from 'react-native';
+import { View, Text, TextInput, Button, StyleSheet, Alert, TouchableWithoutFeedback, Keyboard } from 'react-native';
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 
 import MyButton from '../component/MyButton';
 import MyTextInput from '../component/MyTextInput';
@@ -82,58 +83,69 @@ const Join = ({navigation}) => {
   }
 
   return (
-    <View style={styles.main}>
-      <Text style={styles.title}>회원가입</Text>
-      <Text style={styles.description}>Username</Text>
-      <MyTextInput
-        value={userName}
-        onChangeText={setUserName}
-        placeholder="사용할 이름을 입력해주세요."
-        maxLength={20}
-        autoCapitalize={'none'}
-      />
-      <Text style={styles.description}>ID</Text>
-        <MyTextInput
-          value={userID}
-          onChangeText={setUserID}
-          placeholder="ID를 생성해주세요."
-          maxLength={20}
-          autoCapitalize={'none'}
-        />
-      <Text style={styles.check}>{checkingID}</Text>
-      <Text style={styles.description}>Password</Text>
-      <MyTextInput
-        value={userPW}
-        onChangeText={setUserPW}
-        maxLength={20}
-        autoCapitalize={'none'}
-        secureTextEntry={true}
-        placeholder="PW를 생성해주세요."
-      />
-      <Text style={styles.description}>Check Password</Text>
-      <MyTextInput
-        value={userCheckPW}
-        onChangeText={setUserCheckPW}
-        maxLength={20}
-        autoCapitalize={'none'}
-        secureTextEntry={true}
-        placeholder="PW를 확인해주세요."
-      />
-      <Text style={styles.check}>{checkingPW}</Text>
-      <MyButton
-        onPress={()=>pressSignUp()}
-        disabled={checkingID === '' ? false : true}
-        text="Sign up"
-      />
-    </View>
+    <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+      {/*ScrollView 베이스 컴포넌트에는 contentContainerStyle로 스타일 적용*/}
+      <KeyboardAwareScrollView contentContainerStyle={styles.scrollViewStyle}>
+        <View style={styles.main}>
+          <Text style={styles.title}>회원가입</Text>
+          <Text style={styles.description}>Username</Text>
+          <MyTextInput
+            value={userName}
+            onChangeText={setUserName}
+            placeholder="사용할 이름을 입력해주세요."
+            maxLength={20}
+            autoCapitalize={'none'}
+          />
+          <Text style={styles.description}>ID</Text>
+            <MyTextInput
+              value={userID}
+              onChangeText={setUserID}
+              placeholder="ID를 생성해주세요."
+              maxLength={20}
+              autoCapitalize={'none'}
+            />
+          <Text style={styles.check}>{checkingID}</Text>
+          <Text style={styles.description}>Password</Text>
+          <MyTextInput
+            value={userPW}
+            onChangeText={setUserPW}
+            maxLength={20}
+            autoCapitalize={'none'}
+            secureTextEntry={true}
+            placeholder="PW를 생성해주세요."
+          />
+          <Text style={styles.description}>Check Password</Text>
+          <MyTextInput
+            value={userCheckPW}
+            onChangeText={setUserCheckPW}
+            maxLength={20}
+            autoCapitalize={'none'}
+            secureTextEntry={true}
+            placeholder="PW를 확인해주세요."
+          />
+          <Text style={styles.check}>{checkingPW}</Text>
+          <MyButton
+            onPress={()=>pressSignUp()}
+            disabled={checkingID === '' ? false : true}
+            text="Sign up"
+          />
+        </View>
+      </KeyboardAwareScrollView>
+    </TouchableWithoutFeedback>
   );
 }
 
 const styles = StyleSheet.create({
+  scrollViewStyle: {
+    flex: 1,
+    //backgroundColor:'red'
+  },
   main: {
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
+    width: '100%',
+    //backgroundColor:'blue',
   },
   title: {
     fontSize: 40,

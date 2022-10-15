@@ -7,7 +7,6 @@ import {
   SafeAreaView,
   FlatList,
   TouchableOpacity,
-  Modal,
   Alert,
   TextInput,
   
@@ -32,7 +31,7 @@ const MainList = ({navigation}) => {
      setFoodData(response.result);
    })
    .catch(error => {console.log('Fetch Error', error);})
-  }, []); // [] : 첫 렌더링 시에만 useEffect 호출
+  }, ); // [] : 첫 렌더링 시에만 useEffect 호출
 
   // 검색 텍스트에 따라 해당하는 식재료만 렌더링
   const renderItem = ({item}) => {
