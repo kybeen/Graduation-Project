@@ -194,11 +194,7 @@ const AddList = ({navigation}) => {
                         </View>
                         {/* 유통기한 입력 */}
                         <View style={[styles.addContent, {flex: 1}]}>
-                            <Modal
-                                animationType="slide"
-                                transparent={true}
-                                visible={isCalendarVisible}
-                            >
+                            <Modal animationType="slide" transparent={true} visible={isCalendarVisible}>
                                 <View style={{
                                     flex: 1,
                                     flexDirection: 'row',
@@ -218,10 +214,10 @@ const AddList = ({navigation}) => {
                                                 console.log(day["dateString"], "is selected!!")
                                                 setAddExpiration(day["dateString"])
                                             }}
-                                            pastScrollRange={50}
-                                            futureScrollRange={50}
-                                            scrollEnabled={true}
-                                            showScrollIndicator={true}
+                                            // pastScrollRange={50}
+                                            // futureScrollRange={50}
+                                            // scrollEnabled={true}
+                                            // showScrollIndicator={true}
                                         />
                                         {/* 캘린더 숨기기 */}
                                         <Button title='닫기' onPress={() => setIsCalendarVisible(false)}/>
@@ -244,7 +240,7 @@ const AddList = ({navigation}) => {
                     </View>
                     {/* 하단 바코드, 저장 버튼 */}
                     <View style={[styles.buttonArea, {zIndex: 1}]}>
-                        <TouchableOpacity style={[styles.button2, {width: '55%'}]}>
+                        <TouchableOpacity style={[styles.button2, {width: '55%'}]} onPress={() => navigation.navigate('Scanner')}>
                             <MaterialCommunityIcons name={'barcode-scan'} size={40} color={'#545454'}/>
                             <Text style={{fontSize: 20, fontWeight: '600', color: '#545454'}}>바코드로 등록</Text>
                         </TouchableOpacity>

@@ -6,6 +6,7 @@ import {createNativeStackNavigator} from '@react-navigation/native-stack';
 
 import MainList from './listScreens/mainList';
 import AddList from './listScreens/addList';
+import Scanner from './listScreens/scanner';
 
 const Stack = createNativeStackNavigator();
 
@@ -20,6 +21,11 @@ const List = () => {
       <Stack.Screen
         name="AddList"
         component={AddList}
+        options={{ title: '' }}
+      />
+      <Stack.Screen
+        name="Scanner"
+        component={Scanner}
         options={{ title: '' }}
       />
     </Stack.Navigator>

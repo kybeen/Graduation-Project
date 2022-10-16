@@ -5,9 +5,17 @@ import { View, Text, TextInput, Button, StyleSheet, Alert } from 'react-native';
 
 const NoticeSetting = ({navigation}) => {
   return (
-    <View>
+    <View style={{flex:1}}>
       {/* QR코드 스캐너 테스트 */}
-      <CameraScreen
+      <CameraScreen style={{flex:1}}
+        // Barcode props
+        scanBarcode={true}
+        onReadCode={() => console.log('Barcode Scanned!!')} // optional
+        showFrame={true} // (default false) optional, show frame with transparent layer (qr code or barcode will be read on this area ONLY), start animation for scanner,that stoped when find any code. Frame always at center of the screen
+        laserColor='red' // (default red) optional, color of laser in scanner frame
+        frameColor='blue' // (default white) optional, color of border of scanner frame
+      />
+      {/* <CameraScreen
   actions={{ rightButtonText: 'Done', leftButtonText: 'Cancel' }}
   onBottomButtonPressed={(event) => this.onBottomButtonPressed(event)}
   // flashImages={{
@@ -22,7 +30,7 @@ const NoticeSetting = ({navigation}) => {
   // torchOffImage={require('path/to/image')} // optional, image for toggling off flash light
   hideControls={false} // (default false) optional, hides camera controls
   showCapturedImageCount={false} // (default false) optional, show count for photos taken during that capture session
-/>
+/> */}
       {/* <Camera
           ref={(ref) => (this.camera = ref)}
           cameraType={CameraType.Back} // front/back(default)
