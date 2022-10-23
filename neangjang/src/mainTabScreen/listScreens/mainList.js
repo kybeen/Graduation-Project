@@ -7,9 +7,6 @@ import {
   SafeAreaView,
   FlatList,
   TouchableOpacity,
-  Alert,
-  TextInput,
-  
 } from 'react-native';
 import Icon from 'react-native-vector-icons/dist/Ionicons';
 import ActionButton from 'react-native-action-button';
@@ -17,6 +14,7 @@ import ActionButton from 'react-native-action-button';
 import { MainTabContext } from '../mainTab';
 import MyTextInput from '../../component/MyTextInput'
 import MyFoodList from '../../component/MyFoodList';
+
 
 const MainList = ({navigation}) => {
   const { usrId, usrName } = useContext(MainTabContext);  // 로그인 시 DB로부터 받아온 사용자의 idx, userName을 Login->MainTab 통해서 전달 받음
@@ -43,6 +41,15 @@ const MainList = ({navigation}) => {
          amount={item.amount}
          expirationDate={item.expirationDate}
          ed_Left={item.ed_Left}
+         touchEvent={()=>navigation.navigate('FoodInfo', {
+            foodPhoto: item.foodPhoto,
+            foodName: item.foodName,
+            // category: item.category,
+            amount: item.amount,
+            storageType: item.storageType,
+            expirationDate: item.expirationDate,
+            ed_Left: item.ed_Left,
+         })}
        />
      )
    }
@@ -63,22 +70,24 @@ const MainList = ({navigation}) => {
 
   return (
    <SafeAreaView style={{flexDirection: 'column', flex: 1}}>
+    {/* 상단 제목 View */}
      <View style={styles.titleView}>
        <Text style={styles.titleText}>{usrName}의 식재료</Text>
      </View>
+     {/* 검색창 View */}
      <View style={styles.searchView}>
-     <Icon name='ios-search' size={25}/>
-     <MyTextInput
-       value={searchText}
-       onChangeText={setSearchText}
-       placeholder="식재료 검색"
-       autoCapitalize={'none'}
-     />
-     {/* <Icon name='close-sharp' size={30} onPress={()=>{alert('')}}/> */}
-     <TouchableOpacity onPress={() => setSearchText('')}>
-       <Text style={styles.cancelButton}>취소</Text>
-     </TouchableOpacity>
+      <Icon name='ios-search' size={25}/>
+      <MyTextInput
+        value={searchText}
+        onChangeText={setSearchText}
+        placeholder="식재료 검색"
+        autoCapitalize={'none'}
+      />
+      <TouchableOpacity style={{justifyContent: 'center', paddingBottom: 17}} onPress={() => setSearchText('')}>
+        <Text style={styles.cancelButton}>취소</Text>
+      </TouchableOpacity>
      </View>
+     {/* 식재료 리스트 렌더링 View */}
      <View style={styles.mainView}>
        <FlatList
          data={foodData}
@@ -105,16 +114,18 @@ const styles = StyleSheet.create({
   searchView: {
    flex: 1,
    justifyContent: 'center',
-   alignContent: 'center',
+   //alignContent: 'center',
    flexDirection: 'row',
-   width: '95%',
-   //backgroundColor: 'red',
+   //width: '95%',
+   marginTop: 5,
+   //backgroundColor: 'pink',
   },
   mainView: {
     flex: 10,
     alignSelf: 'center',
     justifyContent: 'center',
-    width: '95%'
+    width: '95%',
+    //backgroundColor: 'skyblue',
   },
   titleText: {
     fontSize: 30,

@@ -3,17 +3,16 @@ import React, { useEffect } from "react";
 import {
   View,
   Text,
-  TextInput,
-  Button,
   StyleSheet,
   SectionList,
   SafeAreaView,
+  TouchableOpacity,
   Image,
 } from 'react-native';
 
 const MyFoodList = (props) => {
   return (
-    <View style={styles.listView}>
+    <TouchableOpacity style={styles.listView} onPress={props.touchEvent}>
       <View style={styles.pictureView}>
         <Image
           style={styles.tinyLogo}
@@ -43,7 +42,7 @@ const MyFoodList = (props) => {
       <View style={styles.ed_LeftView}>
         <Text style={styles.ed_LeftText}>{props.ed_Left}</Text>
       </View>
-    </View>
+    </TouchableOpacity>
   )
 };
 
