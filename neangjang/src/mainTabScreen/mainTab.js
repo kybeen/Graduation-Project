@@ -29,7 +29,6 @@ const Main = ({navigation, route}) => {
           tabBarIcon: ({focused, color, size}) => {
             let iconName
             
-
             if (route.name === 'Home') {
               iconName = focused ? 'ios-home' : 'ios-home-outline';
             } else if (route.name === 'List') {
