@@ -11,13 +11,13 @@ import MaterialCommunityIcons from 'react-native-vector-icons/dist/MaterialCommu
 import { Calendar, CalendarList } from 'react-native-calendars';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 
-const AddList = ({navigation}) => {
+const AddList = ({route, navigation}) => {
     const { usrId, usrName } = useContext(MainTabContext);  // 로그인 시 DB로부터 받아온 사용자의 idx, userName을 Login->MainTab 통해서 전달 받음
     // 추가할 식재료 정보 state
     const [addName, setAddName] = useState('');                     // 이름
     const [addPhoto, setAddPhoto] = useState('/Users/kim-youngbin/Desktop/BTIC/Application/neangjang/assets/icons/list_fill.png');               // 사진
     const [addCategory, setAddCategory] = useState('');             // 카테고리
-    const [addAmount, setAddAmount] = useState('');                  // 수량
+    const [addAmount, setAddAmount] = useState(1);                  // 수량
     const [addStorageType, setAddStorageType] = useState('');       // 저장방식
     const [addExpiration, setAddExpiration] = useState('');         // 유통기한
 
@@ -67,7 +67,7 @@ const AddList = ({navigation}) => {
         .then(response => response.json())
         .then(response => {
           switch(response.code){
-            case 1000:
+            case 1000: // 식재료 추가 성공
                 Alert.alert(
                     "식재료 추가 완료.",
                     '식재료가 성공적으로 추가되었습니다.',
@@ -79,6 +79,21 @@ const AddList = ({navigation}) => {
                     }]);
               console.log(response.code, "Success");
               break;
+            case 2030: // 식재료 이름 X
+                console.log(response.code);
+                Alert.alert("입력되지 않은 정보가 있습니다.", '식재료 이름을 입력해주세요.', [{text: "OK"}]);
+            case 2031: // 식재료 카테고리 X
+                console.log(response.code);
+                Alert.alert("입력되지 않은 정보가 있습니다.", '식재료 카테고리를 입력해주세요.', [{text: "OK"}]);
+            case 2032: // 식재료 수량 X
+                console.log(response.code);
+                Alert.alert("입력되지 않은 정보가 있습니다.", '식재료 수량을 입력해주세요.', [{text: "OK"}]);
+            case 2033: // 식재료 보관방법 X
+                console.log(response.code);
+                Alert.alert("입력되지 않은 정보가 있습니다.", '식재료 보관방법을 입력해주세요.', [{text: "OK"}]);
+            case 2034: // 식재료 유통기한 X
+                console.log(response.code);
+                Alert.alert("입력되지 않은 정보가 있습니다.", '식재료 유통기한을 입력해주세요.', [{text: "OK"}]);
           }
           console.log(response);
         })
@@ -240,7 +255,7 @@ const AddList = ({navigation}) => {
                     </View>
                     {/* 하단 바코드, 저장 버튼 */}
                     <View style={[styles.buttonArea, {zIndex: 1}]}>
-                        <TouchableOpacity style={[styles.button2, {width: '55%'}]} onPress={() => navigation.navigate('Scanner')}>
+                        <TouchableOpacity style={[styles.button2, {width: '55%'}]} onPress={() => navigation.navigate('Scanner', {prevScreen: 'add'})}>
                             <MaterialCommunityIcons name={'barcode-scan'} size={40} color={'#545454'}/>
                             <Text style={{fontSize: 20, fontWeight: '600', color: '#545454'}}>바코드로 등록</Text>
                         </TouchableOpacity>
