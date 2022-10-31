@@ -12,16 +12,17 @@ import { Calendar, CalendarList } from 'react-native-calendars';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 
 const FoodInfoModify = ({route, navigation}) => {
-    // 기존 식재료 정보 받아오기 (API응답에 카테고리 추가해야함)
+    const { usrId, usrName } = useContext(MainTabContext);  // 로그인 시 DB로부터 받아온 사용자의 idx, userName을 Login->MainTab 통해서 전달 받음
     const foodData = route.params.foodData;
     // 수정할 식재료 정보 state
     const [modifyName, setmodifyName] = useState(foodData.foodName);                     // 이름
     const [modifyPhoto, setmodifyPhoto] = useState(foodData.foodPhoto);               // 사진
-    const [modifyCategory, setmodifyCategory] = useState('');             // 카테고리
+    const [modifyCategory, setmodifyCategory] = useState(foodData.categoryIdx);             // 카테고리
     const [modifyAmount, setmodifyAmount] = useState(foodData.amount);                  // 수량
     const [modifyStorageType, setmodifyStorageType] = useState(foodData.storageType);       // 저장방식
     const [modifyExpiration, setmodifyExpiration] = useState(foodData.expirationDate);         // 유통기한
-
+    const [foodIdx, setFoodIdx] = useState(foodData.foodIdx);       // 식재료 인덱스
+    console.log(modifyAmount);
     // dropdown picker용 state
     const [categoryOpen, setCategoryOpen] = useState(false);
     const [categoryItems, setCategoryItems] = useState([ // 카테고리 종류
@@ -49,44 +50,52 @@ const FoodInfoModify = ({route, navigation}) => {
         setCategoryOpen(false);
     }
 
-    /////////// 식재료 수정에 맞게 바꿔주기
-    // const pressAdd = () => { // 저장(추가) 버튼 눌렀을 때, 추가할 식재료 정보 POST
-    //     //fetch("http://localhost:9000/app/users/logIn", {
-    //     fetch("https://www.bigthingiscoming.shop/app/foods/"+usrId, {
-    //       method: "POST",
-    //       headers: {
-    //         "Content-Type": "application/json",
-    //       },
-    //       body: JSON.stringify({
-    //         "foodName": modifyName,
-    //         "foodPhoto": modifyPhoto,
-    //         "categoryIdx": modifyCategory,
-    //         "amount": modifyAmount,
-    //         "storageType": modifyStorageType,
-    //         "expirationDate": modifyExpiration,
-    //       }),
-    //     })
-    //     .then(response => response.json())
-    //     .then(response => {
-    //       switch(response.code){
-    //         case 1000:
-    //             Alert.alert(
-    //                 "식재료 추가 완료.",
-    //                 '식재료가 성공적으로 추가되었습니다.',
-    //                 [{
-    //                     text: "OK", 
-    //                     onPress: () => {
-    //                         navigation.goBack(); // 식재료 리스트 화면으로 돌아가기
-    //                     }
-    //                 }]);
-    //           console.log(response.code, "Success");
-    //           break;
-    //       }
-    //       console.log(response);
-    //     })
-    //     // .then(response => {{console.log(response);}})
-    //     .catch(error => {console.log('Fetch Error', error);})
-    //   }
+    ///////// 식재료 수정에 맞게 바꿔주기
+    const pressAdd = () => { // 저장(추가) 버튼 눌렀을 때, 추가할 식재료 정보 POST
+        console.log(modifyName, modifyPhoto, modifyCategory, modifyAmount, modifyStorageType, modifyExpiration);
+        //fetch("http://localhost:9000/app/users/logIn", { // foodIdx 있어야됨
+        console.log(`https://www.bigthingiscoming.shop/app/foods/${usrId}/${foodIdx}/update`);
+        fetch(`https://www.bigthingiscoming.shop/app/foods/${usrId}/${foodIdx}/update`, {
+          method: "PATCH",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            "foodName": modifyName,
+            "foodPhoto": modifyPhoto,
+            "categoryIdx": modifyCategory,
+            "amount": modifyAmount,
+            "storageType": modifyStorageType,
+            "expirationDate": modifyExpiration,
+            // "foodName": "테스트1",
+            // "foodPhoto": "file:///var/mobile/Containers/Data/Application/35632FBB-3F5B-49E5-96DF-4DD7A674BA3C/tmp/5858CBEE-C800-4211-B11D-939C73611AA5.jpg",
+            // "categoryIdx": 3,
+            // "amount": 1,
+            // "storageType": 3,
+            // "expirationDate": "2022-10-20"
+          }),
+        })
+        .then(response => response.json())
+        .then(response => {
+          switch(response.code){
+            case 1000:
+                Alert.alert(
+                    "식재료 정보 수정 완료.",
+                    '식재료가 정보가 수정되었습니다.',
+                    [{
+                        text: "OK", 
+                        onPress: () => {
+                            navigation.goBack(); // 식재료 상세정보 화면으로 돌아가기
+                        }
+                    }]);
+              console.log(response.code, "Success");
+              break;
+          }
+          console.log(response);
+        })
+        // .then(response => {{console.log(response);}})
+        .catch(error => {console.log('Fetch Error', error);})
+      }
 
   // 렌더링 영역    
   return (

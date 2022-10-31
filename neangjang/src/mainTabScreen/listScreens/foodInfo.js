@@ -1,10 +1,38 @@
 // [ 식재료 리스트 화면 - 식재료 정보 화면 ]
 import React, { useState, useContext } from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, Image, TouchableWithoutFeedback, Keyboard, Alert } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity, Image } from 'react-native';
 
 const FoodInfo = ({route, navigation}) => {
 
-  const { foodPhoto, foodName, amount, storageType, expirationDate, ed_Left} = route.params; // API응답에 카테고리 추가해야함
+  const { foodPhoto, foodName, categoryIdx, amount, storageType, expirationDate, foodIdx, ed_Left} = route.params;
+  console.log(route.params);
+  const [categoryStr, setCategoryStr] = useState(categoryIdx); // 카테고리 텍스트 정보 state
+  const [storageTypeStr, setStorageTypeStr] = useState(storageType); // 저장방식 텍스트 정보 state
+  // 카테고리 텍스트로 변환
+  if (categoryStr === 1) {
+    setCategoryStr("유제품");
+  } else if (categoryStr === 2) {
+    setCategoryStr("돼지");
+  } else if (categoryStr === 3) {
+    setCategoryStr("소");
+  } else if (categoryStr === 4) {
+    setCategoryStr("닭");
+  } else if (categoryStr === 5) {
+    setCategoryStr("가공식품");
+  } else if (categoryStr === 6) {
+    setCategoryStr("빵");
+  } else if (categoryStr === 7) {
+    setCategoryStr("생선");
+  }
+  // 저장방식 텍스트로 변환
+  if (storageTypeStr === 1) {
+    setStorageTypeStr("실온보관");
+  } else if (storageTypeStr === 2) {
+    setStorageTypeStr("냉동보관");
+  } else if (storageTypeStr === 3) {
+    setStorageTypeStr("냉장보관");
+  }
+
   // 렌더링 영역    
   return (
     <View style={styles.container}>
@@ -18,13 +46,13 @@ const FoodInfo = ({route, navigation}) => {
                 </View>
             </View>
             <View style={styles.subInfo}>
-                <Text style={styles.infoName}>카테고리 : </Text>
+                <Text style={styles.infoName}>카테고리 : {categoryStr}</Text>
             </View>
             <View style={styles.subInfo}>
                 <Text style={styles.infoName}>수량 : {amount}</Text>
             </View>
             <View style={styles.subInfo}>
-                <Text style={styles.infoName}>저장방식 : {storageType}</Text>
+                <Text style={styles.infoName}>저장방식 : {storageTypeStr}</Text>
             </View>
             <View style={styles.subInfo}>
                 <Text style={styles.infoName}>유통기한 : {expirationDate}까지</Text>

@@ -5,7 +5,9 @@ import { MainTabContext } from '../mainTab';
 import { Camera, CameraType, CameraScreen } from 'react-native-camera-kit';
 
 
-const Scanner = () => {
+const Scanner = ({route, navigation}) => {
+    console.log(route.params.prevScreen);
+    const [barcodeNum, setBarcodeNum] = useState(''); // 바코드 번호
     const [scaned, setScaned] = useState(true);
     const ref = useRef(null);
 
@@ -13,13 +15,24 @@ const Scanner = () => {
         // 종료후 재시작을 했을때 초기화
         setScaned(true);
         }, []);
-
-    const onBarCodeRead = (event) => {
+    
+    const moveToBack = (previous) => {
+        if (previous === "add"){
+            navigation.navigate('AddList', {barcodeNum: barcodeNum});
+        } else if (previous === "modify"){
+            navigation.navigate('FoodInfoModify', {barcodeNum: barcodeNum});
+        }
+        console.log('ASADASDFSDFSD')
+    }
+    const onBarCodeRead = (bcdvalue) => {
         if (!scaned) return;
         setScaned(false);
         //Vibration.vibrate(); // 안됨 ==> 나중에 확인
-        Alert.alert("QR Code", event.nativeEvent.codeStringValue, [
-            { text: "OK", onPress: () => setScaned(true) },
+        Alert.alert("QR Code", bcdvalue, [
+            { text: "OK", onPress: () => {
+                setScaned(true);
+                moveToBack(route.params.prev);                
+            } },
         ]);
         };
 
@@ -34,20 +47,24 @@ const Scanner = () => {
             laserColor='blue' // (default red) optional, color of laser in scanner frame
             frameColor='skyblue' // (default white) optional, color of border of scanner frame
         /> */}
-        <Camera
+        <CameraScreen
             style={styles.scanner}
             ref={ref}
             cameraType={CameraType.Back} // Front/Back(default)
             zoomMode
             focusMode
             // Barcode Scanner Props
-            scanBarcode
+            scanBarcode={true}
             showFrame={true}
             laserColor="rgba(0, 0, 0, 0)"
             //frameColor="rgba(0, 0, 0, 0)"
             frameColor='blue'
             surfaceColor="rgba(0, 0, 0, 0)"
-            onReadCode={onBarCodeRead}
+            //onReadCode={onBarCodeRead}
+            onReadCode={(event) => {
+                onBarCodeRead(event.nativeEvent.codeStringValue);
+                setBarcodeNum(event.nativeEvent.codeStringValue);
+            }}
         />
     </View>
   );

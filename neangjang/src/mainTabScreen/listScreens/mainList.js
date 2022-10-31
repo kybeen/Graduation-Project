@@ -7,6 +7,7 @@ import {
   SafeAreaView,
   FlatList,
   TouchableOpacity,
+  TouchableWithoutFeedback, Keyboard
 } from 'react-native';
 import Icon from 'react-native-vector-icons/dist/Ionicons';
 import ActionButton from 'react-native-action-button';
@@ -44,10 +45,11 @@ const MainList = ({navigation}) => {
          touchEvent={()=>navigation.navigate('FoodInfo', {
             foodPhoto: item.foodPhoto,
             foodName: item.foodName,
-            // category: item.category,
+            categoryIdx: item.categoryIdx,
             amount: item.amount,
             storageType: item.storageType,
             expirationDate: item.expirationDate,
+            foodIdx: item.idx, // 식재료 인덱스 (정보 수정 시 사용)
             ed_Left: item.ed_Left,
          })}
        />
@@ -69,37 +71,39 @@ const MainList = ({navigation}) => {
   }
 
   return (
-   <SafeAreaView style={{flexDirection: 'column', flex: 1}}>
-    {/* 상단 제목 View */}
-     <View style={styles.titleView}>
-       <Text style={styles.titleText}>{usrName}의 식재료</Text>
-     </View>
-     {/* 검색창 View */}
-     <View style={styles.searchView}>
-      <Icon name='ios-search' size={25}/>
-      <MyTextInput
-        value={searchText}
-        onChangeText={setSearchText}
-        placeholder="식재료 검색"
-        autoCapitalize={'none'}
+   <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+    <SafeAreaView style={{flexDirection: 'column', flex: 1}}>
+      {/* 상단 제목 View */}
+      <View style={styles.titleView}>
+        <Text style={styles.titleText}>{usrName}의 식재료</Text>
+      </View>
+      {/* 검색창 View */}
+      <View style={styles.searchView}>
+        <Icon name='ios-search' size={25}/>
+        <MyTextInput
+          value={searchText}
+          onChangeText={setSearchText}
+          placeholder="식재료 검색"
+          autoCapitalize={'none'}
+        />
+        <TouchableOpacity style={{justifyContent: 'center', paddingBottom: 17}} onPress={() => setSearchText('')}>
+          <Text style={styles.cancelButton}>취소</Text>
+        </TouchableOpacity>
+      </View>
+      {/* 식재료 리스트 렌더링 View */}
+      <View style={styles.mainView}>
+        <FlatList
+          data={foodData}
+          renderItem={renderItem}
+          keyExtractor={(item) => item.idx}
+        />
+      </View>
+      <ActionButton
+        buttonColor="rgba(30,100,230,1)"
+        onPress={() => navigation.navigate('AddList')}
       />
-      <TouchableOpacity style={{justifyContent: 'center', paddingBottom: 17}} onPress={() => setSearchText('')}>
-        <Text style={styles.cancelButton}>취소</Text>
-      </TouchableOpacity>
-     </View>
-     {/* 식재료 리스트 렌더링 View */}
-     <View style={styles.mainView}>
-       <FlatList
-         data={foodData}
-         renderItem={renderItem}
-         keyExtractor={(item) => item.idx}
-       />
-     </View>
-     <ActionButton
-       buttonColor="rgba(30,100,230,1)"
-       onPress={() => navigation.navigate('AddList')}
-     />
-   </SafeAreaView>
+    </SafeAreaView>
+   </TouchableWithoutFeedback>
   );
 };
 
