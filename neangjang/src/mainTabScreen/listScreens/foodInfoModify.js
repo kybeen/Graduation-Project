@@ -53,7 +53,6 @@ const FoodInfoModify = ({route, navigation}) => {
     ///////// 식재료 수정에 맞게 바꿔주기
     const pressAdd = () => { // 저장(추가) 버튼 눌렀을 때, 추가할 식재료 정보 POST
         console.log(modifyName, modifyPhoto, modifyCategory, modifyAmount, modifyStorageType, modifyExpiration);
-        //fetch("http://localhost:9000/app/users/logIn", { // foodIdx 있어야됨
         console.log(`https://www.bigthingiscoming.shop/app/foods/${usrId}/${foodIdx}/update`);
         fetch(`https://www.bigthingiscoming.shop/app/foods/${usrId}/${foodIdx}/update`, {
           method: "PATCH",
@@ -67,12 +66,6 @@ const FoodInfoModify = ({route, navigation}) => {
             "amount": modifyAmount,
             "storageType": modifyStorageType,
             "expirationDate": modifyExpiration,
-            // "foodName": "테스트1",
-            // "foodPhoto": "file:///var/mobile/Containers/Data/Application/35632FBB-3F5B-49E5-96DF-4DD7A674BA3C/tmp/5858CBEE-C800-4211-B11D-939C73611AA5.jpg",
-            // "categoryIdx": 3,
-            // "amount": 1,
-            // "storageType": 3,
-            // "expirationDate": "2022-10-20"
           }),
         })
         .then(response => response.json())

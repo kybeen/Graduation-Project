@@ -6,8 +6,9 @@ import { Camera, CameraType, CameraScreen } from 'react-native-camera-kit';
 
 
 const Scanner = ({route, navigation}) => {
-    console.log(route.params.prevScreen);
-    const [barcodeNum, setBarcodeNum] = useState(''); // 바코드 번호
+    const previous = route.params.prevScreen
+    //console.log(previous);
+    const [productName, setProductName] = useState(''); // 제품명
     const [scaned, setScaned] = useState(true);
     const ref = useRef(null);
 
@@ -16,23 +17,43 @@ const Scanner = ({route, navigation}) => {
         setScaned(true);
         }, []);
     
-    const moveToBack = (previous) => {
-        if (previous === "add"){
-            navigation.navigate('AddList', {barcodeNum: barcodeNum});
-        } else if (previous === "modify"){
-            navigation.navigate('FoodInfoModify', {barcodeNum: barcodeNum});
-        }
-        console.log('ASADASDFSDFSD')
+    const scanned = (bcdNum) => {
+        //console.log(bcdNum);
+        // PRDLST_NM : 식품명 받아올수 있음
+        //fetch("https://openapi.foodsafetykorea.go.kr/api/3801aa6377e44b2187e9/C005/json/1/1/BAR_CD=8801075011647", {method:"GET"})
+        fetch(`http://openapi.foodsafetykorea.go.kr/api/3801aa6377e44b2187e9/C005/json/1/1/BAR_CD=${bcdNum}`, {method:"GET"})
+        .then(response => response.json())
+        .then(response => {
+            console.log(response);
+            setProductName(response.C005.row[0].PRDLST_NM);
+        })
+        .catch(error => {console.log('Fetch Error', error);})
+        console.log(productName);
+        return;
     }
+
     const onBarCodeRead = (bcdvalue) => {
         if (!scaned) return;
         setScaned(false);
         //Vibration.vibrate(); // 안됨 ==> 나중에 확인
-        Alert.alert("QR Code", bcdvalue, [
+        Alert.alert("바코드 스캔 완료!!", bcdvalue, [
             { text: "OK", onPress: () => {
                 setScaned(true);
-                moveToBack(route.params.prev);                
-            } },
+                //moveToBack(previous);
+                if (previous === "add"){
+                    navigation.navigate({
+                        name: 'AddList',
+                        params: {productName: productName},
+                        merge: true,
+                    });
+                } else if (previous === "modify"){
+                    navigation.navigate({
+                        name: 'FoodInfoModify',
+                        params: {productName: productName},
+                        merge: true,
+                    })
+                }
+            } }
         ]);
         };
 
@@ -62,8 +83,8 @@ const Scanner = ({route, navigation}) => {
             surfaceColor="rgba(0, 0, 0, 0)"
             //onReadCode={onBarCodeRead}
             onReadCode={(event) => {
+                scanned(event.nativeEvent.codeStringValue);
                 onBarCodeRead(event.nativeEvent.codeStringValue);
-                setBarcodeNum(event.nativeEvent.codeStringValue);
             }}
         />
     </View>

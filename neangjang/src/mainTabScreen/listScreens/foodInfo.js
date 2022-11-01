@@ -1,9 +1,10 @@
 // [ 식재료 리스트 화면 - 식재료 정보 화면 ]
 import React, { useState, useContext } from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, Image } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity, Image, Alert } from 'react-native';
+import { MainTabContext } from '../mainTab';
 
 const FoodInfo = ({route, navigation}) => {
-
+  const { usrId, usrName } = useContext(MainTabContext);  // 로그인 시 DB로부터 받아온 사용자의 idx, userName을 Login->MainTab 통해서 전달 받음
   const { foodPhoto, foodName, categoryIdx, amount, storageType, expirationDate, foodIdx, ed_Left} = route.params;
   console.log(route.params);
   const [categoryStr, setCategoryStr] = useState(categoryIdx); // 카테고리 텍스트 정보 state
@@ -31,6 +32,45 @@ const FoodInfo = ({route, navigation}) => {
     setStorageTypeStr("냉동보관");
   } else if (storageTypeStr === 3) {
     setStorageTypeStr("냉장보관");
+  }
+
+  const pressDelete = () => { // 식재료 삭제 요청
+    fetch(`https://www.bigthingiscoming.shop/app/foods/${usrId}/${foodIdx}/delete`, {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      })
+      .then(response => response.json())
+      .then(response => {
+        switch(response.code){
+          case 1000:
+            Alert.alert(
+              "식재료 삭제 완료.",
+              '식재료가 삭제되었습니다.',
+              [{
+                  text: "OK", 
+                  onPress: () => {
+                      navigation.goBack(); // 식재료 리스트 화면으로 돌아가기
+                  }
+              }]);
+            console.log(response.code, "Successfully Deleted!!");
+            break;
+          case 2003:
+            console.log(response.code, response.message);
+        }
+        console.log(response);
+      })
+      // .then(response => {{console.log(response);}})
+      .catch(error => {console.log('Fetch Error', error);})
+    // Alert.alert(
+    //     '식재료 삭제',
+    //     '정말 삭제 하시겠습니까?',
+    //     [
+    //         {text: '취소', onPress: () => {}, style: 'cancel'},
+    //         {text: '확인', onPress: () => {}, style: 'destructive'}
+    //     ]
+    // )
   }
 
   // 렌더링 영역    
@@ -72,15 +112,15 @@ const FoodInfo = ({route, navigation}) => {
             {/* 삭제 버튼 */}
             <TouchableOpacity
                 style={styles.button}
-                onPress={()=>alert('삭제')}
-                // onPress={() => Alert.alert(
-                //     '식재료 삭제',
-                //     '정말 삭제 하시겠습니까?',
-                //     [
-                //         {text: '취소', onPress: () => {}, style: 'cancel'},
-                //         {text: '확인', onPress: () => {}, style: 'destructive'}
-                //     ]
-                // )}
+                onPress={() => 
+                  Alert.alert(
+                    "식재료 삭제",
+                    '정말 삭제 하시겠습니까?',
+                    [
+                      {text: '취소', onPress: () => {}, style: 'cancel'},
+                      {text: '확인', onPress: () => {pressDelete()}, style: 'destructive'}
+                    ])
+                }
             >
                 <Text style={[styles.buttonText, {color: 'red'}]}>삭제</Text>
             </TouchableOpacity>
