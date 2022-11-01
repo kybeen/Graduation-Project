@@ -1,5 +1,5 @@
 // [ 식재료 리스트 화면 - 식재료 추가 화면 ]
-import React, { useState, useContext } from 'react';
+import React, { useState, useContext, createContext, useEffect } from 'react';
 import { View, Text, TextInput, Button, StyleSheet, Alert, TouchableOpacity, Image, Modal, TouchableWithoutFeedback, Keyboard } from 'react-native';
 import { MainTabContext } from '../mainTab';
 import { launchCamera, launchImageLibrary } from 'react-native-image-picker';
@@ -12,7 +12,13 @@ import { Calendar, CalendarList } from 'react-native-calendars';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 
 const AddList = ({route, navigation}) => {
+    // useEffect(() => {
+    //     if (route.params?.productName) {
+    //       //setAddName(route.params?.productName);
+    //     }
+    // }, [route.params?.productName]);
     const { usrId, usrName } = useContext(MainTabContext);  // 로그인 시 DB로부터 받아온 사용자의 idx, userName을 Login->MainTab 통해서 전달 받음
+
     // 추가할 식재료 정보 state
     const [addName, setAddName] = useState('');                     // 이름
     const [addPhoto, setAddPhoto] = useState('/Users/kim-youngbin/Desktop/BTIC/Application/neangjang/assets/icons/list_fill.png');               // 사진
@@ -255,7 +261,7 @@ const AddList = ({route, navigation}) => {
                     </View>
                     {/* 하단 바코드, 저장 버튼 */}
                     <View style={[styles.buttonArea, {zIndex: 1}]}>
-                        <TouchableOpacity style={[styles.button2, {width: '55%'}]} onPress={() => navigation.navigate('Scanner', {prevScreen: 'add'})}>
+                        <TouchableOpacity style={[styles.button2, {width: '55%'}]} onPress={() => navigation.navigate('Scanner', {prevScreen: 'add', addName: addName})}>
                             <MaterialCommunityIcons name={'barcode-scan'} size={40} color={'#545454'}/>
                             <Text style={{fontSize: 20, fontWeight: '600', color: '#545454'}}>바코드로 등록</Text>
                         </TouchableOpacity>
