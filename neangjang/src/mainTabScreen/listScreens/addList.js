@@ -263,7 +263,7 @@ const AddList = ({route, navigation}) => {
                     <View style={[styles.buttonArea, {zIndex: 1}]}>
                         <TouchableOpacity style={[styles.button2, {width: '55%'}]} onPress={() => navigation.navigate('Scanner', {prevScreen: 'add', addName: addName})}>
                             <MaterialCommunityIcons name={'barcode-scan'} size={40} color={'#545454'}/>
-                            <Text style={{fontSize: 20, fontWeight: '600', color: '#545454'}}>바코드로 등록</Text>
+                            <Text style={{paddingLeft:5,fontSize: 15, fontWeight: '600', color: '#545454'}}>바코드(QR)로 등록</Text>
                         </TouchableOpacity>
                         <TouchableOpacity
                             style={[styles.button2, {width: '35%'}]}
