@@ -20,21 +20,22 @@ const Scanner = ({route, navigation}) => {
     const scanned = (bcdNum) => {
         //console.log(bcdNum);
         // PRDLST_NM : 식품명 받아올수 있음
-        //fetch("https://openapi.foodsafetykorea.go.kr/api/3801aa6377e44b2187e9/C005/json/1/1/BAR_CD=8801075011647", {method:"GET"})
-        fetch(`http://openapi.foodsafetykorea.go.kr/api/3801aa6377e44b2187e9/C005/json/1/1/BAR_CD=${bcdNum}`, {method:"GET"})
+        fetch("http://openapi.foodsafetykorea.go.kr/api/3801aa6377e44b2187e9/C005/json/1/1/BAR_CD="+bcdNum)
         .then(response => response.json())
         .then(response => {
             console.log(response);
             setProductName(response.C005.row[0].PRDLST_NM);
         })
         .catch(error => {console.log('Fetch Error', error);})
-        console.log(productName);
+        //console.log(productName);
         return;
     }
 
     const onBarCodeRead = (bcdvalue) => {
         if (!scaned) return;
         setScaned(false);
+        console.log(bcdvalue);
+        scanned(bcdvalue);
         //Vibration.vibrate(); // 안됨 ==> 나중에 확인
         Alert.alert("바코드 스캔 완료!!", bcdvalue, [
             { text: "OK", onPress: () => {
@@ -83,7 +84,7 @@ const Scanner = ({route, navigation}) => {
             surfaceColor="rgba(0, 0, 0, 0)"
             //onReadCode={onBarCodeRead}
             onReadCode={(event) => {
-                scanned(event.nativeEvent.codeStringValue);
+                //scanned(event.nativeEvent.codeStringValue);
                 onBarCodeRead(event.nativeEvent.codeStringValue);
             }}
         />

@@ -64,6 +64,16 @@ const MainList = ({navigation}) => {
            amount={item.amount}
            expirationDate={item.expirationDate}
            ed_Left={item.ed_Left}
+           touchEvent={()=>navigation.navigate('FoodInfo', {
+            foodPhoto: item.foodPhoto,
+            foodName: item.foodName,
+            categoryIdx: item.categoryIdx,
+            amount: item.amount,
+            storageType: item.storageType,
+            expirationDate: item.expirationDate,
+            foodIdx: item.idx, // 식재료 인덱스 (정보 수정 시 사용)
+            ed_Left: item.ed_Left,
+         })}
          />
        )
      }

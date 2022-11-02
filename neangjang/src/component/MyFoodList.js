@@ -40,7 +40,7 @@ const MyFoodList = (props) => {
         </View>
       </View>
       <View style={styles.ed_LeftView}>
-        <Text style={styles.ed_LeftText}>{props.ed_Left}</Text>
+        <Text style={styles.ed_LeftText}>{props.ed_Left}일 남음</Text>
       </View>
     </TouchableOpacity>
   )
@@ -57,6 +57,8 @@ const styles = StyleSheet.create({
   textView: {
     flex:4,
     marginTop: 10,
+    marginLeft: 5,
+    //backgroundColor: 'pink',
   },
   listView: {
     borderWidth: 2,
@@ -74,11 +76,12 @@ const styles = StyleSheet.create({
     marginVertical: 10,
     },
     ed_LeftView: {
-      flex: 1,
+      flex: 1.5,
       marginHorizontal: 10,
       marginVertical: 10,
-      alignSelf: 'center',
+      alignItems: 'center',
       justifyContent: 'center',
+      //backgroundColor: 'pink',
     },
     ed_LeftText: {
       fontSize: 15,

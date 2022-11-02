@@ -40,7 +40,7 @@ const renderRecipeItem = ({item, index}) => {
   )
 }
 
-const Home = () => {
+const Home = ({navigation}) => {
   const { usrId, usrName } = useContext(MainTabContext);
   const [recipeData, setRecipeData] = useState([]);
   const [foodData, setFoodData] = useState([]);
@@ -82,9 +82,10 @@ const Home = () => {
           data={foodData}
           renderItem={renderFoodItem}
           keyExtractor={(item) => item.idx}
+          tou
         />
-        </View>
-        <View style={styles.recipeView}>
+      </View>
+      <View style={styles.recipeView}>
         <Text style={styles.subTitleText}>추천 레시피</Text>
         <FlatList
           scrollEnabled={false}
