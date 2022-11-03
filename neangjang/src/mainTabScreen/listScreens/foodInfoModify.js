@@ -51,9 +51,9 @@ const FoodInfoModify = ({route, navigation}) => {
     }
 
     ///////// 식재료 수정에 맞게 바꿔주기
-    const pressAdd = () => { // 저장(추가) 버튼 눌렀을 때, 추가할 식재료 정보 POST
+    const pressModify = () => { // 저장(추가) 버튼 눌렀을 때, 추가할 식재료 정보 POST
         console.log(modifyName, modifyPhoto, modifyCategory, modifyAmount, modifyStorageType, modifyExpiration);
-        console.log(`https://www.bigthingiscoming.shop/app/foods/${usrId}/${foodIdx}/update`);
+        //console.log(`https://www.bigthingiscoming.shop/app/foods/${usrId}/${foodIdx}/update`);
         fetch(`https://www.bigthingiscoming.shop/app/foods/${usrId}/${foodIdx}/update`, {
           method: "PATCH",
           headers: {
@@ -252,7 +252,7 @@ const FoodInfoModify = ({route, navigation}) => {
                             style={[styles.button2, {width: '35%'}]}
                             onPress={()=>{
                                 console.log("HELLO",modifyName, modifyPhoto, modifyCategory, modifyAmount, modifyStorageType, modifyExpiration);
-                                pressAdd();
+                                pressModify();
                             }}
                         >
                             <MaterialCommunityIcons name={'content-save-check'} size={40} color={'#545454'}/>

@@ -36,10 +36,10 @@ const CalendarView = () => {
         obj[temp[t]] = {marked:true};
       }
       setMarkedDate(obj);
-      console.log(markedDate);
+      //console.log(markedDate);
     })
     .catch(error => {console.log('Fetch Error', error);})
-  }, []);
+  },[]);
 
   const GetMarkedDate = (dateList) => {
     let temp2 = {};

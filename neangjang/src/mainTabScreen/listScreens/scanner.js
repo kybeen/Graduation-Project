@@ -11,6 +11,7 @@ const Scanner = ({route, navigation}) => {
     const [productName, setProductName] = useState(''); // 제품명
     const [scaned, setScaned] = useState(true);
     const ref = useRef(null);
+    var key = ''; // 바코드 스캐너 API키값
 
     useEffect(() => {
         // 종료후 재시작을 했을때 초기화
@@ -20,7 +21,7 @@ const Scanner = ({route, navigation}) => {
     const scanned = (bcdNum) => {
         //console.log(bcdNum);
         // PRDLST_NM : 식품명 받아올수 있음
-        fetch("http://openapi.foodsafetykorea.go.kr/api/3801aa6377e44b2187e9/C005/json/1/1/BAR_CD="+bcdNum)
+        fetch(`http://openapi.foodsafetykorea.go.kr/api/${key}/C005/json/1/1/BAR_CD=${bcdNum}`)
         .then(response => response.json())
         .then(response => {
             console.log(response);
