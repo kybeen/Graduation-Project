@@ -1,7 +1,7 @@
 // [ 타이틀 화면 ]
 
  import React from 'react';
- import {View, Text, Pressable, StyleSheet, TouchableOpacity } from 'react-native';
+ import {View, Text, StyleSheet, TouchableOpacity } from 'react-native';
  
 //  const callFetch = () => {
 //     fetch('https://jsonplaceholder.typicode.com/users')
@@ -19,9 +19,6 @@
                 <TouchableOpacity onPress={() => navigation.navigate('Login')}>
                     <Text style={styles.start}>화면을 터치하여 시작</Text>
                 </TouchableOpacity>
-                {/* <TouchableOpacity onPress={callFetch}>
-                    <Text>fetch</Text>
-                </TouchableOpacity> */}
              </View>
          </View>
      );
