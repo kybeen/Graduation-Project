@@ -35,7 +35,7 @@ const Scanner = ({route, navigation}) => {
     const onBarCodeRead = (bcdvalue) => {
         if (!scaned) return;
         setScaned(false);
-        console.log(bcdvalue);
+        //console.log(bcdvalue);
         scanned(bcdvalue);
         //Vibration.vibrate(); // 안됨 ==> 나중에 확인
         Alert.alert("바코드 스캔 완료!!", bcdvalue, [

@@ -12,11 +12,6 @@ import { Calendar, CalendarList } from 'react-native-calendars';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 
 const AddList = ({route, navigation}) => {
-    // useEffect(() => {
-    //     if (route.params?.productName) {
-    //       //setAddName(route.params?.productName);
-    //     }
-    // }, [route.params?.productName]);
     const { usrId, usrName } = useContext(MainTabContext);  // 로그인 시 DB로부터 받아온 사용자의 idx, userName을 Login->MainTab 통해서 전달 받음
 
     // 추가할 식재료 정보 state
@@ -53,6 +48,12 @@ const AddList = ({route, navigation}) => {
     const onStorageOpen = () => {
         setCategoryOpen(false);
     }
+
+    useEffect(() => {
+        if (route.params?.productName) {
+          console.log("TESTTESTTESTTESTTEST",route.params.productName);
+        }
+    }, [route.params?.productName]);
 
     const pressAdd = () => { // 저장(추가) 버튼 눌렀을 때, 추가할 식재료 정보 POST
         //fetch("http://localhost:9000/app/users/logIn", {
