@@ -12,7 +12,7 @@ import { Calendar, CalendarList } from 'react-native-calendars';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 
 const AddRecipe = ({route, navigation}) => {
-  const { usrId, usrName } = useContext(MainTabContext);
+  const { usrIdx, usrName, usrId } = useContext(MainTabContext);
 
   // 추가할 레시피 정보 state
   const [addName, setAddName] = useState(''); // 레시피 이름

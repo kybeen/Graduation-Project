@@ -18,12 +18,12 @@ import MyRecipeList from '../../component/MyRecipeList';
 import MyTextInput from '../../component/MyTextInput';
 
 const MainRecipe = ({navigation}) => {
-  const { usrId, usrName } = useContext(MainTabContext); // 사용자 정보
+  const { usrIdx, usrName, usrId } = useContext(MainTabContext); // 사용자 정보
   const [recipeData, setRecipeData] = useState([]); // 받아올 레시피 정보
   const [searchText, setSearchText] = useState(''); // 검색 텍스트
 
   const getRecipeData = () => {
-    fetch('https://www.bigthingiscoming.shop/app/recipes/'+usrId)
+    fetch('https://www.bigthingiscoming.shop/app/recipes/'+usrIdx)
       .then((res) => res.json())
       .then((res) => setRecipeData(res.result))
       .catch((error) => {
@@ -33,8 +33,8 @@ const MainRecipe = ({navigation}) => {
 
   useEffect(() => {
     getRecipeData();  
-    console.log(recipeData);
-  }, []);
+    //console.log(recipeData);
+  }, [recipeData]);
 
   const renderItem = ({item}) => {
     if (searchText === '') {  // 아무것도 입력하지 않았을 떄

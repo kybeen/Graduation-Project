@@ -1,5 +1,5 @@
 // [ 식재료 리스트 화면 - 식재료 정보 수정 화면 ]
-import React, { useState, useContext } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 import { View, Text, TextInput, Button, StyleSheet, Alert, TouchableOpacity, Image, Modal, TouchableWithoutFeedback, Keyboard } from 'react-native';
 import { MainTabContext } from '../mainTab';
 import { launchCamera, launchImageLibrary } from 'react-native-image-picker';
@@ -12,7 +12,7 @@ import { Calendar, CalendarList } from 'react-native-calendars';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 
 const FoodInfoModify = ({route, navigation}) => {
-    const { usrId, usrName } = useContext(MainTabContext);  // 로그인 시 DB로부터 받아온 사용자의 idx, userName을 Login->MainTab 통해서 전달 받음
+    const { usrIdx, usrName, usrId } = useContext(MainTabContext);  // 로그인 시 DB로부터 받아온 사용자의 idx, userName을 Login->MainTab 통해서 전달 받음
     const foodData = route.params.foodData;
     // 수정할 식재료 정보 state
     const [modifyName, setmodifyName] = useState(foodData.foodName);                     // 이름
@@ -50,11 +50,24 @@ const FoodInfoModify = ({route, navigation}) => {
         setCategoryOpen(false);
     }
 
+    useEffect(() => {
+        if (route.params?.qrvalue) {
+          qrvalue = JSON.parse(route.params.qrvalue);
+          console.log(qrvalue);
+          setmodifyName(qrvalue.foodName);
+          setmodifyPhoto(qrvalue.foodPhoto);
+          setmodifyCategory(qrvalue.categoryIdx);
+          setmodifyAmount(qrvalue.amount);
+          setmodifyStorageType(qrvalue.storageType);
+          setmodifyExpiration(qrvalue.expirationDate);
+        }
+    }, [route.params?.qrvalue]);
+
     ///////// 식재료 수정에 맞게 바꿔주기
     const pressModify = () => { // 저장(추가) 버튼 눌렀을 때, 추가할 식재료 정보 POST
         console.log(modifyName, modifyPhoto, modifyCategory, modifyAmount, modifyStorageType, modifyExpiration);
         //console.log(`https://www.bigthingiscoming.shop/app/foods/${usrId}/${foodIdx}/update`);
-        fetch(`https://www.bigthingiscoming.shop/app/foods/${usrId}/${foodIdx}/update`, {
+        fetch(`https://www.bigthingiscoming.shop/app/foods/${usrIdx}/${foodIdx}/update`, {
           method: "PATCH",
           headers: {
             "Content-Type": "application/json",
@@ -244,7 +257,7 @@ const FoodInfoModify = ({route, navigation}) => {
                     </View>
                     {/* 하단 바코드, 저장 버튼 */}
                     <View style={[styles.buttonArea, {zIndex: 1}]}>
-                        <TouchableOpacity style={[styles.button2, {width: '55%'}]} onPress={() => navigation.navigate('Scanner')}>
+                        <TouchableOpacity style={[styles.button2, {width: '55%'}]} onPress={() => navigation.navigate('Scanner', {prevScreen: 'modify'})}>
                             <MaterialCommunityIcons name={'barcode-scan'} size={40} color={'#545454'}/>
                             <Text style={{paddingLeft:5,fontSize: 15, fontWeight: '600', color: '#545454'}}>바코드(QR)로 등록</Text>
                         </TouchableOpacity>

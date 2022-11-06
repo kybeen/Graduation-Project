@@ -17,7 +17,7 @@ import CalendarHeader from 'react-native-calendars/src/calendar/header';
 import MyFoodList from '../component/MyFoodList';
 
 const CalendarView = () => {
-  const { usrId, usrName } = useContext(MainTabContext);  // 로그인 시 DB로부터 받아온 사용자의 idx, userName을 Login->MainTab 통해서 전달 받음
+  const { usrIdx, usrName, usrId } = useContext(MainTabContext);  // 로그인 시 DB로부터 받아온 사용자의 idx, userName을 Login->MainTab 통해서 전달 받음
   const [foodData, setFoodData] = useState([]);  // 받아올 음식들의 정보
   const [selectedDate, setSelectedDate] = useState({}) // 선택된 날짜
   const [markedDate, setMarkedDate] = useState([]); // 식재료들의 유통기한 리스트 (달력에 표시하기 위한)
@@ -25,10 +25,11 @@ const CalendarView = () => {
   var obj = {};
 
   useEffect(() => {
-    fetch("https://www.bigthingiscoming.shop/app/foods/"+usrId)
+    fetch("https://www.bigthingiscoming.shop/app/foods/"+usrIdx)
     .then(response => response.json())
     .then(response => {
       setFoodData(response.result);
+      //console.log(response.result);
       for (var i=0; i<foodData.length; i++){
         temp.push(foodData[i].expirationDate);
       }
@@ -39,7 +40,7 @@ const CalendarView = () => {
       //console.log(markedDate);
     })
     .catch(error => {console.log('Fetch Error', error);})
-  },[]);
+  },[markedDate]);
 
   const GetMarkedDate = (dateList) => {
     let temp2 = {};

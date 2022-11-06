@@ -5,7 +5,7 @@ import {createNativeStackNavigator} from '@react-navigation/native-stack';
 
 import MainHome from './homeScreens/mainHome';
 import FoodInfo from './listScreens/foodInfo';
-import RecipeInfo from './recipeScreens/recipeInfo'
+import RecipeInfo from './recipeScreens/recipeInfo';
 
 const Stack = createNativeStackNavigator();
 
@@ -23,8 +23,8 @@ const Home = () => {
         options={{ title: '식재료 정보' }}
       />
       <Stack.Screen
-        name="recipeInfo"
-        component={recipeInfo}
+        name="RecipeInfo"
+        component={RecipeInfo}
         options={{ title: '레시피 정보' }}
       />
     </Stack.Navigator>

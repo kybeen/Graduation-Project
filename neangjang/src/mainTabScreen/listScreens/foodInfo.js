@@ -4,7 +4,7 @@ import { View, Text, StyleSheet, TouchableOpacity, Image, Alert } from 'react-na
 import { MainTabContext } from '../mainTab';
 
 const FoodInfo = ({route, navigation}) => {
-  const { usrId, usrName } = useContext(MainTabContext);  // 로그인 시 DB로부터 받아온 사용자의 idx, userName을 Login->MainTab 통해서 전달 받음
+  const { usrIdx, usrName, usrId } = useContext(MainTabContext);  // 로그인 시 DB로부터 받아온 사용자의 idx, userName을 Login->MainTab 통해서 전달 받음
   const { foodPhoto, foodName, categoryIdx, amount, storageType, expirationDate, foodIdx, ed_Left} = route.params;
   console.log(route.params);
   const [categoryStr, setCategoryStr] = useState(categoryIdx); // 카테고리 텍스트 정보 state
@@ -35,7 +35,7 @@ const FoodInfo = ({route, navigation}) => {
   }
 
   const pressDelete = () => { // 식재료 삭제 요청
-    fetch(`https://www.bigthingiscoming.shop/app/foods/${usrId}/${foodIdx}/delete`, {
+    fetch(`https://www.bigthingiscoming.shop/app/foods/${usrIdx}/${foodIdx}/delete`, {
         method: "PATCH",
         headers: {
           "Content-Type": "application/json",
