@@ -18,18 +18,18 @@ import MyFoodList from '../../component/MyFoodList';
 
 
 const MainList = ({navigation}) => {
-  const { usrId, usrName } = useContext(MainTabContext);  // 로그인 시 DB로부터 받아온 사용자의 idx, userName을 Login->MainTab 통해서 전달 받음
+  const { usrIdx, usrName } = useContext(MainTabContext);  // 로그인 시 DB로부터 받아온 사용자의 idx, userName을 Login->MainTab 통해서 전달 받음
   const [foodData, setFoodData] = useState([]);  // 받아올 음식들의 정보
   const [searchText, setSearchText] = useState(''); // 검색 텍스트
 
   useEffect(() => {
-   fetch("https://www.bigthingiscoming.shop/app/foods/"+usrId)
+   fetch("https://www.bigthingiscoming.shop/app/foods/"+usrIdx)
    .then(response => response.json())
    .then(response => {
      setFoodData(response.result);
    })
    .catch(error => {console.log('Fetch Error', error);})
-  }, ); // [] : 첫 렌더링 시에만 useEffect 호출
+  },[foodData]); // [] : 첫 렌더링 시에만 useEffect 호출
 
   // 검색 텍스트에 따라 해당하는 식재료만 렌더링
   const renderItem = ({item}) => {

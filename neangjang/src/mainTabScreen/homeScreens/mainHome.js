@@ -29,7 +29,7 @@ const renderRecipeItem = ({item, index}) => {
 }
 
 const MainHome = ({navigation}) => {
-  const { usrId, usrName } = useContext(MainTabContext);
+  const { usrIdx, usrName } = useContext(MainTabContext);
   const [recipeData, setRecipeData] = useState([]);
   const [foodData, setFoodData] = useState([]);
 
@@ -43,8 +43,8 @@ const MainHome = ({navigation}) => {
   // };
 
   const getData = () => {
-    //fetch("http://localhost:9000/app/home/"+usrId)
-    fetch("https://www.bigthingiscoming.shop/app/home/"+usrId)
+    //fetch("http://localhost:9000/app/home/"+usrIdx)
+    fetch("https://www.bigthingiscoming.shop/app/home/"+usrIdx)
     .then(response => response.json())
     .then(response => {
       setFoodData(response.result[0]);
@@ -55,7 +55,7 @@ const MainHome = ({navigation}) => {
 
   useEffect(() => {
     getData(); 
-  }, []); // [] : 첫 렌더링 시에만 useEffect 호출
+  },[]); // [] : 첫 렌더링 시에만 useEffect 호출
 
   const renderFoodItem = ({item, index}) => {
     if (index < 3) return (   // 3개까지만 출력하도록 조건문 설정

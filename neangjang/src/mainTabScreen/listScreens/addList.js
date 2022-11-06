@@ -12,13 +12,13 @@ import { Calendar, CalendarList } from 'react-native-calendars';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 
 const AddList = ({route, navigation}) => {
-    const { usrId, usrName } = useContext(MainTabContext);  // 로그인 시 DB로부터 받아온 사용자의 idx, userName을 Login->MainTab 통해서 전달 받음
+    const { usrIdx, usrName, usrId } = useContext(MainTabContext);  // 로그인 시 DB로부터 받아온 사용자의 idx, userName을 Login->MainTab 통해서 전달 받음
 
     // 추가할 식재료 정보 state
     const [addName, setAddName] = useState('');                     // 이름
     const [addPhoto, setAddPhoto] = useState('/Users/kim-youngbin/Desktop/BTIC/Application/neangjang/assets/icons/list_fill.png');               // 사진
     const [addCategory, setAddCategory] = useState('');             // 카테고리
-    const [addAmount, setAddAmount] = useState(1);                  // 수량
+    const [addAmount, setAddAmount] = useState('');                  // 수량
     const [addStorageType, setAddStorageType] = useState('');       // 저장방식
     const [addExpiration, setAddExpiration] = useState('');         // 유통기한
 
@@ -50,14 +50,21 @@ const AddList = ({route, navigation}) => {
     }
 
     useEffect(() => {
-        if (route.params?.productName) {
-          console.log("TESTTESTTESTTESTTEST",route.params.productName);
+        if (route.params?.qrvalue) {
+          qrvalue = JSON.parse(route.params.qrvalue);
+          console.log(qrvalue);
+          setAddName(qrvalue.foodName);
+          setAddPhoto(qrvalue.foodPhoto);
+          setAddCategory(qrvalue.categoryIdx);
+          setAddAmount(qrvalue.amount);
+          setAddStorageType(qrvalue.storageType);
+          setAddExpiration(qrvalue.expirationDate);
         }
-    }, [route.params?.productName]);
+    }, [route.params?.qrvalue]);
 
     const pressAdd = () => { // 저장(추가) 버튼 눌렀을 때, 추가할 식재료 정보 POST
         //fetch("http://localhost:9000/app/users/logIn", {
-        fetch("https://www.bigthingiscoming.shop/app/foods/"+usrId, {
+        fetch("https://www.bigthingiscoming.shop/app/foods/"+usrIdx, {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
@@ -262,7 +269,7 @@ const AddList = ({route, navigation}) => {
                     </View>
                     {/* 하단 바코드, 저장 버튼 */}
                     <View style={[styles.buttonArea, {zIndex: 1}]}>
-                        <TouchableOpacity style={[styles.button2, {width: '55%'}]} onPress={() => navigation.navigate('Scanner', {prevScreen: 'add', addName: addName})}>
+                        <TouchableOpacity style={[styles.button2, {width: '55%'}]} onPress={() => navigation.navigate('Scanner', {prevScreen: 'add'})}>
                             <MaterialCommunityIcons name={'barcode-scan'} size={40} color={'#545454'}/>
                             <Text style={{paddingLeft:5,fontSize: 15, fontWeight: '600', color: '#545454'}}>바코드(QR)로 등록</Text>
                         </TouchableOpacity>

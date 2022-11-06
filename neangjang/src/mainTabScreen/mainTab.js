@@ -23,7 +23,7 @@ export const MainTabContext = createContext();
 
 const Main = ({navigation, route}) => {
   return (
-    <MainTabContext.Provider value={{usrId: route.params.id, usrName: route.params.name}}>
+    <MainTabContext.Provider value={{usrIdx: route.params.idx, usrName: route.params.name, usrId: route.params.id}}>
       <Tab.Navigator
         screenOptions={({route}) => ({
           tabBarIcon: ({focused, color, size}) => {

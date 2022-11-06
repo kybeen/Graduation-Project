@@ -7,10 +7,10 @@ import MyTextInput from '../../component/MyTextInput';
 import { MainTabContext } from '../mainTab';
 
 const UserSetting = ({navigation}) => {
-  const { usrId, usrName } = useContext(MainTabContext);  // 로그인 시 DB로부터 받아온 사용자의 idx, userName을 Login->MainTab 통해서 전달 받음
+  const { usrIdx, usrName, usrId } = useContext(MainTabContext);  // 로그인 시 DB로부터 받아온 사용자의 idx, userName을 Login->MainTab 통해서 전달 받음
 
   const [userName, setUserName] = useState(usrName); // 닉네임
-  const [userID, setUserID] = useState(''); // ID
+  const [userID, setUserID] = useState(usrId); // ID
   const [userPW, setUserPW] = useState(''); // PW
   const [userCheckPW, setUserCheckPW] = useState(''); // 확인용 PW
   const [checkingID, setCheckingID] = useState('');
@@ -37,10 +37,10 @@ const UserSetting = ({navigation}) => {
   .then(response => response.json())
   .then(response => {
     {
-      console.log(response);
-      response.result === "생성 불가능한 아이디" ?
-      setCheckingID("생성 불가능한 아이디입니다.") :
-      setCheckingID('')
+      // console.log(response);
+      // response.result === "생성 불가능한 아이디" ?
+      // setCheckingID("생성 불가능한 아이디입니다.") :
+      // setCheckingID('')
     }
   });
   });
@@ -48,7 +48,7 @@ const UserSetting = ({navigation}) => {
   // 사용자 정보 수정 저장 버튼 눌렀을 때
   const pressSave = () => {
     console.log(userID, userPW, userCheckPW, userName);
-    fetch(`https://www.bigthingiscoming.shop/app/users/${usrId}/update`, {
+    fetch(`https://www.bigthingiscoming.shop/app/users/${usrIdx}/update`, {
       method: "PATCH",
       headers: {
         "Content-Type": "application/json",
@@ -82,7 +82,7 @@ const UserSetting = ({navigation}) => {
   }
 
   const pressDelete = () => { // 식재료 삭제 요청
-    fetch(`https://www.bigthingiscoming.shop/app/users/${usrId}/delete`, {
+    fetch(`https://www.bigthingiscoming.shop/app/users/${usrIdx}/delete`, {
         method: "PATCH",
         headers: {
           "Content-Type": "application/json",

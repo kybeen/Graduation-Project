@@ -31,8 +31,9 @@
             [{ text: 'OK', 
               onPress: () => {
                 navigation.navigate('MainTab', {
-                  id: response.result.idx,
+                  idx: response.result.idx,
                   name: response.result.userName,
+                  id: response.result.userId
                 });
               }
             }]);

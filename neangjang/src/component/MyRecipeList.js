@@ -72,10 +72,10 @@ const styles = StyleSheet.create({
     marginVertical: 10,
     },
     tinyLogo: {
-      width: 69,
+      width: 66,
       height: 64,
       borderRadius: 10,
-    }
+    },
 });
 
 export default MyRecipeList;

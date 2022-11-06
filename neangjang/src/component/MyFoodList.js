@@ -69,7 +69,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
   },
   pictureView: {
-    flex: 1,
+    flex: 1.2,
     borderWidth: 1,
     borderRadius: 10,
     marginHorizontal: 10,
