@@ -16,7 +16,7 @@ const AddList = ({route, navigation}) => {
 
     // 추가할 식재료 정보 state
     const [addName, setAddName] = useState('');                     // 이름
-    const [addPhoto, setAddPhoto] = useState('/Users/kim-youngbin/Desktop/BTIC/Application/neangjang/assets/icons/list_fill.png');               // 사진
+    const [addPhoto, setAddPhoto] = useState('');               // 사진
     const [addCategory, setAddCategory] = useState('');             // 카테고리
     const [addAmount, setAddAmount] = useState('');                  // 수량
     const [addStorageType, setAddStorageType] = useState('');       // 저장방식
@@ -52,13 +52,63 @@ const AddList = ({route, navigation}) => {
     useEffect(() => {
         if (route.params?.qrvalue) {
           qrvalue = JSON.parse(route.params.qrvalue);
-          console.log(qrvalue);
-          setAddName(qrvalue.foodName);
-          setAddPhoto(qrvalue.foodPhoto);
-          setAddCategory(qrvalue.categoryIdx);
-          setAddAmount(qrvalue.amount);
-          setAddStorageType(qrvalue.storageType);
-          setAddExpiration(qrvalue.expirationDate);
+        //   console.log(qrvalue);
+        //   setAddName(qrvalue.foodName);
+        //   setAddPhoto(qrvalue.foodPhoto);
+        //   setAddCategory(qrvalue.categoryIdx);
+        //   setAddAmount(qrvalue.amount);
+        //   setAddStorageType(qrvalue.storageType);
+        //   setAddExpiration(qrvalue.expirationDate);
+
+          fetch("https://www.bigthingiscoming.shop/app/foods/"+usrIdx, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            "foodName": qrvalue.foodName,
+            "foodPhoto": qrvalue.foodPhoto,
+            "categoryIdx": qrvalue.categoryIdx,
+            "amount": qrvalue.amount,
+            "storageType": qrvalue.storageType,
+            "expirationDate": qrvalue.expirationDate,
+          }),
+        })
+        .then(response => response.json())
+        .then(response => {
+          switch(response.code){
+            case 1000: // 식재료 추가 성공
+                Alert.alert(
+                    "식재료 추가 완료.",
+                    '식재료가 성공적으로 추가되었습니다.',
+                    [{
+                        text: "OK", 
+                        onPress: () => {
+                            navigation.goBack(); // 식재료 리스트 화면으로 돌아가기
+                        }
+                    }]);
+              console.log(response.code, "Success");
+              break;
+            case 2030: // 식재료 이름 X
+                console.log(response.code);
+                Alert.alert("입력되지 않은 정보가 있습니다.", '식재료 이름을 입력해주세요.', [{text: "OK"}]);
+            case 2031: // 식재료 카테고리 X
+                console.log(response.code);
+                Alert.alert("입력되지 않은 정보가 있습니다.", '식재료 카테고리를 입력해주세요.', [{text: "OK"}]);
+            case 2032: // 식재료 수량 X
+                console.log(response.code);
+                Alert.alert("입력되지 않은 정보가 있습니다.", '식재료 수량을 입력해주세요.', [{text: "OK"}]);
+            case 2033: // 식재료 보관방법 X
+                console.log(response.code);
+                Alert.alert("입력되지 않은 정보가 있습니다.", '식재료 보관방법을 입력해주세요.', [{text: "OK"}]);
+            case 2034: // 식재료 유통기한 X
+                console.log(response.code);
+                Alert.alert("입력되지 않은 정보가 있습니다.", '식재료 유통기한을 입력해주세요.', [{text: "OK"}]);
+          }
+          console.log(response);
+        })
+        // .then(response => {{console.log(response);}})
+        .catch(error => {console.log('Fetch Error', error);})
         }
     }, [route.params?.qrvalue]);
 

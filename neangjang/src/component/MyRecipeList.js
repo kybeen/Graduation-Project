@@ -9,11 +9,12 @@ import {
   SectionList,
   SafeAreaView,
   Image,
+  TouchableOpacity,
 } from 'react-native';
 
 const MyRecipeList = (props) => {
   return (
-    <View style={styles.listView}>
+    <TouchableOpacity style={styles.listView} onPress={props.touchEvent}>
       <View style={styles.pictureView}>
         <Image 
           style={styles.tinyLogo}
@@ -40,7 +41,7 @@ const MyRecipeList = (props) => {
           <Text>가진 식재료 : {props.foodHave}</Text>
         </View>
       </View>
-    </View>
+    </TouchableOpacity>
   )
 };
 

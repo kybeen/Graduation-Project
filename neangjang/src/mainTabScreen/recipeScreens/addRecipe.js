@@ -1,15 +1,15 @@
 // [ 레시피 리스트 화면 - 레시피 추가 화면 ]
-import React, { useState, useContext, createContext, useEffect } from 'react';
-import { View, Text, TextInput, Button, StyleSheet, Alert, TouchableOpacity, Image, Modal, TouchableWithoutFeedback, Keyboard } from 'react-native';
-import { MainTabContext } from '../mainTab';
-import { launchCamera, launchImageLibrary } from 'react-native-image-picker';
+import React, { createContext, useContext, useEffect, useState } from 'react';
+import { Alert, Button, Image, Keyboard, Modal, StyleSheet, Text, TextInput, TouchableOpacity, TouchableWithoutFeedback, View } from 'react-native';
 import DropDownPicker from 'react-native-dropdown-picker';
+import { launchCamera, launchImageLibrary } from 'react-native-image-picker';
+import { MainTabContext } from '../mainTab';
 
-import Ionicons from 'react-native-vector-icons/dist/Ionicons';
-import Fontiso from 'react-native-vector-icons/dist/Fontisto';
-import MaterialCommunityIcons from 'react-native-vector-icons/dist/MaterialCommunityIcons';
 import { Calendar, CalendarList } from 'react-native-calendars';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
+import Fontiso from 'react-native-vector-icons/dist/Fontisto';
+import Ionicons from 'react-native-vector-icons/dist/Ionicons';
+import MaterialCommunityIcons from 'react-native-vector-icons/dist/MaterialCommunityIcons';
 
 const AddRecipe = ({route, navigation}) => {
   const { usrIdx, usrName, usrId } = useContext(MainTabContext);
@@ -35,19 +35,88 @@ const AddRecipe = ({route, navigation}) => {
               <View style={[styles.addArea, {zIndex: 2}]}>
                 {/* 레시피 이름 입력 영역 */}
                 <View style={styles.addContent}>
-                  <Text>레시피 이름</Text>
+                  <Text style={styles.addContentName}>레시피 이름 :</Text>
+                  <View style={{flex: 3}}>
+                    <TextInput
+                        style={[styles.addContentInput, {width: '100%'}]}
+                        value={addName}
+                        onChangeText={setAddName}
+                        placeholder={'이름을 입력해주세요.'}
+                    />
+                  </View> 
+                </View>
+                {/* 사진 입력 */}
+                <View style={[styles.addContent, {flex: 2}]}>
+                  <Text style={styles.addContentName}>사진 :</Text>
+                  <View style={styles.addPhotoInput}>
+                      <View style={styles.picture}>
+                          <Image
+                              source={{uri : addPhoto}}
+                              style={{width:'100%',height:'100%'}}
+                          />
+                      </View>
+                      <View style={styles.pictureButton}>
+                          <TouchableOpacity
+                              style={styles.button}
+                              onPress={()=>{
+                                  // ios 시뮬레이터에서 동작X 핸드폰으로 확인해야함
+                                  launchCamera({}, response=>{
+                                      setAddPhoto(response.assets[0].uri);
+                                  })
+                              }}
+                          >
+                              <Ionicons name={'camera'} size={35} color={'#545454'}/>
+                              <Text style={{fontSize: 20, fontWeight: '600', color: '#545454'}}>촬영</Text>
+                          </TouchableOpacity>
+                          <TouchableOpacity
+                              style={styles.button}
+                              onPress={()=>{
+                                  launchImageLibrary({}, response=>{
+                                      setAddPhoto(response.assets[0].uri);
+                                  })
+                              }}
+                          >
+                              <Fontiso name={'picture'} size={25} color={'#545454'}/>
+                              <Text style={{fontSize: 20, fontWeight: '600', color: '#545454'}}>앨범</Text>
+                          </TouchableOpacity>
+                      </View>
+                  </View>
                 </View>
                 {/* 레시피 내용 입력 영역 */}
                 <View style={styles.addContent}>
-                  <Text>레시피 내용</Text>
+                  <Text style={styles.addContentName}>레시피 내용 :</Text>
+                  <View style={{flex: 3}}>
+                    <TextInput
+                        style={[styles.addContentInput, {width: '100%'}]}
+                        value={addName}
+                        onChangeText={setAddName}
+                        placeholder={'내용을 입력해주세요.'}
+                    />
+                  </View> 
                 </View>
                 {/* 레시피 소요시간 입력 영역 */}
                 <View style={styles.addContent}>
-                  <Text>레시피 소요시간</Text>
+                  <Text style={styles.addContentName}>레시피 소요시간 :</Text>
+                  <View style={{flex: 3}}>
+                    <TextInput
+                        style={[styles.addContentInput, {width: '100%'}]}
+                        value={addName}
+                        onChangeText={setAddName}
+                        placeholder={'레시피 소요시간을 입력해주세요.'}
+                    />
+                  </View> 
                 </View>
                 {/* 레시피 재료 입력 영역 */}
                 <View style={styles.addContent}>
-                  <Text>레시피 재료</Text>
+                  <Text style={styles.addContentName}>레시피 재료 :</Text>
+                  <View style={{flex: 3}}>
+                    <TextInput
+                        style={[styles.addContentInput, {width: '100%'}]}
+                        value={addName}
+                        onChangeText={setAddName}
+                        placeholder={'레시피 재료를 입력해주세요.'}
+                    />
+                  </View> 
                 </View>
               </View>
             </View>
