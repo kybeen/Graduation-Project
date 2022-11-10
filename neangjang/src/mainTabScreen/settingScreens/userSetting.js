@@ -220,7 +220,7 @@ const styles = StyleSheet.create({
       justifyContent: 'center',
       alignSelf: 'center',
       marginBottom: 11,
-      borderRadius: 5,
+      borderRadius: 15,
       backgroundColor: '#E5EBFF',
       borderWidth: 1,
       borderColor: 'grey',
@@ -232,7 +232,7 @@ const styles = StyleSheet.create({
       justifyContent: 'center',
       alignSelf: 'center',
       marginBottom: 11,
-      borderRadius: 5,
+      borderRadius: 15,
       borderColor: 'grey',
       borderWidth: 1
   },

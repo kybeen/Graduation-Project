@@ -7,7 +7,8 @@ import {
   SafeAreaView,
   FlatList,
   TouchableOpacity,
-  TouchableWithoutFeedback, Keyboard
+  TouchableWithoutFeedback, Keyboard,
+  TextInput,
 } from 'react-native';
 import Icon from 'react-native-vector-icons/dist/Ionicons';
 import ActionButton from 'react-native-action-button';
@@ -88,15 +89,25 @@ const MainList = ({navigation}) => {
       </View>
       {/* 검색창 View */}
       <View style={styles.searchView}>
-        <Icon name='ios-search' size={25}/>
-        <MyTextInput
+        <View style={styles.icon}>
+          <Icon name='ios-search' size={25} style={{color: '#485460'}}/>
+        </View>
+        {/* <MyTextInput
           value={searchText}
           onChangeText={setSearchText}
           placeholder="식재료 검색"
           autoCapitalize={'none'}
+        /> */}
+        <TextInput
+          value={searchText}
+          onChangeText={setSearchText}
+          style={styles.input}
+          autoCapitalize={'none'}
+          placeholder={'식재료 검색'}
+          placeholderTextColor={'#485460'}
         />
-        <TouchableOpacity style={{justifyContent: 'center', paddingBottom: 17}} onPress={() => setSearchText('')}>
-          <Text style={styles.cancelButton}>취소</Text>
+        <TouchableOpacity style={styles.cancelButton} onPress={() => setSearchText('')}>
+          <Text style={styles.cancelText}>취소</Text>
         </TouchableOpacity>
       </View>
       {/* 식재료 리스트 렌더링 View */}
@@ -108,7 +119,8 @@ const MainList = ({navigation}) => {
         />
       </View>
       <ActionButton
-        buttonColor="rgba(30,100,230,1)"
+        //buttonColor="rgba(30,100,230,1)"
+        buttonColor="#b6d2f2"
         onPress={() => navigation.navigate('AddList')}
       />
     </SafeAreaView>
@@ -122,7 +134,8 @@ const styles = StyleSheet.create({
     alignSelf: 'center',
     justifyContent: 'center',
     width: '95%',
-    //backgroundColor: 'yellow',
+    //backgroundColor: '#dbe9f9',
+    borderRadius: 10,
   },
   searchView: {
    flex: 1,
@@ -130,7 +143,7 @@ const styles = StyleSheet.create({
    //alignContent: 'center',
    flexDirection: 'row',
    //width: '95%',
-   marginTop: 5,
+   //marginTop: 5,
    //backgroundColor: 'pink',
   },
   mainView: {
@@ -144,6 +157,7 @@ const styles = StyleSheet.create({
     fontSize: 30,
     fontWeight: 'bold',
     width: '90%',
+    color: '#485460',
   },
   listView: {
     borderWidth: 2,
@@ -161,22 +175,38 @@ const styles = StyleSheet.create({
     marginVertical: 10,
   },
   textView: {
-    flex:4,
+    flex: 4,
     marginTop: 10,
   },
-  cancelButton: {
-   fontSize: 15,
-   fontWeight: '700',
+  icon: {
+    flex: 1,
+    alignSelf: 'center',
+    marginLeft: 5,
+    marginRight : -3,
+    justifyContent: 'center',
+    //backgroundColor:'red',
   },
   input: {
-   backgroundColor: 'lightgray',
-   width: '60%',
-   height: '100%',
-   paddingVertical: 8,
-   paddingHorizontal: 10,
-   borderRadius: 10,
+    flex: 9,
+    backgroundColor: 'lightgray',
+    //width: '100%',
+    height: '90%',
+    paddingVertical: 8,
+    paddingHorizontal: 10,
+    borderRadius: 10,
+    fontSize: 15,
+   //backgroundColor: 'pink',
+  },
+  cancelButton: {
+    flex: 1,
+    justifyContent: 'center',
+    marginHorizontal: 5,
+  },
+  cancelText: {
    fontSize: 15,
-   //ackgroundColor: 'pink',
+   fontWeight: '700',
+   color: '#485460',
+   //marginTop: 10,
   },
   closeButton: {
    borderRadius: 20,

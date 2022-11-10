@@ -359,6 +359,11 @@ PODS:
     - React-Core
   - RNCPicker (2.4.3):
     - React-Core
+  - RNNotifee (7.1.0):
+    - React-Core
+    - RNNotifee/NotifeeCore (= 7.1.0)
+  - RNNotifee/NotifeeCore (7.1.0):
+    - React-Core
   - RNScreens (3.13.1):
     - React-Core
     - React-RCTImage
@@ -428,6 +433,7 @@ DEPENDENCIES:
   - ReactCommon/turbomodule/core (from `../node_modules/react-native/ReactCommon`)
   - ReactNativeCameraKit (from `../node_modules/react-native-camera-kit`)
   - "RNCPicker (from `../node_modules/@react-native-picker/picker`)"
+  - "RNNotifee (from `../node_modules/@notifee/react-native`)"
   - RNScreens (from `../node_modules/react-native-screens`)
   - RNVectorIcons (from `../node_modules/react-native-vector-icons`)
   - Yoga (from `../node_modules/react-native/ReactCommon/yoga`)
@@ -519,6 +525,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native-camera-kit"
   RNCPicker:
     :path: "../node_modules/@react-native-picker/picker"
+  RNNotifee:
+    :path: "../node_modules/@notifee/react-native"
   RNScreens:
     :path: "../node_modules/react-native-screens"
   RNVectorIcons:
@@ -574,6 +582,7 @@ SPEC CHECKSUMS:
   ReactCommon: bf2888a826ceedf54b99ad1b6182d1bc4a8a3984
   ReactNativeCameraKit: 9d46a5d7dd544ca64aa9c03c150d2348faf437eb
   RNCPicker: a99807a74d9cd65c394f6e2a6c843a377b355b4d
+  RNNotifee: 8527a2b9ffc6d0abfd907027e22962a809e39eee
   RNScreens: 40a2cb40a02a609938137a1e0acfbf8fc9eebf19
   RNVectorIcons: 7923e585eaeb139b9f4531d25a125a1500162a0b
   SocketRocket: fccef3f9c5cedea1353a9ef6ada904fde10d6608

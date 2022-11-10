@@ -12,6 +12,7 @@ const MyTextInput = (props) => {
             autoCapitalize={props.autoCapitalize}
             secureTextEntry={props.secureTextEntry}
             placeholder={props.placeholder}
+            placeholderTextColor={'#485460'}
         />
     );
 }
@@ -22,7 +23,7 @@ const styles = StyleSheet.create({
         height: 50,
         width: '83%',
         paddingLeft: 15,
-        borderRadius: 10,
+        borderRadius: 14,
         alignSelf: 'center',
         marginBottom: 20,
     },

@@ -19,7 +19,7 @@ import MyFoodList from '../component/MyFoodList';
 const CalendarView = () => {
   const { usrIdx, usrName, usrId } = useContext(MainTabContext);  // 로그인 시 DB로부터 받아온 사용자의 idx, userName을 Login->MainTab 통해서 전달 받음
   const [foodData, setFoodData] = useState([]);  // 받아올 음식들의 정보
-  const [selectedDate, setSelectedDate] = useState({}) // 선택된 날짜
+  const [selectedDate, setSelectedDate] = useState('') // 선택된 날짜
   const [markedDate, setMarkedDate] = useState([]); // 식재료들의 유통기한 리스트 (달력에 표시하기 위한)
   var temp = [];
   var obj = {};
@@ -89,15 +89,20 @@ const CalendarView = () => {
         //markingType={'period'}
         markedDates={markedDate}
       />
-      <View style={{flex:0.01, borderColor: 'gray', borderWidth:1}}/>
-      <View style={styles.about}>
-        {/* <Text>해당 날짜 식품정보 </Text> */}
-        <View style={styles.listView}>
-          <FlatList
-            data={foodData}
-            renderItem={renderItem}
-            keyExtractor={(item) => item.idx}
-          />
+      {/* <View style={{flex:0.01, borderColor: 'gray', borderWidth:1}}/> */}
+      <View style={styles.below}>
+        <View style={styles.date}>
+          <Text style={styles.dateText}>선택된 날짜 : {selectedDate}</Text>
+        </View>
+        <View style={styles.about}>
+          {/* <Text>해당 날짜 식품정보 </Text> */}
+          <View style={styles.listView}>
+            <FlatList
+              data={foodData}
+              renderItem={renderItem}
+              keyExtractor={(item) => item.idx}
+            />
+          </View>
         </View>
       </View>
     </SafeAreaView>
@@ -111,11 +116,30 @@ const styles = StyleSheet.create({
   calendar: {
     felx: 1,
   },
-  about: {
+  below: {
     flex: 1,
+  },
+  date: {
+    flex: 1,
+    justifyContent: 'center',
+    paddingLeft: 5,
+    //backgroundColor: 'blue'
+    backgroundColor: 'white',
+    borderWidth: 2,
+    borderRadius: 10,
+    borderColor: '#485460',
+    width: '80%',
+  },
+  dateText: {
+    fontSize: 20,
+    fontWeight: '600',
+    color: '#485460'
+  },
+  about: {
+    flex: 10,
     alignItems: 'center',
     justifyContent: 'center',
-    backgroundColor: 'lightgray',
+    backgroundColor: '#dadada',
   },
   listView: {
     flex: 1,
