@@ -28,6 +28,7 @@ const MyRecipeList = (props) => {
           <Text style={{
             fontSize: 20,
             fontWeight: 'bold',
+            color: '#485460',
           }}>
             {props.recipeName}
           </Text>
@@ -35,10 +36,10 @@ const MyRecipeList = (props) => {
         <View style={{
           marginBottom:3
         }}>
-          <Text>소요시간 : {props.makeTime}</Text>
+          <Text style={styles.text}>소요시간 : {props.makeTime}</Text>
         </View>
         <View>
-          <Text>가진 식재료 : {props.foodHave}</Text>
+          <Text style={styles.text}>가진 식재료 : {props.foodHave}</Text>
         </View>
       </View>
     </TouchableOpacity>
@@ -58,24 +59,31 @@ const styles = StyleSheet.create({
     marginTop: 10,
   },
   listView: {
-    borderWidth: 2,
-    borderRadius: 5,
-    marginBottom: -2,
+    borderWidth: 1,
+    borderRadius: 15,
+    borderColor: '#485460',
+    //marginBottom: -2,
+    marginVertical: 2,
     height: 90,
     justifyContent: 'center',
     flexDirection: 'row',
+    backgroundColor: '#E5EBFF',
   },
   pictureView: {
     flex: 1,
     borderWidth: 1,
     borderRadius: 10,
+    borderColor: '#485460',
     marginHorizontal: 10,
-    marginVertical: 10,
+    marginVertical: 11,
     },
     tinyLogo: {
       width: 66,
       height: 64,
       borderRadius: 10,
+    },
+    text: {
+      color: '#485460',
     },
 });
 

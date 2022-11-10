@@ -86,7 +86,9 @@ const MainHome = ({navigation}) => {
         <Text style={styles.titleText}>{usrName}의 냉장냉장</Text>
       </View>
       <View style={styles.listView}>
-        <Text style={styles.subTitleText}>유통기한 임박상품</Text>
+        <View style={styles.subTitle}>
+          <Text style={styles.subTitleText}>유통기한 임박상품</Text>
+        </View>
         <FlatList
           scrollEnabled={false}
           data={foodData}
@@ -95,7 +97,9 @@ const MainHome = ({navigation}) => {
         />
       </View>
       <View style={styles.recipeView}>
-        <Text style={styles.subTitleText}>추천 레시피</Text>
+        <View style={styles.subTitle}>
+          <Text style={styles.subTitleText}>추천 레시피</Text>
+        </View>
         <FlatList
           scrollEnabled={false}
           data={recipeData}
@@ -128,12 +132,23 @@ const styles = StyleSheet.create({
     fontSize: 30,
     fontWeight: 'bold',
     width: '90%',
+    color: '#485460',
+  },
+  subTitle: {
+    backgroundColor: 'white',
+    borderWidth: 1,
+    borderRadius: 15,
+    borderColor: 'lightgray',
+    width: '50%',
+    alignItems: 'center',
+    //justifyContent: 'center',
   },
   subTitleText: {
     fontSize: 20,
     fontWeight: 'bold',
-    width: '90%',
-    paddingBottom: 10
+    //width: '90%',
+    paddingVertical: 3,
+    color: '#485460',
   },
   item: {
     alignSelf: 'center',

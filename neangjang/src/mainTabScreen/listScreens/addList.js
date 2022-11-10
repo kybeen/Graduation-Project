@@ -165,6 +165,32 @@ const AddList = ({route, navigation}) => {
         .catch(error => {console.log('Fetch Error', error);})
       }
 
+      const selectCamera = () => {
+        const options = {
+            noData: true,
+            mediaType: 'photo'
+        }
+        launchCamera(options, (response) => {
+            if (response.assets) {
+                const selectedImage = response.assets[0].uri;
+                setAddPhoto(selectedImage);
+            }
+        })
+      }
+
+      const selectImage = () => {
+        const options = {
+            noData: true,
+            mediaType: 'photo'
+        }
+        launchImageLibrary(options, (response) => {
+            if (response.assets) {
+                const selectedImage = response.assets[0].uri;
+                setAddPhoto(selectedImage);
+            }
+        })
+      }
+
   // 렌더링 영역    
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
@@ -185,6 +211,7 @@ const AddList = ({route, navigation}) => {
                                     value={addName}
                                     onChangeText={setAddName}
                                     placeholder={'이름을 입력해주세요.'}
+                                    placeholderTextColor={'#485460'}
                                 />
                             </View>
                         </View>
@@ -195,7 +222,7 @@ const AddList = ({route, navigation}) => {
                                 <View style={styles.picture}>
                                     <Image
                                         source={{uri : addPhoto}}
-                                        style={{width:'100%',height:'100%'}}
+                                        style={{width:'100%',height:'100%', borderRadius: 15,}}
                                     />
                                 </View>
                                 <View style={styles.pictureButton}>
@@ -203,9 +230,10 @@ const AddList = ({route, navigation}) => {
                                         style={styles.button}
                                         onPress={()=>{
                                             // ios 시뮬레이터에서 동작X 핸드폰으로 확인해야함
-                                            launchCamera({}, response=>{
-                                                setAddPhoto(response.assets[0].uri);
-                                            })
+                                            // launchCamera({}, response=>{
+                                            //     setAddPhoto(response.assets[0].uri);
+                                            // })
+                                            selectCamera();
                                         }}
                                     >
                                         <Ionicons name={'camera'} size={35} color={'#545454'}/>
@@ -214,9 +242,10 @@ const AddList = ({route, navigation}) => {
                                     <TouchableOpacity
                                         style={styles.button}
                                         onPress={()=>{
-                                            launchImageLibrary({}, response=>{
-                                                setAddPhoto(response.assets[0].uri);
-                                            })
+                                            // launchImageLibrary({}, response=>{
+                                            //     setAddPhoto(response.assets[0].uri);
+                                            // })
+                                            selectImage();
                                         }}
                                     >
                                         <Fontiso name={'picture'} size={25} color={'#545454'}/>
@@ -251,6 +280,7 @@ const AddList = ({route, navigation}) => {
                                     value={addAmount}
                                     onChangeText={setAddAmount}
                                     placeholder={'수량을 입력해주세요.'}
+                                    placeholderTextColor={'#485460'}
                                     keyboardType={'decimal-pad'}
                                 />
                             </View>
@@ -361,6 +391,7 @@ const styles = StyleSheet.create({
     titleText: {
         fontSize: 30,
         fontWeight: '600',
+        color: '#485460',
     },
     body: {
         //backgroundColor: 'yellow',
@@ -385,12 +416,13 @@ const styles = StyleSheet.create({
         //backgroundColor: 'orange',
         flex: 1,
         fontSize: 20,
+        color: '#485460',
     },
     addContentInput: {  // 직접 입력 추가 스타일
         backgroundColor: '#cecece',
         height: '60%',
         paddingLeft: 15,
-        borderRadius: 10,
+        borderRadius: 15,
     },
     addPhotoInput: {  // 사진 추가 영역
         //backgroundColor: 'green',
@@ -408,6 +440,7 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         borderColor: 'black',
         borderWidth: 1,
+        borderRadius: 15,
         height: '110%'
     },
     pictureButton: {
@@ -419,7 +452,7 @@ const styles = StyleSheet.create({
     },
     button: {
         backgroundColor: '#E5EBFF',
-        borderRadius: 10,
+        borderRadius: 15,
         width: '90%',
         height: '45%',
         marginLeft: 10,
@@ -445,7 +478,7 @@ const styles = StyleSheet.create({
     },
     button2: {
         backgroundColor: '#E5EBFF',
-        borderRadius: 10,
+        borderRadius: 15,
         flexDirection: 'row',
         alignItems: 'center',
         justifyContent: 'space-between',
@@ -455,7 +488,7 @@ const styles = StyleSheet.create({
     },
     expContent: {  // 유통기한 입력값 들어갈 영역
         backgroundColor: '#cecece',
-        borderRadius: 10,
+        borderRadius: 15,
         flex: 2,
         marginHorizontal: 7,
         height: '50%',
@@ -467,7 +500,7 @@ const styles = StyleSheet.create({
         flex: 1,
         alignItems: 'center',
         justifyContent: 'center',
-        borderRadius: 10,
+        borderRadius: 15,
         height: '45%',
         flexDirection: 'row',
     },
