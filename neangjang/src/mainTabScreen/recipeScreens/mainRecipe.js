@@ -44,13 +44,8 @@ const MainRecipe = ({navigation}) => {
             recipeName={item.recipeName}
             makeTime={item.makeTime}
             foodHave={item.foodHave}
-            touchEvent={()=>navigation.native('RecipeInfo', {
-              recipeName: item.recipeName, 
-              recipeDetail: item.recipeDetail, 
-              recipeMakeTime: item.makeTime,
-              recipePhoto: recipePhoto, 
-              recipeURL: recipeUrl, 
-              recipeIgName: recipeigName
+            touchEvent={()=>navigation.navigate('RecipeInfo', {
+              recipeIdx: item.idx
             })}
         />
       )
