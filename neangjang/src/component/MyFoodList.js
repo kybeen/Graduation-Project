@@ -11,6 +11,11 @@ import {
 } from 'react-native';
 
 const MyFoodList = (props) => {
+  if (props.ed_Left <= 3){
+    exp_style = [styles.ed_LeftText, {color: 'red'}]
+  } else{
+    exp_style = styles.ed_LeftText
+  }
   return (
     <TouchableOpacity style={styles.listView} onPress={props.touchEvent}>
       <View style={styles.pictureView}>
@@ -41,7 +46,7 @@ const MyFoodList = (props) => {
         </View>
       </View>
       <View style={styles.ed_LeftView}>
-        <Text style={styles.ed_LeftText}>{props.ed_Left}일 남음</Text>
+        <Text style={exp_style}>{props.ed_Left}일 남음</Text>
       </View>
     </TouchableOpacity>
   )
@@ -63,7 +68,7 @@ const styles = StyleSheet.create({
     //backgroundColor: 'pink',
   },
   listView: {
-    borderWidth: 1,
+    borderWidth: 0.2,
     borderRadius: 15,
     borderColor: '#485460',
     //marginBottom: -2,
@@ -81,11 +86,11 @@ const styles = StyleSheet.create({
   },
   pictureView: {
     flex: 1.2,
-    borderWidth: 1,
+    borderWidth: 0.2,
     borderRadius: 10,
     borderColor: '#485460',
     marginHorizontal: 10,
-    marginVertical: 10.5,
+    marginVertical: 12,
     },
     ed_LeftView: {
       flex: 1.5,

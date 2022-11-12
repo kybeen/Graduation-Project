@@ -43,12 +43,6 @@
 	<string>For saving photos</string>
 	<key>UIAppFonts</key>
 	<array>
-		<string>NIXGONFONTS B 2.0.ttf</string>
-		<string>MaruBuri-SemiBold.ttf</string>
-		<string>MaruBuri-Regular.ttf</string>
-		<string>MaruBuri-Light.ttf</string>
-		<string>MaruBuri-ExtraLight.ttf</string>
-		<string>MaruBuri-Bold.ttf</string>
 		<string>AntDesign.ttf</string>
 		<string>Entypo.ttf</string>
 		<string>EvilIcons.ttf</string>

@@ -222,7 +222,7 @@ const AddList = ({route, navigation}) => {
                                 <View style={styles.picture}>
                                     <Image
                                         source={{uri : addPhoto}}
-                                        style={{width:'100%',height:'100%', borderRadius: 15,}}
+                                        style={{width:'100%',height:'100%', borderRadius:15,}}
                                     />
                                 </View>
                                 <View style={styles.pictureButton}>

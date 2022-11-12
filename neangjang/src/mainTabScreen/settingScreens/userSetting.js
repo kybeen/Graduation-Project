@@ -195,7 +195,8 @@ const styles = StyleSheet.create({
     fontSize: 40,
     fontWeight: '600',
     width: '83%',
-    height: 90
+    height: 90,
+    color: '#485460',
   },
   description: {
     //backgroundColor: 'skyblue',
@@ -204,6 +205,7 @@ const styles = StyleSheet.create({
     width: '83%',
     paddingBottom: 5,
     marginTop: -5,
+    color: '#485460',
   },
   check: {
     fontSize: 11.5,
