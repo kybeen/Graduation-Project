@@ -135,7 +135,6 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     width: '95%',
     //backgroundColor: '#dbe9f9',
-    borderRadius: 10,
   },
   searchView: {
    flex: 1,

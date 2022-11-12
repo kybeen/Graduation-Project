@@ -86,17 +86,37 @@ const FoodInfo = ({route, navigation}) => {
                 </View>
             </View>
             <View style={styles.subInfo}>
-                <Text style={styles.infoName}>카테고리 : {categoryStr}</Text>
+              <View style={styles.infoName}>
+                <Text style={styles.infoText}>카테고리</Text>
+              </View>
+              <View style={styles.infoValue}>
+                <Text style={styles.infoValueText}>  :  {categoryStr}</Text>
+              </View>
             </View>
             <View style={styles.subInfo}>
-                <Text style={styles.infoName}>수량 : {amount}</Text>
+              <View style={styles.infoName}>
+                <Text style={styles.infoText}>수량</Text>
+              </View>
+              <View style={styles.infoValue}>
+                <Text style={styles.infoValueText}>  :  {amount}</Text>
+              </View>
             </View>
             <View style={styles.subInfo}>
-                <Text style={styles.infoName}>저장방식 : {storageTypeStr}</Text>
+              <View style={styles.infoName}>
+                <Text style={styles.infoText}>저장방식</Text>
+              </View>
+              <View style={styles.infoValue}>
+                <Text style={styles.infoValueText}>  :  {storageTypeStr}</Text>
+              </View>
             </View>
             <View style={styles.subInfo}>
-                <Text style={styles.infoName}>유통기한 : {expirationDate}까지</Text>
-                <Text style={styles.infoName}>{ed_Left}일 남음</Text>
+              <View style={styles.infoName}>
+                <Text style={styles.infoText}>유통기한</Text>
+              </View>
+              <View style={styles.infoValue}>
+                <Text style={styles.infoValueText}>  :  {expirationDate} 까지</Text>
+                <Text style={ed_Left <= 3 ? [styles.infoValueText, {color: 'red'}] : styles.infoValueText}>  ({ed_Left}일 남음)</Text>
+              </View>
             </View>
         </View>
         <View style={styles.bottomView}>
@@ -132,13 +152,15 @@ const FoodInfo = ({route, navigation}) => {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        paddingVertical: 10,
+        paddingVertical: 30,
         //backgroundColor: 'skyblue'
     },
     infoView: {
         flex:5,
-        borderWidth: 2,
-        //backgroundColor: 'skyblue',
+        //borderWidth: 1,
+        //borderRadius: 20,
+        borderColor: '#545454',
+        backgroundColor: '#E5EBFF',
     },
     bottomView: {
         flex: 1,
@@ -149,7 +171,9 @@ const styles = StyleSheet.create({
     },
     mainInfo: {
         flex: 3,
-        borderWidth: 1,
+        borderWidth: 0.2,
+        borderRadius: 20,
+        borderColor: '#545454',
         justifyContent: 'center',
         alignContent: 'center',
         flexDirection: 'row',
@@ -163,7 +187,9 @@ const styles = StyleSheet.create({
     photo: {
         width: '80%',
         height: '70%',
-        borderRadius: 10,
+        borderRadius: 15,
+        borderWidth: 0.5,
+        borderColor: '#545454',
     },
     nameView: {
         flex: 1,
@@ -173,21 +199,46 @@ const styles = StyleSheet.create({
     name: {
         fontSize: 40,
         fontWeight: '600',
+        color: '#485460',
     },
     subInfo: {
         flex: 1,
-        borderWidth: 1,
-        justifyContent: 'center',
-        paddingLeft: 30,
-        //backgroundColor: 'blue'
+        borderWidth: 0.2,
+        borderRadius: 10,
+        // borderColor: '#545454',
+        justifyContent: 'flex-start',
+        paddingLeft: 20,
+        marginTop: 0.5,
+        backgroundColor: 'white',
+        flexDirection: 'row',
+        alignItems: 'center',
     },
     infoName: {
-        fontSize: 20,
-        fontWeight: '600',
+      flex: 1,
+      backgroundColor: '#E5EBFF',
+      paddingVertical: 5,
+      paddingHorizontal: 10,
+      borderRadius: 15,
+      alignItems: 'center',
+    },
+    infoText: {
+      fontSize: 15,
+      fontWeight: '700',
+      color: '#485460',
+    },
+    infoValue: {
+      flex: 5,
+      //backgroundColor: 'red',
+      flexDirection: 'row'
+    },
+    infoValueText: {
+      fontSize: 15,
+      fontWeight: '600',
+      color: '#485460',
     },
     button: {
         backgroundColor: '#E5EBFF',
-        borderWidth: 2,
+        borderWidth: 0.5,
         borderRadius: 10,
         borderColor: 'grey',
         width: '40%',
@@ -199,7 +250,7 @@ const styles = StyleSheet.create({
     buttonText: {
         //backgroundColor: 'yellow',
         color: '#545454',
-        fontSize: 20,
+        fontSize: 15,
         fontWeight: '700'
     },
 });

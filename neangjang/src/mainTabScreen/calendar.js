@@ -51,8 +51,9 @@ const CalendarView = () => {
     console.log(markedDate);
   }
 
-  const renderItem = ({item, index}) => {
-    if (index < 3 && selectedDate === item.expirationDate) return (
+  const renderItem = ({item}) => {
+    //console.log(item)
+    if (selectedDate === item.expirationDate) return (
       <MyFoodList 
         foodPhoto={item.foodPhoto}
         foodName={item.foodName}
@@ -112,6 +113,7 @@ const CalendarView = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    backgroundColor: '#dadada',
   },
   calendar: {
     felx: 1,
@@ -122,18 +124,18 @@ const styles = StyleSheet.create({
   date: {
     flex: 1,
     justifyContent: 'center',
-    paddingLeft: 5,
+    paddingLeft: 10,
     //backgroundColor: 'blue'
     backgroundColor: 'white',
-    borderWidth: 2,
+    borderWidth: 0.5,
     borderRadius: 10,
     borderColor: '#485460',
-    width: '80%',
+    //width: '80%',
   },
   dateText: {
     fontSize: 20,
     fontWeight: '600',
-    color: '#485460'
+    color: '#485460',
   },
   about: {
     flex: 10,
@@ -143,7 +145,7 @@ const styles = StyleSheet.create({
   },
   listView: {
     flex: 1,
-    width: '100%',
+    width: '98%',
     //backgroundColor: 'pink',
   },
 });

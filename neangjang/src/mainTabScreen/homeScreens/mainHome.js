@@ -16,6 +16,7 @@ import Ionicon from 'react-native-vector-icons/Ionicons';
 import { MainTabContext } from '../mainTab';
 import MyRecipeList from '../../component/MyRecipeList';
 import MyFoodList from '../../component/MyFoodList';
+import notifee from '@notifee/react-native';
 
 const renderRecipeItem = ({item, index}) => {
   if (index < 3) return (   // 3개까지만 출력하도록 조건문 설정
@@ -49,6 +50,7 @@ const MainHome = ({navigation}) => {
     .then(response => {
       setFoodData(response.result[0]);
       setRecipeData(response.result[1]);
+      onDisplayNotification(response.result[0][0]);
     })
     .catch(error => {console.log('Fetch Error', error);})
   }
@@ -56,6 +58,32 @@ const MainHome = ({navigation}) => {
   useEffect(() => {
     getData(); 
   },[]); // [] : 첫 렌더링 시에만 useEffect 호출
+
+  async function onDisplayNotification(foodData) {
+    console.log(foodData)
+    // Request permissions (required for iOS) -> IOS에서는 알림 허용 먼저 받아야 함
+    await notifee.requestPermission()
+
+    // Create a channel (required for Android) -> 안드로이드용
+    const channelId = await notifee.createChannel({
+      id: 'default',
+      name: 'Default Channel',
+    });
+
+    // Display a notification
+    await notifee.displayNotification({
+      title: '유통기한 알림',
+      body: `${foodData.foodName}의 유통기한이 ${foodData.ed_Left}일 남았습니다!!`,
+      android: {
+        channelId,
+        smallIcon: 'name-of-a-small-icon', // optional, defaults to 'ic_launcher'.
+        // pressAction is needed if you want the notification to open the app when pressed
+        pressAction: {
+          id: 'default',
+        },
+      },
+    });
+  }
 
   const renderFoodItem = ({item, index}) => {
     if (index < 3) return (   // 3개까지만 출력하도록 조건문 설정
@@ -136,7 +164,7 @@ const styles = StyleSheet.create({
   },
   subTitle: {
     backgroundColor: 'white',
-    borderWidth: 1,
+    borderWidth: 0.5,
     borderRadius: 15,
     borderColor: 'lightgray',
     width: '50%',

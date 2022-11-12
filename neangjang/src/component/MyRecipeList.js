@@ -56,10 +56,11 @@ const styles = StyleSheet.create({
   },
   textView: {
     flex:4,
-    marginTop: 10,
+    marginTop: 15,
+    marginLeft: 5,
   },
   listView: {
-    borderWidth: 1,
+    borderWidth: 0.2,
     borderRadius: 15,
     borderColor: '#485460',
     //marginBottom: -2,
@@ -71,11 +72,11 @@ const styles = StyleSheet.create({
   },
   pictureView: {
     flex: 1,
-    borderWidth: 1,
+    borderWidth: 0.2,
     borderRadius: 10,
     borderColor: '#485460',
-    marginHorizontal: 10,
-    marginVertical: 11,
+    marginHorizontal: 9.5,
+    marginVertical: 12,
     },
     tinyLogo: {
       width: 66,

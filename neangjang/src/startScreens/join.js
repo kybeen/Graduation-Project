@@ -151,7 +151,8 @@ const styles = StyleSheet.create({
     fontSize: 40,
     fontWeight: '600',
     width: '83%',
-    height: 90
+    height: 90,
+    color: '#545454',
   },
   description: {
     fontSize: 20,
@@ -159,6 +160,7 @@ const styles = StyleSheet.create({
     width: '83%',
     paddingBottom: 5,
     marginTop: -5,
+    color: '#545454',
   },
   check: {
     fontSize: 11.5,
