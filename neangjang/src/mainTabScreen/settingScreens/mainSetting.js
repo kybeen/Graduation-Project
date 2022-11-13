@@ -24,13 +24,13 @@ const MainSetting = ({navigation}) => {
                 <Text style={styles.contentTitle}>알림 설정</Text>
                 <Ionicon name='chevron-forward' size={30} style={styles.contentIcon}/>
             </TouchableOpacity>
-            <TouchableOpacity
+            {/* <TouchableOpacity
                 style={styles.content}
                 onPress={()=>navigation.navigate('DisplaySetting')}
             >
                 <Text style={styles.contentTitle}>디스플레이 설정</Text>
                 <Ionicon name='chevron-forward' size={30} style={styles.contentIcon}/>
-            </TouchableOpacity>
+            </TouchableOpacity> */}
             <TouchableOpacity
                 style={styles.content}
                 //onPress={()=>navigation.navigate('Login')}

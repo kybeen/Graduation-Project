@@ -1,30 +1,18 @@
 // [ 식재료 리스트 화면 - 식재료 정보 화면 ]
 import React, { useState, useContext, useEffect } from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, Image, Alert } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity, Image, Alert, ScrollView, FlatList } from 'react-native';
 import { MainTabContext } from '../mainTab';
 
 const RecipeInfo = ({route, navigation}) => {
   const { usrIdx, usrName, usrId } = useContext(MainTabContext);  // 로그인 시 DB로부터 받아온 사용자의 idx, userName을 Login->MainTab 통해서 전달 받음
   const [recipeName, setRecipeName] = useState('');
-  const [detail, setDetail] = useState('');
+  const [detailText, setDetailText]  = useState('');
   const [makeTime, setMakeTime] = useState('');
   const [photoUrl, setPhotoUrl] = useState('');
   const [recipeUrl, setRecipeUrl] = useState('');
   const [igName, setIgName] = useState('');
-  const { recipeIdx } = route.params;
-  
-  //console.log("ddd",recipeIdx);
 
-//   const getRecipeData = async () => {
-//     const res = await fetch(`https://www.bigthingiscoming.shop/app/recipes/detail/${recipeIdx}`, {
-//         method: "GET",
-//         headers: {
-//             "Content-Type": "application/json",
-//         }
-//     })
-//     console.log(res);
-//     return res.json();
-//   }
+  const { recipeIdx } = route.params;
 
   useEffect(() => {
     //const recipe = getRecipeData();
@@ -38,14 +26,24 @@ const RecipeInfo = ({route, navigation}) => {
     .then(response => {
         //console.log(response.result[3][0]);
         setRecipeName(response.result[0][0].recipeName);
-        setDetail(response.result[0][0].detail);
+        setDetailText(response.result[0][0].detail.split("$"));
         setMakeTime(response.result[0][0].makeTime);
         setPhotoUrl(response.result[1][0].photoUrl);
         setRecipeUrl(response.result[2][0].recipeUrl);
         setIgName(response.result[3][0].igName);
+        console.log(detailText);
     })
     .catch(error => {console.log('Fetch Error', error);})
   }, []);
+
+  const renderParseText = ({item}) => {
+    return (
+        <View>
+            <Text style={styles.detailText}>{item}</Text>
+            <Text></Text>
+        </View>
+    );
+  };
 
   // 렌더링 영역    
   return (
@@ -76,12 +74,19 @@ const RecipeInfo = ({route, navigation}) => {
             </View>
         </View>
         <View style={styles.detailInfo}>
-            <View style={styles.detailTitle}>
-                <Text style={styles.subTitleText}>[상세정보]</Text>
-            </View>
-            <View style={styles.detailCont}>
-                <Text>{detail}</Text>
-            </View>
+            <ScrollView>
+                <View style={styles.detailTitle}>
+                    <Text style={styles.subTitleText}>[상세정보]</Text>
+                </View>
+                <View style={styles.detailCont}>
+                    {/* <Text style={styles.detailText}>{detail}</Text> */}
+                    <FlatList
+                        data={detailText} // 만들고자 하는 리스트의 source를 담는 prop
+                        renderItem={renderParseText} // data로 받은 소스들 각각의 item들을 render 시켜주는 콜백함수
+                        keyExtractor={(item) => String(item.id)} // 각각의 item에 고유의 키를 주는 것
+                    />
+                </View>
+            </ScrollView>
         </View>
     </View>
   );
@@ -173,11 +178,16 @@ const styles = StyleSheet.create({
     },
     detailTitle: {
         flex: 1,
-        backgroundColor: 'yellow'
+        marginVertical: 15,
+        //backgroundColor: 'yellow'
     },
     detailCont: {
         flex: 7,
-        backgroundColor: 'pink'
+        //backgroundColor: 'pink'
+    },
+    detailText: {
+        color: '#485460',
+        fontSize: 15,
     },
     infoName: {
         fontSize: 20,
