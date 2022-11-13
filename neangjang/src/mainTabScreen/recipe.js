@@ -1,6 +1,7 @@
 // [ 레시피 리스트화면 Stack Navigator ]
 import React from 'react';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
+import Ionicon from 'react-native-vector-icons/Ionicons';
 
 import MainRecipe from './recipeScreens/mainRecipe';
 import RecipeInfo from './recipeScreens/recipeInfo';

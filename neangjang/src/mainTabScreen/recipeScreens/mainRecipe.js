@@ -35,7 +35,7 @@ const MainRecipe = ({navigation}) => {
   useEffect(() => {
     getRecipeData();  
     //console.log(recipeData);
-  }, [recipeData]);
+  }, []);
 
   const renderItem = ({item}) => {
     if (searchText === '') {  // 아무것도 입력하지 않았을 떄
@@ -45,13 +45,8 @@ const MainRecipe = ({navigation}) => {
             recipeName={item.recipeName}
             makeTime={item.makeTime}
             foodHave={item.foodHave}
-            touchEvent={()=>navigation.native('RecipeInfo', {
-              recipeName: item.recipeName, 
-              recipeDetail: item.recipeDetail, 
-              recipeMakeTime: item.makeTime,
-              recipePhoto: recipePhoto, 
-              recipeURL: recipeUrl, 
-              recipeIgName: recipeigName
+            touchEvent={()=>navigation.navigate('RecipeInfo', {
+              recipeIdx: item.idx
             })}
         />
       )
