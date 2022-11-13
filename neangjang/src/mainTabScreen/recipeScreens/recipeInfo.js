@@ -1,103 +1,87 @@
 // [ 식재료 리스트 화면 - 식재료 정보 화면 ]
-import React, { useState, useContext } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, Image, Alert } from 'react-native';
 import { MainTabContext } from '../mainTab';
 
 const RecipeInfo = ({route, navigation}) => {
   const { usrIdx, usrName, usrId } = useContext(MainTabContext);  // 로그인 시 DB로부터 받아온 사용자의 idx, userName을 Login->MainTab 통해서 전달 받음
-  const { recipeName, recipeDetail, recipeMakeTime,recipePhoto, recipeUrl, recipeIgName } = route.params;
-  console.log(route.params);
+  const [recipeName, setRecipeName] = useState('');
+  const [detail, setDetail] = useState('');
+  const [makeTime, setMakeTime] = useState('');
+  const [photoUrl, setPhotoUrl] = useState('');
+  const [recipeUrl, setRecipeUrl] = useState('');
+  const [igName, setIgName] = useState('');
+  const { recipeIdx } = route.params;
+  
+  //console.log("ddd",recipeIdx);
 
-  const pressDelete = () => { // 식재료 삭제 요청
-    fetch(`https://www.bigthingiscoming.shop/app/foods/${usrIdx}/${foodIdx}/delete`, {
-        method: "PATCH",
+//   const getRecipeData = async () => {
+//     const res = await fetch(`https://www.bigthingiscoming.shop/app/recipes/detail/${recipeIdx}`, {
+//         method: "GET",
+//         headers: {
+//             "Content-Type": "application/json",
+//         }
+//     })
+//     console.log(res);
+//     return res.json();
+//   }
+
+  useEffect(() => {
+    //const recipe = getRecipeData();
+    fetch(`https://www.bigthingiscoming.shop/app/recipes/detail/${recipeIdx}`, {
+        method: "GET",
         headers: {
-          "Content-Type": "application/json",
-        },
-      })
-      .then(response => response.json())
-      .then(response => {
-        switch(response.code){
-          case 1000:
-            Alert.alert(
-              "식재료 삭제 완료.",
-              '식재료가 삭제되었습니다.',
-              [{
-                  text: "OK", 
-                  onPress: () => {
-                      navigation.goBack(); // 식재료 리스트 화면으로 돌아가기
-                  }
-              }]);
-            console.log(response.code, "Successfully Deleted!!");
-            break;
-          case 2003:
-            console.log(response.code, response.message);
+            "Content-Type": "application/json",
         }
-        console.log(response);
-      })
-      // .then(response => {{console.log(response);}})
-      .catch(error => {console.log('Fetch Error', error);})
-    // Alert.alert(
-    //     '식재료 삭제',
-    //     '정말 삭제 하시겠습니까?',
-    //     [
-    //         {text: '취소', onPress: () => {}, style: 'cancel'},
-    //         {text: '확인', onPress: () => {}, style: 'destructive'}
-    //     ]
-    // )
-  }
+    })
+    .then(response => response.json())
+    .then(response => {
+        //console.log(response.result[3][0]);
+        setRecipeName(response.result[0][0].recipeName);
+        setDetail(response.result[0][0].detail);
+        setMakeTime(response.result[0][0].makeTime);
+        setPhotoUrl(response.result[1][0].photoUrl);
+        setRecipeUrl(response.result[2][0].recipeUrl);
+        setIgName(response.result[3][0].igName);
+    })
+    .catch(error => {console.log('Fetch Error', error);})
+  }, []);
 
   // 렌더링 영역    
   return (
     <View style={styles.container}>
-        <View style={styles.infoView}>
-            <View style={styles.mainInfo}>
-                <View style={styles.photoView}>
-                    <Image style={styles.photo} source={{url : foodPhoto}}/>
+        <View style={styles.mainInfo}>
+            <View style={styles.photoView}>
+                <Image style={styles.photo} resize='cover' source={{url : photoUrl}}/>
+            </View>
+            <View style={styles.nameView}>
+                <Text style={[styles.name, {fontSize: 10}]}>{usrName} 님의 레시피</Text>
+                <Text style={styles.name}>{recipeName}</Text>
+                <Text style={[styles.name, {fontSize: 15, marginTop: 15}]}>조리시간 : {makeTime}</Text>
+                <View style={styles.url}>
+                    <TouchableOpacity>
+                        <Text style={styles.urlText}>URL</Text>
+                    </TouchableOpacity>
                 </View>
-                <View style={styles.nameView}>
-                    <Text style={styles.name}>{foodName}</Text>
-                </View>
-            </View>
-            <View style={styles.subInfo}>
-                <Text style={styles.infoName}>카테고리 : {categoryStr}</Text>
-            </View>
-            <View style={styles.subInfo}>
-                <Text style={styles.infoName}>수량 : {amount}</Text>
-            </View>
-            <View style={styles.subInfo}>
-                <Text style={styles.infoName}>저장방식 : {storageTypeStr}</Text>
-            </View>
-            <View style={styles.subInfo}>
-                <Text style={styles.infoName}>유통기한 : {expirationDate}까지</Text>
-                <Text style={styles.infoName}>{ed_Left}일 남음</Text>
             </View>
         </View>
-        <View style={styles.bottomView}>
-            {/* 수정 버튼 */}
-            <TouchableOpacity
-                style={styles.button}
-                onPress={()=>navigation.navigate('RecipeInfoModify', {
-                    foodData : route.params
-                })}
-            >
-                <Text style={styles.buttonText}>정보 수정</Text>
-            </TouchableOpacity>
-            {/* 삭제 버튼 */}
-            <TouchableOpacity
-                style={styles.button}
-                onPress={() => 
-                  Alert.alert(
-                    "식재료 삭제",
-                    '정말 삭제 하시겠습니까?',
-                    [
-                      {text: '취소', onPress: () => {}, style: 'cancel'},
-                      {text: '확인', onPress: () => {pressDelete()}, style: 'destructive'}
-                    ])
-                }
-            >
-                <Text style={[styles.buttonText, {color: 'red'}]}>삭제</Text>
-            </TouchableOpacity>
+        <View style={styles.subInfo}>
+            <View style={styles.subTitle}>
+                <View style={styles.subTitleBackgrnd}>
+                    <Text style={styles.subTitleText}>[재료]</Text>
+                </View>
+            </View>
+            <View style={styles.subCont}>
+                <Text style={{fontSize: 20, fontWeight: '600', color: '#485460',}}>{igName}</Text>
+            </View>
+        </View>
+        <View style={styles.detailInfo}>
+            <View style={styles.detailTitle}>
+                <Text style={styles.subTitleText}>[상세정보]</Text>
+            </View>
+            <View style={styles.detailCont}>
+                <Text>{detail}</Text>
+            </View>
         </View>
     </View>
   );
@@ -109,25 +93,14 @@ const styles = StyleSheet.create({
         paddingVertical: 10,
         //backgroundColor: 'skyblue'
     },
-    infoView: {
-        flex:5,
-        borderWidth: 2,
-        //backgroundColor: 'skyblue',
-    },
-    bottomView: {
-        flex: 1,
-        justifyContent: 'center',
-        alignItems: 'center',
-        flexDirection: 'row',
-        //backgroundColor: 'pink'
-    },
     mainInfo: {
-        flex: 3,
-        borderWidth: 1,
+        flex: 2,
+        borderWidth: 0.2,
+        borderRadius: 15,
         justifyContent: 'center',
         alignContent: 'center',
         flexDirection: 'row',
-        //backgroundColor: 'gray',
+        backgroundColor: '#E5EBFF',
     },
     photoView: {
         flex: 1,
@@ -136,8 +109,8 @@ const styles = StyleSheet.create({
     },
     photo: {
         width: '80%',
-        height: '70%',
-        borderRadius: 10,
+        height: '80%',
+        borderRadius: 15,
     },
     nameView: {
         flex: 1,
@@ -145,15 +118,66 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
     },
     name: {
-        fontSize: 40,
+        fontSize: 30,
         fontWeight: '600',
+        color: '#485460',
+    },
+    url: {
+        backgroundColor: "skyblue",
+        paddingVertical: 3,
+        paddingHorizontal: 5,
+        borderRadius: 5,
+        marginTop: 10,
+    },
+    urlText: {
+        color: "#485460"
     },
     subInfo: {
         flex: 1,
-        borderWidth: 1,
+        borderWidth: 0.2,
+        borderRadius: 15,
+        flexDirection: 'row',
+        //backgroundColor: 'pink'
+    },
+    subTitle: {
+        flex: 1,
+        alignItems: 'center',
         justifyContent: 'center',
-        paddingLeft: 30,
+        paddingHorizontal: 10,
+        //backgroundColor: 'green',
+    },
+    subTitleBackgrnd: {
+        backgroundColor: '#E5EBFF',
+        paddingHorizontal: 10,
+        paddingVertical: 5,
+        borderRadius: 15,
+    },
+    subTitleText: {
+        color: '#485460',
+        fontSize: 15,
+        fontWeight: '700',
+    },
+    subCont: {
+        flex: 4,
+        alignItems: 'flex-start',
+        justifyContent: 'center',
+        //backgroundColor: 'yellow'
+    },
+    detailInfo: {
+        flex: 4,
+        borderWidth: 0.2,
+        borderRadius: 15,
+        justifyContent: 'center',
+        paddingHorizontal: 20,
         //backgroundColor: 'blue'
+    },
+    detailTitle: {
+        flex: 1,
+        backgroundColor: 'yellow'
+    },
+    detailCont: {
+        flex: 7,
+        backgroundColor: 'pink'
     },
     infoName: {
         fontSize: 20,
