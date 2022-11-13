@@ -59,6 +59,9 @@ const MainRecipe = ({navigation}) => {
             recipeName={item.recipeName}
             makeTime={item.makeTime}
             foodHave={item.foodHave}
+            touchEvent={()=>navigation.navigate('RecipeInfo', {
+              recipeIdx: item.idx
+            })}
           />
         )
       }
@@ -106,7 +109,7 @@ const MainRecipe = ({navigation}) => {
      <ActionButton
         //buttonColor="rgba(30,100,230,1)"
         buttonColor="#b6d2f2"
-       onPress={() => navigation.navigate('AddRecipe')}
+        onPress={() => navigation.navigate('AddRecipe')}
      />
    </SafeAreaView>
   </TouchableWithoutFeedback>
