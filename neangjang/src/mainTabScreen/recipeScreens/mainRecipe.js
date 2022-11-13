@@ -34,7 +34,7 @@ const MainRecipe = ({navigation}) => {
   useEffect(() => {
     getRecipeData();  
     //console.log(recipeData);
-  }, [recipeData]);
+  }, []);
 
   const renderItem = ({item}) => {
     if (searchText === '') {  // 아무것도 입력하지 않았을 떄

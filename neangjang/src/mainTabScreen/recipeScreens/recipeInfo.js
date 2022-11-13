@@ -1,5 +1,5 @@
 // [ 식재료 리스트 화면 - 식재료 정보 화면 ]
-import React, { useState, useContext } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, Image, Alert, Button } from 'react-native';
 import { MainTabContext } from '../mainTab';
 
@@ -7,61 +7,53 @@ const RecipeInfo = ({route, navigation}) => {
   const { usrIdx, usrName, usrId } = useContext(MainTabContext);  // 로그인 시 DB로부터 받아온 사용자의 idx, userName을 Login->MainTab 통해서 전달 받음
   const [recipeName, setRecipeName] = useState('');
   const [detail, setDetail] = useState('');
-  const [makeTime, setNameTime] = useState('');
+  const [makeTime, setMakeTime] = useState('');
   const [photoUrl, setPhotoUrl] = useState('');
   const [recipeUrl, setRecipeUrl] = useState('');
   const [igName, setIgName] = useState('');
   const [recipeData, setRecipeData] = useState([]);
-  fetch(`https://www.bigthingiscoming.shop/app/recipes/detail/${route.recipeIdx}`, {
-    method: "GET",
-    headers: {
-        "Content-Type": "application/json",
-    },
-  })
-  .then(response => response.json())
-  .then(response => setRecipeName(response.result.recipeName))
-  .catch(error => {console.log('Fetch Error', error);})
+  const { recipeIdx } = route.params;
+  
+  console.log(recipeIdx);
 
-  console.log(recipeName);
-
-  const pressDelete = () => { // 식재료 삭제 요청
-    fetch(`https://www.bigthingiscoming.shop/app/foods/${usrIdx}/${foodIdx}/delete`, {
-        method: "PATCH",
+  const getRecipeData = async () => {
+    const res = await fetch(`https://www.bigthingiscoming.shop/app/recipes/detail/${recipeIdx}`, {
+        method: "GET",
         headers: {
-          "Content-Type": "application/json",
-        },
-      })
-      .then(response => response.json())
-      .then(response => {
-        switch(response.code){
-          case 1000:
-            Alert.alert(
-              "식재료 삭제 완료.",
-              '식재료가 삭제되었습니다.',
-              [{
-                  text: "OK", 
-                  onPress: () => {
-                      navigation.goBack(); // 식재료 리스트 화면으로 돌아가기
-                  }
-              }]);
-            console.log(response.code, "Successfully Deleted!!");
-            break;
-          case 2003:
-            console.log(response.code, response.message);
+            "Content-Type": "application/json",
         }
-        console.log(response);
-      })
-      // .then(response => {{console.log(response);}})
-      .catch(error => {console.log('Fetch Error', error);})
-    // Alert.alert(
-    //     '식재료 삭제',
-    //     '정말 삭제 하시겠습니까?',
-    //     [
-    //         {text: '취소', onPress: () => {}, style: 'cancel'},
-    //         {text: '확인', onPress: () => {}, style: 'destructive'}
-    //     ]
-    // )
+    })
+    console.log(res);
+    return res.json();
   }
+
+  useEffect(() => {
+    //const recipe = getRecipeData();
+    fetch(`https://www.bigthingiscoming.shop/app/recipes/detail/${recipeIdx}`, {
+        method: "GET",
+        headers: {
+            "Content-Type": "application/json",
+        }
+    })
+    .then(response => response.json())
+    .then(response => {
+        setRecipeData(response.result);
+        console.log(recipeData[0][0]);
+        setRecipeName(recipeData[0][0].recipeName);
+        setDetail(recipeData[0][0].detail);
+        setMakeTime(recipeData[0][0].makeTime);
+        setPhotoUrl(recipeData[1][0].photoUrl);
+        setRecipeUrl(recipeData[2][0].recipeUrl);
+        setIgName(recipeData[3][0].igName);
+    })
+    .catch(error => {console.log('Fetch Error', error);})
+    // setRecipeName(recipeData[0][0].recipeName);
+    // setDetail(recipeData[0][0].detail);
+    // setMakeTime(recipeData[0][0].makeTime);
+    // setPhotoUrl(recipeData[1][0].photoUrl);
+    // setRecipeUrl(recipeData[2][0].recipeUrl);
+    // setIgName(recipeData[3][0].igName);
+  }, []);
 
   // 렌더링 영역    
   return (
@@ -91,7 +83,7 @@ const RecipeInfo = ({route, navigation}) => {
             </View>
             <View style={styles.detailInfo}>
                 <Text>[상세정보]</Text>
-
+                <Text>{detail}</Text>
             </View>
         </View>
     </View>
