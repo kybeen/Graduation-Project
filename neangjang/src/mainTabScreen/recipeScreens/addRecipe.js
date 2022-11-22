@@ -18,9 +18,35 @@ const AddRecipe = ({route, navigation}) => {
   const [addName, setAddName] = useState(''); // 레시피 이름
   const [addDetail, setAddDetail] = useState(''); // 레시피 내용
   const [addMakeTime, setAddMakeTime] = useState(''); // 레시피 조리시간
-  const [addUrl, setAddUrl] = useState([]); // 레시피 URL
-  const [addPhoto, setAddPhoto] = useState([]); // 레시피 사진
+  const [addUrl, setAddUrl] = useState(''); // 레시피 URL
+  const [addPhoto, setAddPhoto] = useState(''); // 레시피 사진
   const [addIgName, setAddIgName] = useState([]); // 레시피 재료
+
+  const selectCamera = () => {
+    const options = {
+        noData: true,
+        mediaType: 'photo'
+    }
+    launchCamera(options, (response) => {
+        if (response.assets) {
+            const selectedImage = response.assets[0].uri;
+            setAddPhoto(selectedImage);
+        }
+    })
+  }
+
+  const selectImage = () => {
+    const options = {
+        noData: true,
+        mediaType: 'photo'
+    }
+    launchImageLibrary(options, (response) => {
+        if (response.assets) {
+            const selectedImage = response.assets[0].uri;
+            setAddPhoto(selectedImage);
+        }
+    })
+  }
 
     return(
       <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
@@ -32,7 +58,7 @@ const AddRecipe = ({route, navigation}) => {
             </View>
             {/* 레시피 정보 입력 영역 */}
             <View style={styles.body}>
-              <View style={[styles.addArea, {zIndex: 2}]}>
+              <View style={styles.addArea}>
                 {/* 레시피 이름 입력 영역 */}
                 <View style={styles.addContent}>
                   <Text style={styles.addContentName}>레시피 이름 :</Text>
@@ -42,6 +68,7 @@ const AddRecipe = ({route, navigation}) => {
                         value={addName}
                         onChangeText={setAddName}
                         placeholder={'이름을 입력해주세요.'}
+                        placeholderTextColor={'#485460'}
                     />
                   </View> 
                 </View>
@@ -59,11 +86,12 @@ const AddRecipe = ({route, navigation}) => {
                           <TouchableOpacity
                               style={styles.button}
                               onPress={()=>{
-                                  // ios 시뮬레이터에서 동작X 핸드폰으로 확인해야함
-                                  launchCamera({}, response=>{
-                                      setAddPhoto(response.assets[0].uri);
-                                  })
-                              }}
+                                // ios 시뮬레이터에서 동작X 핸드폰으로 확인해야함
+                                // launchCamera({}, response=>{
+                                //     setAddPhoto(response.assets[0].uri);
+                                // })
+                                selectCamera();
+                            }}
                           >
                               <Ionicons name={'camera'} size={35} color={'#545454'}/>
                               <Text style={{fontSize: 20, fontWeight: '600', color: '#545454'}}>촬영</Text>
@@ -71,10 +99,11 @@ const AddRecipe = ({route, navigation}) => {
                           <TouchableOpacity
                               style={styles.button}
                               onPress={()=>{
-                                  launchImageLibrary({}, response=>{
-                                      setAddPhoto(response.assets[0].uri);
-                                  })
-                              }}
+                                // launchImageLibrary({}, response=>{
+                                //     setAddPhoto(response.assets[0].uri);
+                                // })
+                                selectImage();
+                            }}
                           >
                               <Fontiso name={'picture'} size={25} color={'#545454'}/>
                               <Text style={{fontSize: 20, fontWeight: '600', color: '#545454'}}>앨범</Text>
@@ -84,40 +113,56 @@ const AddRecipe = ({route, navigation}) => {
                 </View>
                 {/* 레시피 내용 입력 영역 */}
                 <View style={styles.addContent}>
-                  <Text style={styles.addContentName}>레시피 내용 :</Text>
+                  <Text style={styles.addContentName}>상세내용 :</Text>
                   <View style={{flex: 3}}>
                     <TextInput
                         style={[styles.addContentInput, {width: '100%'}]}
                         value={addName}
                         onChangeText={setAddName}
-                        placeholder={'내용을 입력해주세요.'}
+                        placeholder={'레시피 상세내용을 입력해주세요.'}
+                        placeholderTextColor={'#485460'}
                     />
                   </View> 
                 </View>
                 {/* 레시피 소요시간 입력 영역 */}
                 <View style={styles.addContent}>
-                  <Text style={styles.addContentName}>레시피 소요시간 :</Text>
+                  <Text style={styles.addContentName}>소요시간 :</Text>
                   <View style={{flex: 3}}>
                     <TextInput
                         style={[styles.addContentInput, {width: '100%'}]}
                         value={addName}
                         onChangeText={setAddName}
                         placeholder={'레시피 소요시간을 입력해주세요.'}
+                        placeholderTextColor={'#485460'}
                     />
                   </View> 
                 </View>
                 {/* 레시피 재료 입력 영역 */}
                 <View style={styles.addContent}>
-                  <Text style={styles.addContentName}>레시피 재료 :</Text>
+                  <Text style={styles.addContentName}>재료 :</Text>
                   <View style={{flex: 3}}>
                     <TextInput
                         style={[styles.addContentInput, {width: '100%'}]}
                         value={addName}
                         onChangeText={setAddName}
                         placeholder={'레시피 재료를 입력해주세요.'}
+                        placeholderTextColor={'#485460'}
                     />
                   </View> 
                 </View>
+              </View>
+              {/* 하단 바코드, 저장 버튼 */}
+              <View style={[styles.buttonArea, {zIndex: 1}]}>
+                  <TouchableOpacity
+                      style={[styles.button2, {width: '35%'}]}
+                      onPress={()=>{
+                          console.log("HELLO",addName, addPhoto, addCategory, addAmount, addStorageType, addExpiration);
+                          pressAdd();
+                      }}
+                  >
+                      <MaterialCommunityIcons name={'content-save-check'} size={40} color={'#545454'}/>
+                      <Text style={{fontSize: 20, fontWeight: '600', color: '#545454'}}>저장</Text>
+                  </TouchableOpacity>
               </View>
             </View>
           </View>
@@ -146,6 +191,7 @@ const AddRecipe = ({route, navigation}) => {
     titleText: {
         fontSize: 30,
         fontWeight: '600',
+        color: '#485460',
     },
     body: {
         //backgroundColor: 'yellow',
@@ -169,13 +215,14 @@ const AddRecipe = ({route, navigation}) => {
     addContentName: {
         //backgroundColor: 'orange',
         flex: 1,
-        fontSize: 20,
+        fontSize: 15,
+        color: '#485460',
     },
     addContentInput: {  // 직접 입력 추가 스타일
         backgroundColor: '#cecece',
         height: '60%',
         paddingLeft: 15,
-        borderRadius: 10,
+        borderRadius: 15,
     },
     addPhotoInput: {  // 사진 추가 영역
         //backgroundColor: 'green',
@@ -193,6 +240,7 @@ const AddRecipe = ({route, navigation}) => {
         justifyContent: 'center',
         borderColor: 'black',
         borderWidth: 1,
+        borderRadius: 15,
         height: '110%'
     },
     pictureButton: {
@@ -204,7 +252,7 @@ const AddRecipe = ({route, navigation}) => {
     },
     button: {
         backgroundColor: '#E5EBFF',
-        borderRadius: 10,
+        borderRadius: 15,
         width: '90%',
         height: '45%',
         marginLeft: 10,
@@ -212,14 +260,6 @@ const AddRecipe = ({route, navigation}) => {
         alignItems: 'center',
         justifyContent: 'space-between',
         paddingHorizontal: 8,
-    },
-    addPickerInput: {   // picker로 선택하는 스타일
-        //backgroundColor: 'pink',
-        flex: 3,
-    },
-    addDayInput: {  // 달력으로 선택하는 스타일
-        flex: 3,
-        flexDirection: 'row',
     },
     buttonArea: {
         //backgroundColor: 'lightgreen',
@@ -238,29 +278,6 @@ const AddRecipe = ({route, navigation}) => {
         height: '100%',
         marginHorizontal: 10,
     },
-    expContent: {  // 유통기한 입력값 들어갈 영역
-        backgroundColor: '#cecece',
-        borderRadius: 10,
-        flex: 2,
-        marginHorizontal: 7,
-        height: '50%',
-        justifyContent: 'center',
-        alignItems: 'center',
-    },
-    expButton: { // 유통기한 날짜 선택 버튼
-        backgroundColor: '#E5EBFF',
-        flex: 1,
-        alignItems: 'center',
-        justifyContent: 'center',
-        borderRadius: 10,
-        height: '45%',
-        flexDirection: 'row',
-    },
-    expButtonText: {
-        fontSize: 15,
-        fontWeight: '600',
-        color: '#545454'
-    }
 });
 
 export default AddRecipe;

@@ -27,12 +27,14 @@ const FoodInfoModify = ({route, navigation}) => {
     const [categoryOpen, setCategoryOpen] = useState(false);
     const [categoryItems, setCategoryItems] = useState([ // 카테고리 종류
         { label: "유제품", value: 1 },
-        { label: "돼지", value: 2 },
-        { label: "소", value: 3 },
-        { label: "닭", value: 4 },
+        { label: "육류", value: 2 },
         { label: "가공식품", value: 5 },
         { label: "빵", value: 6 },
         { label: "생선", value: 7 },
+        { label: "채소", value: 8 },
+        { label: "갑각류", value: 9 },
+        { label: "음료", value: 10 },
+        { label: "기타", value: 99 },
     ]);
     const [storageTypeOpen, setStorageTypeOpen] = useState(false);
     const [storageTypeItems, setStorageTypeItems] = useState([ // 저장방식 종류

@@ -18,17 +18,6 @@ import MyRecipeList from '../../component/MyRecipeList';
 import MyFoodList from '../../component/MyFoodList';
 import notifee from '@notifee/react-native';
 
-const renderRecipeItem = ({item, index}) => {
-  if (index < 3) return (   // 3개까지만 출력하도록 조건문 설정
-    <MyRecipeList 
-      photoUrl={item.photoUrl}
-      recipeName={item.recipeName}
-      makeTime={item.makeTime}
-      foodHave={item.foodHave}
-    />
-  )
-}
-
 const MainHome = ({navigation}) => {
   const { usrIdx, usrName } = useContext(MainTabContext);
   const [recipeData, setRecipeData] = useState([]);
@@ -105,6 +94,20 @@ const MainHome = ({navigation}) => {
       })}
     />
    )
+  }
+
+  const renderRecipeItem = ({item, index}) => {
+    if (index < 3) return (   // 3개까지만 출력하도록 조건문 설정
+      <MyRecipeList 
+        photoUrl={item.photoUrl}
+        recipeName={item.recipeName}
+        makeTime={item.makeTime}
+        foodHave={item.foodHave}
+        touchEvent={()=>navigation.navigate('RecipeInfo', {
+          recipeIdx: item.idx
+        })}
+      />
+    )
   }
 
   return (
