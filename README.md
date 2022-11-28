@@ -29,5 +29,7 @@
 - 캘린더 상에서 식재료 유통기한 확인
 - QR코드 스캔 방식으로 식재료 추가
 
-![IMG_2905](https://user-images.githubusercontent.com/89764127/204339874-9a7686fc-9013-47f4-becd-d75125279379.PNG)
-![IMG_2906](https://user-images.githubusercontent.com/89764127/204339901-644be3cc-2fda-4b24-bb0a-c0c418a37add.PNG)
+<img width="591" alt="image" src="https://user-images.githubusercontent.com/89764127/204344902-10c73c63-d63d-4523-a219-46fc10cdba72.png">
+<img width="605" alt="image" src="https://user-images.githubusercontent.com/89764127/204344943-bf3be83d-7ffa-4189-846e-c20bbd3a0e4d.png">
+<img width="305" alt="image" src="https://user-images.githubusercontent.com/89764127/204344969-508cf379-173f-4375-8553-ee71d45c9086.png">
+<img width="607" alt="image" src="https://user-images.githubusercontent.com/89764127/204345009-220e4053-f515-4d8a-8018-b9fdc29b41e7.png">
