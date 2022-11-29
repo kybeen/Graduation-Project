@@ -34,5 +34,5 @@
 <img width="305" alt="image" src="https://user-images.githubusercontent.com/89764127/204344969-508cf379-173f-4375-8553-ee71d45c9086.png">
 <img width="607" alt="image" src="https://user-images.githubusercontent.com/89764127/204345009-220e4053-f515-4d8a-8018-b9fdc29b41e7.png">
 
-- 시연 영상 확인
+- 동작 영상 확인
 - https://drive.google.com/file/d/1nevL9Mlbww1vciBWEJgVz5ZidE5B0RYd/view?usp=share_link
